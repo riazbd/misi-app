@@ -1,0 +1,26 @@
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
+@section('content')
+    <p>Hello isn't me you looking for?</p>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
+
+@section('adminlte_css')
+    @yield('css')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+@endsection
+
+@section('js')
+    <script>
+        console.log('Hi!');
+    </script>
+@stop
