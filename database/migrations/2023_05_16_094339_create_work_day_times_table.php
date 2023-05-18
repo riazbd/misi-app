@@ -15,9 +15,9 @@ class CreateWorkDayTimesTable extends Migration
     {
         Schema::create('work_day_times', function (Blueprint $table) {
             $table->id();
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->string('weekly_holidays');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->string('weekly_holidays')->nullable();
             $table->timestamps();
         });
     }

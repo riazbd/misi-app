@@ -15,13 +15,16 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->string('patient_source');
-            $table->string('blood_group');
-            $table->string('country');
+            $table->string('patient_id')->unique()->nullable();
+            $table->string('patient_source')->nullable();
+            $table->string('blood_group')->nullable();
+            $table->string('country')->nullable();
             $table->string('residential_address')->nullable();
             $table->string('insurance_number');
             $table->string('occupation')->nullable();
             $table->string('status');
+            $table->string('marital_status');
+            $table->string('sex');
             $table->string('alternative_phone')->nullable();
             $table->string('emergency_contact')->nullable();
             $table->string('remarks')->nullable();
@@ -30,7 +33,7 @@ class CreatePatientsTable extends Migration
             $table->string('DOB_number')->nullable();
             $table->string('BSN_number')->nullable();
             $table->string('file_type')->nullable();
-            $table->string('refferal_file')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }

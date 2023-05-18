@@ -23,7 +23,7 @@ class TherapistController extends Controller
      */
     public function create()
     {
-        //
+        return view('therapists.create');
     }
 
     /**

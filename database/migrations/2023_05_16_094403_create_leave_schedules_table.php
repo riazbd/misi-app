@@ -15,8 +15,8 @@ class CreateLeaveSchedulesTable extends Migration
     {
         Schema::create('leave_schedules', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateTicketHistoriesTable extends Migration
     {
         Schema::create('ticket_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

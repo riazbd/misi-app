@@ -295,6 +295,7 @@ return [
             'type'         => 'navbar-search',
             'text'         => 'search',
             'topnav_right' => true,
+
         ],
         [
             'type'         => 'fullscreen-widget',
@@ -322,13 +323,51 @@ return [
 
         [
             'text' => 'Patients',
-            'url'  => '#',
             'icon' => 'fas fa-fw fa-home',
+            'submenu' => [
+                [
+                    'text' => 'Create Patient',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/patients/create'
+                ],
+                [
+                    'text' => 'Patients List',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/patients'
+                ]
+            ]
+        ],
+        [
+            'text' => 'Therapists',
+            'icon' => 'fas fa-fw fa-home',
+            'submenu' => [
+                [
+                    'text' => 'Create Therapist',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/therapists/create'
+                ],
+                [
+                    'text' => 'Therapists List',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/therapists'
+                ]
+            ]
         ],
         [
             'text' => 'Tickets',
-            'url'  => '#',
             'icon' => 'fas fa-fw fa-home',
+            'submenu' => [
+                [
+                    'text' => 'Create Ticket',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/tickets/create'
+                ],
+                [
+                    'text' => 'Ticket List',
+                    'icon' => 'fas fa-fw fa-home',
+                    'url' => '/tickets'
+                ]
+            ]
         ],
         [
             'text' => 'Ticket Groups',
@@ -356,12 +395,7 @@ return [
                     'icon' => 'fas fa-fw fa-home',
                     'submenu' => [
                         [
-                            'text' => 'Create Ticket',
-                            'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
-                        ],
-                        [
-                            'text' => 'Ticket List',
+                            'text' => 'PiB Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#'
                         ]
@@ -372,12 +406,7 @@ return [
                     'icon' => 'fas fa-fw fa-home',
                     'submenu' => [
                         [
-                            'text' => 'Create Ticket',
-                            'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
-                        ],
-                        [
-                            'text' => 'Ticket List',
+                            'text' => 'PiT Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#'
                         ]
@@ -388,12 +417,7 @@ return [
                     'icon' => 'fas fa-fw fa-home',
                     'submenu' => [
                         [
-                            'text' => 'Create Ticket',
-                            'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
-                        ],
-                        [
-                            'text' => 'Ticket List',
+                            'text' => 'Heranmenlding Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#'
                         ]
