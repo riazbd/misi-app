@@ -34,8 +34,19 @@
 
                         <div class="form-group">
                             <label for="dob">Date of Birth:</label>
-                            <input type="date" class="form-control" id="dob" name="dob"
-                                onchange="calculateAge()">
+                            {{-- <input type="date" class="form-control" id="dob" name="dob"
+                                onchange="calculateAge()"> --}}
+                            {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
+                            @php
+                                 $config = ['format' => 'DD/MM/YYYY'];
+                            @endphp
+                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..." id="dob" onchange="calculateAge()">
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-gradient-primary">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input-date>
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
@@ -93,11 +104,7 @@
                         </div>
                         <div class="form-group">
                             <label for="city-state">City/State:</label>
-                            <select class="form-control" id="city-state" name="city-state">
-                                <option value="city1">City/State 1</option>
-                                <option value="city2">City/State 2</option>
-                                <option value="city3">City/State 3</option>
-                            </select>
+                            <input class="form-control" id="city-state" name="city-state">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -165,10 +172,16 @@
 
 @section('js')
     <script>
+
+        // $("#dob").datepicker();
         function calculateAge() {
-            var dobInput = document.getElementById('dob').value;
+            var dobInput = moment(document.getElementById('dob').value, 'DD-MM-YYYY');
             var dob = new Date(dobInput);
             var today = new Date();
+            if (isNaN(Date.parse(dobInput))) {
+                console.log("Invalid date input:", dobInput);
+                return;
+            }
             var age = today.getFullYear() - dob.getFullYear();
 
             // Check if the birthday hasn't happened yet this year
@@ -188,7 +201,14 @@
                 event.preventDefault(); // Prevent form submission
 
                 var formData = $(this).serialize(); // Serialize form data
-                console.log(formData);
+                // console.log(formData);
+
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
 
                 $.ajax({
                     url: $(this).attr('action'),
@@ -197,10 +217,21 @@
                     success: function(response) {
                         // Handle success response
                         console.log(response);
+                        // Toast.fire({
+                        //     icon: 'success',
+                        //     title: 'Patient succesfully created'
+                        // });
+                        Swal.fire('Success!', 'Request successful', 'success');
+
                     },
                     error: function(xhr) {
                         // Handle error response
                         console.log(xhr.responseText);
+                        // Toast.fire({
+                        //     icon: 'error',
+                        //     title: 'Patient not created'
+                        // });
+                        Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
             });
