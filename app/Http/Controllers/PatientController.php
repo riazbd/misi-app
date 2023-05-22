@@ -101,7 +101,7 @@ class PatientController extends Controller
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()]);
+            return response()->withException($th);
         }
     }
 
