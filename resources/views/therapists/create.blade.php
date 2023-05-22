@@ -192,7 +192,7 @@
 
         // submit form
         $(document).ready(function() {
-            $('#create-patient-form').submit(function(event) {
+            $('#create-therapist-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
 
                 var formData = $(this).serialize(); // Serialize form data
@@ -205,10 +205,12 @@
                     success: function(response) {
                         // Handle success response
                         console.log(response);
+                        Swal.fire('Success!', 'Request successful', 'success');
                     },
                     error: function(xhr) {
                         // Handle error response
                         console.log(xhr.responseText);
+                        Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
             });

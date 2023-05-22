@@ -33,5 +33,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('patients', PatientController::class);
     Route::resource('therapists', TherapistController::class);
     Route::resource('tickets', TicketController::class);
-    Route::resource('departments', DepartmentController::class);
 });

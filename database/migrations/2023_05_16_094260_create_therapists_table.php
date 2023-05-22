@@ -15,24 +15,25 @@ class CreateTherapistsTable extends Migration
     {
         Schema::create('therapists', function (Blueprint $table) {
             $table->id();
-            $table->string('therapist_id')->unique()->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->string('therapist_type')->nullable();
             $table->string('blood_group')->nullable();
             $table->string('country')->nullable();
             $table->string('residential_address')->nullable();
+            $table->string('city_or_state')->nullable();
             $table->string('insurance_number');
-            $table->string('occupation')->nullable();
             $table->string('status')->nullable();
             $table->string('sex')->nullable();
             $table->string('marital_status')->nullable();
             $table->string('alternative_phone')->nullable();
             $table->string('emergency_contact')->nullable();
             $table->string('remarks')->nullable();
-            $table->string('city_or_state')->nullable();
             $table->string('area')->nullable();
             $table->string('DOB_number')->nullable();
             $table->string('BSN_number')->nullable();
             $table->string('file')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

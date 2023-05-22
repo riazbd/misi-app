@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\User::factory(1000)->create();
         \App\Models\Patient::factory(500)->create();
+        \App\Models\Therapist::factory(50)->create();
     }
 }
