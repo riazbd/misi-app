@@ -36,7 +36,7 @@ class TherapistFactory extends Factory
             'country' => $this->faker->country,
             'residential_address' => $this->faker->address,
             'insurance_number' => $this->faker->numerify('##########'),
-            'status' => $this->faker->randomElement(['Active', 'Inactive']),
+            // 'status' => $this->faker->randomElement(['Active', 'Inactive']),
             'alternative_phone' => $this->faker->phoneNumber,
             'emergency_contact' => $this->faker->name,
             'remarks' => $this->faker->sentence,

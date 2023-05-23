@@ -17,7 +17,60 @@ class PatientController extends Controller
      */
     public function index()
     {
-        //
+        $patients = Patient::all();
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'First Name',
+            'Last Name',
+            'Status',
+            // ['label' => 'Phone', 'width' => 40],
+            'Email',
+            'Phone',
+            'Alternative Phone',
+            'Emergency Contact',
+            'Sex',
+            'Date of Birth',
+            'Maritual Status',
+            'Patient Source',
+            'Blood Group',
+            'Country',
+            'Residential Address',
+            'Insurance Number',
+            'Occupation',
+            'City/State',
+            'Area',
+            'DOB Number',
+            'BSN Number',
+            'Remarks'
+
+
+        ];
+
+
+
+        $data = [];
+
+        foreach ($patients as $patient) {
+            $items = [];
+
+            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('users.edit', ['user' => $patient->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-pen"></i>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('users.destroy', ['user' => $patient->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('users.index', ['user' => $patient->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a></nobr>', $patient->id, $patient->user()->first()->first_name, $patient->user()->first()->last_name, $patient->user()->first()->status, $patient->user()->first()->email, $patient->user()->first()->phone, $patient->alternative_phone, $patient->emergency_contact, $patient->user()->first()->sex, $patient->user()->first()->date_of_birth, $patient->user()->first()->marital_status, $patient->patient_source, $patient->blood_group, $patient->country, $patient->residential_address, $patient->insurance_number, $patient->occupation, $patient->city_or_state, $patient->area, $patient->DOB_number, $patient->BSN_number, $patient->remarks);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+
+        return view('patients.index', compact('heads', 'config'));
     }
 
     /**
@@ -70,7 +123,8 @@ class PatientController extends Controller
             $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
-            $user->age = $data['age'];
+            // $user->age = $data['age'];
+            $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];
 
             $user->save();
@@ -83,7 +137,7 @@ class PatientController extends Controller
             $patient->medical_history = $data['medical-history'];
             $patient->insurance_number = $data['insurance-number'];
             $patient->occupation = $data['occupation'];
-            $patient->status = $data['status'];
+            // $patient->status = $data['status'];
             $patient->alternative_phone = $data['alt-phone-number'];
             $patient->emergency_contact = $data['emergency-contact'];
             $patient->remarks = $data['remarks'];

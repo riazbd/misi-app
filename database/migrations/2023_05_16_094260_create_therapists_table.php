@@ -22,7 +22,7 @@ class CreateTherapistsTable extends Migration
             $table->string('residential_address')->nullable();
             $table->string('city_or_state')->nullable();
             $table->string('insurance_number');
-            $table->string('status')->nullable();
+            // $table->string('status')->nullable();
             $table->string('sex')->nullable();
             $table->string('marital_status')->nullable();
             $table->string('alternative_phone')->nullable();

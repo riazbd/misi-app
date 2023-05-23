@@ -69,7 +69,8 @@ class TherapistController extends Controller
             $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
-            $user->age = $data['age'];
+            // $user->age = $data['age'];
+            $therapist->status = $data['status'];
             $user->marital_status = $data['marital-status'];
 
             $user->save();
@@ -81,7 +82,7 @@ class TherapistController extends Controller
             $therapist->country = $data['country'];
             $therapist->residential_address = $data['residential-address'];
             $therapist->insurance_number = $data['insurance-number'];
-            $therapist->status = $data['status'];
+            // $therapist->status = $data['status'];
             $therapist->alternative_phone = $data['alt-phone-number'];
             $therapist->emergency_contact = $data['emergency-contact'];
             $therapist->remarks = $data['remarks'];

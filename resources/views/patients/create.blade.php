@@ -48,10 +48,10 @@
                                 </x-slot>
                             </x-adminlte-input-date>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="age">Age:</label>
                             <input type="number" class="form-control" id="age" name="age" readonly>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="marital-status">Marital Status:</label>
                             <select class="form-control" id="marital-status" name="marital-status">

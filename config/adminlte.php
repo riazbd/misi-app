@@ -576,6 +576,11 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.colVis.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
                     'location' => 'vendor/datatables-plugins/jszip/jszip.min.js',
                 ],
                 [
