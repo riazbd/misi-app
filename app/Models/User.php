@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Therapist');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
 }

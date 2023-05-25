@@ -13,4 +13,14 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\Models\Patient');
     }
+
+    public function therapist()
+    {
+        return $this->belongsTo('App\Models\Therapist');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

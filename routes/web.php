@@ -6,7 +6,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TicketController;
-use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\HeranmeldingController;
+use App\Http\Controllers\PibController;
+use App\Http\Controllers\PitController;
+use App\Http\Controllers\ScreeningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('patients', PatientController::class);
     Route::resource('therapists', TherapistController::class);
     Route::resource('tickets', TicketController::class);
+    Route::resource('screening', ScreeningController::class);
+    Route::resource('pib', PibController::class);
+    Route::resource('pit', PitController::class);
+    Route::resource('heranmelding', HeranmeldingController::class);
 });

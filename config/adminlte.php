@@ -378,15 +378,11 @@ return [
                     'text' => 'Screener Group',
                     'icon' => 'fas fa-fw fa-home',
                     'submenu' => [
-                        [
-                            'text' => 'Create Ticket',
-                            'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
-                        ],
+
                         [
                             'text' => 'Ticket List',
                             'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
+                            'url' => '/screening'
                         ]
                     ]
                 ],
@@ -397,7 +393,7 @@ return [
                         [
                             'text' => 'PiB Ticket List',
                             'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
+                            'url' => '/pib'
                         ]
                     ]
                 ],
@@ -408,7 +404,7 @@ return [
                         [
                             'text' => 'PiT Ticket List',
                             'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
+                            'url' => '/pit'
                         ]
                     ]
                 ],
@@ -419,7 +415,7 @@ return [
                         [
                             'text' => 'Heranmenlding Ticket List',
                             'icon' => 'fas fa-fw fa-home',
-                            'url' => '#'
+                            'url' => '/heranmelding'
                         ]
                     ]
                 ],
@@ -432,13 +428,11 @@ return [
                             'text' => 'Create Ticket',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#',
-                            'classes' => 'treeview-menu',
                         ],
                         [
                             'text' => 'Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#',
-                            'classes' => 'treeview-menu',
                         ]
                     ]
                 ],

@@ -31,7 +31,7 @@ class PatientController extends Controller
             'Emergency Contact',
             'Sex',
             'Date of Birth',
-            'Maritual Status',
+            'Marital Status',
             'Patient Source',
             'Blood Group',
             'Country',

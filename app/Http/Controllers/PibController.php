@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patient;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-class TicketController extends Controller
+class PibController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
+        $pibId = Role::where('name', 'pib')->first()->id;
+        $tickets = Ticket::where('department_id', $pibId);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -24,7 +24,6 @@ class TicketController extends Controller
             'Mono/Multi ZD',
             'Mono/Multi Screening',
             'Intake or Therapist',
-            // ['label' => 'Phone', 'width' => 40],
             'Tresonit Number',
             'Datum Intake',
             'Datum Intake 2',
@@ -41,8 +40,6 @@ class TicketController extends Controller
             'Location',
             'Strike',
             'Remarks',
-
-
         ];
 
 
@@ -68,7 +65,7 @@ class TicketController extends Controller
 
         ];
 
-        return view('tickets.index', compact('heads', 'config'));
+        return view('pib.index', compact('heads', 'config'));
     }
 
     /**
@@ -78,9 +75,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $screener = Role::where('name', 'screener')->first();
-        $patients = Patient::all();
-        return view('tickets.create', compact(['screener', 'patients']));
+        //
     }
 
     /**
@@ -91,43 +86,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-
-        try {
-            $ticket = new Ticket();
-            $ticket->department_id = $data['select-department'];
-            $ticket->patient_id = $data['select-patient'];
-            $ticket->mono_multi_zd = $data['mono-multi-zd'];
-            $ticket->mono_multi_screening = $data['mono-multi-screening'];
-            $ticket->intake_or_therapist = $data['intakes-therapist'];
-            $ticket->tresonit_number = $data['tresonit-number'];
-            $ticket->datum_intake = $data['datum-intake'];
-            $ticket->datum_intake_2 = $data['datuem-intake-2'];
-            $ticket->nd_account = $data['nd_account'];
-            $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
-            $ticket->honos = $data['honos'];
-            $ticket->berha_intake = $data['berha-intake'];
-            $ticket->strike_history = $data['strike-history'];
-            $ticket->ticket_history = $data['ticket-history'];
-            $ticket->rom_start = $data['rom-start'];
-            $ticket->rom_end = $data['rom-end'];
-            $ticket->berha_end = $data['berha-eind'];
-            $ticket->vtcb_date = $data['vtcb-date'];
-            $ticket->closure = $data['closure'];
-            $ticket->aanm_intake_1 = $data['aanm-intake'];
-            $ticket->location = $data['location'];
-            $ticket->call_strike = $data['call-strike'];
-            $ticket->remarks = $data['remarks'];
-            $ticket->comment = $data['comments'];
-            $ticket->language = $data['language-treatment'];
-            // $ticket->files = $data[''];
-
-            $ticket->save();
-
-            return response()->json(['message' => 'Data saved successfully']);
-        } catch (\Throwable $th) {
-            return response()->json($th->getMessage(), 500);
-        }
+        //
     }
 
     /**
@@ -138,11 +97,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
-        $matchingRoles = Role::whereIn('name', $roles)->get();
-        // $screener = Role::where('name', 'screener')->first();
-        $patients = Patient::all();
-        return view('tickets.show', compact('patients', 'matchingRoles'));
+        //
     }
 
     /**

@@ -23,7 +23,7 @@ class CreatePatientsTable extends Migration
             $table->string('medical_history')->nullable();
             $table->string('insurance_number');
             $table->string('occupation')->nullable();
-            $table->string('status');
+            // $table->string('status');
             $table->string('alternative_phone')->nullable();
             $table->string('emergency_contact')->nullable();
             $table->string('remarks')->nullable();

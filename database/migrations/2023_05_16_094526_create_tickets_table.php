@@ -17,6 +17,9 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->integer('department_id')->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('assigned_staff')->nullable();
+            $table->unsignedBigInteger('assigned_therapist')->nullable();
+            $table->string('suggested_therapists')->nullable();
             $table->string('mono_multi_zd')->nullable();
             $table->string('mono_multi_screening')->nullable();
             $table->string('intake_or_therapist')->nullable();
@@ -40,9 +43,12 @@ class CreateTicketsTable extends Migration
             $table->string('remarks')->nullable();
             $table->string('comment')->nullable();
             $table->string('language')->nullable();
+            $table->string('status')->nullable();
             $table->string('files')->nullable();
 
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('assigned_therapist')->references('id')->on('therapists')->onDelete('cascade');
+            $table->foreign('assigned_staff')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

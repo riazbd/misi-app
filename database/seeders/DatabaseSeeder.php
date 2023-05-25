@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
+            CreateRoleSeeder::class
 
         ]);
         \App\Models\User::factory(1000)->create();
