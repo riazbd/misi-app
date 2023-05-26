@@ -178,4 +178,23 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function updateAssignedTo(Request $request)
+    {
+        $rowId = $request->input('rowId');
+        $assignedTo = $request->input('assignedTo');
+
+        // Retrieve the record from the database based on the provided ID
+        $record = Ticket::find($rowId);
+
+        if ($record) {
+            // Update the assigned_to value with the provided assignedTo value
+            $record->assigned_staff = $assignedTo;
+            $record->save();
+
+            return response()->json(['message' => 'Assigned To updated successfully'], 200);
+        }
+
+        // return response()->json(['message' => 'Record not found'], 404);
+    }
 }

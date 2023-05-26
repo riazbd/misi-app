@@ -1,15 +1,5 @@
 @extends('adminlte::page')
 @section('content')
-    {{-- <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Users Management</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
-            </div>
-        </div>
-    </div> --}}
 
 
     @if ($message = Session::get('success'))
@@ -17,46 +7,9 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-
-
-    {{-- <table class="table table-bordered">
-        <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($data as $key => $user)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    @if (!empty($user->getRoleNames()))
-                        @foreach ($user->getRoleNames() as $v)
-                            <label class="badge badge-success">{{ $v }}</label>
-                        @endforeach
-                    @endif
-                </td>
-                <td>
-                    <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-                </td>
-            </tr>
-        @endforeach
-    </table>
-
-
-    {!! $data->render() !!} --}}
     <div class="container">
-        <h1>Therapists Management</h1>
-        <div class="pull-right mt-5">
-            <a class="btn btn-success" href="{{ route('patients.create') }}"> Create New Patient</a>
-        </div>
+        <h1>PIT</h1>
+
         <div class="mt-2 datatable-container">
             <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
                 with-footer>
@@ -136,6 +89,42 @@
                     'pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis'
                 ]
             })
+
+            $('#patientsTable').DataTable().on('click', '.assign-me', function() {
+                var row = $(this).closest('tr');
+                var rowData = $('#patientsTable').DataTable().row(row).data();
+                var assignedToCell = row.find(
+                    'td:eq(2)'); // Adjust the index based on the assigned to column position
+                var authUserId = "{{ Auth::id() }}";
+
+                // You can also make an AJAX request to update the assigned_to value in the database if needed
+                // Example AJAX request:
+                console.log($(this).data('row-id'));
+
+                $.ajax({
+                    url: '/update-assigned-to', // Your update route
+                    type: 'GET',
+                    data: {
+                        rowId: $(this).data('row-id'),
+                        assignedTo: authUserId
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        // Update the assigned_to cell with the authenticated user's ID (Assuming you are using Laravel's Auth)
+
+                        assignedToCell.html(
+                            '<span class="d-inline-block badge badge-success badge-pill badge-lg owned" style="cursor: pointer">Owned</span>'
+                        );
+                        console.log(response);
+
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        console.log(xhr);
+                    }
+                });
+
+            });
         });
     </script>
 

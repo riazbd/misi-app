@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Patient;
+use App\Models\Therapist;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class HeranmeldingController extends Controller
@@ -16,10 +19,11 @@ class HeranmeldingController extends Controller
     public function index()
     {
         $heranmeldingId = Role::where('name', 'heranmelding')->first()->id;
-        $tickets = Ticket::where('department_id', $heranmeldingId);
+        $tickets = Ticket::where('department_id', $heranmeldingId)->get();
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
+            'Assigned To',
             'Patient ID',
             'Mono/Multi ZD',
             'Mono/Multi Screening',
@@ -47,15 +51,22 @@ class HeranmeldingController extends Controller
         $data = [];
 
         foreach ($tickets as $ticket) {
+            if ($ticket->assigned_staff === null) {
+                $assigned = '<span class="d-inline-block badge badge-warning badge-pill badge-lg assign-me" data-row-id="' . $ticket->id . '" style="cursor: pointer">Assign to Me</span>';
+            } elseif ($ticket->assigned_staff == Auth::user()->id) {
+                $assigned = '<span class="d-inline-block badge badge-success badge-pill badge-lg owned" style="cursor: pointer">Owned</span>';
+            } else {
+                $assigned = $ticket->assigned_staff;
+            }
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('tickets.edit', ['ticket' => $ticket->id]) . '">
+            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('heranmelding.edit', ['heranmelding' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('tickets.destroy', ['ticket' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('heranmelding.destroy', ['heranmelding' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a></nobr>', $ticket->id, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
+                    </a></nobr>', $ticket->id, $assigned, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
             array_push($data, $items);
         }
 
@@ -97,7 +108,13 @@ class HeranmeldingController extends Controller
      */
     public function show($id)
     {
-        //
+        $roles = ['appointment'];
+        $therapists = Therapist::all();
+        $matchingRoles = Role::whereIn('name', $roles)->get();
+        // $screener = Role::where('name', 'screener')->first();
+        $patients = Patient::all();
+        $ticketId = $id;
+        return view('heranmelding.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists'));
     }
 
     /**
@@ -120,7 +137,45 @@ class HeranmeldingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        try {
+            $ticket = Ticket::where('id', $id)->first();
+            $ticket->department_id = $data['select-department'];
+            // $ticket->patient_id = $data['select-patient'];
+            // $ticket->mono_multi_zd = $data['mono-multi-zd'];
+            // $ticket->mono_multi_screening = $data['mono-multi-screening'];
+            // $ticket->intake_or_therapist = $data['intakes-therapist'];
+            // $ticket->tresonit_number = $data['tresonit-number'];
+            // $ticket->datum_intake = $data['datum-intake'];
+            // $ticket->datum_intake_2 = $data['datuem-intake-2'];
+            // $ticket->nd_account = $data['nd_account'];
+            // $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
+            // $ticket->honos = $data['honos'];
+            // $ticket->berha_intake = $data['berha-intake'];
+            // $ticket->strike_history = $data['strike-history'];
+            // $ticket->ticket_history = $data['ticket-history'];
+            // $ticket->rom_start = $data['rom-start'];
+            // $ticket->rom_end = $data['rom-end'];
+            // $ticket->berha_end = $data['berha-eind'];
+            // $ticket->vtcb_date = $data['vtcb-date'];
+            // $ticket->closure = $data['closure'];
+            // $ticket->aanm_intake_1 = $data['aanm-intake'];
+            // $ticket->location = $data['location'];
+            // $ticket->call_strike = $data['call-strike'];
+            // $ticket->remarks = $data['remarks'];
+            $ticket->comment = $data['comments'];
+            $suggestedTherapists = $data['suggest-therapists'];
+            $ticket->suggested_therapists = $suggestedTherapists;
+            // $ticket->language = $data['language-treatment'];
+            // $ticket->files = $data[''];
+
+            $ticket->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

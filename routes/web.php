@@ -40,4 +40,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('pib', PibController::class);
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);
+    Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
 });

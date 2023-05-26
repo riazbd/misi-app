@@ -136,6 +136,42 @@
                     'pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis'
                 ]
             })
+
+            $('#patientsTable').DataTable().on('click', '.assign-me', function() {
+                var row = $(this).closest('tr');
+                var rowData = $('#patientsTable').DataTable().row(row).data();
+                var assignedToCell = row.find(
+                    'td:eq(2)'); // Adjust the index based on the assigned to column position
+                var authUserId = "{{ Auth::id() }}";
+
+                // You can also make an AJAX request to update the assigned_to value in the database if needed
+                // Example AJAX request:
+                console.log($(this).data('row-id'));
+
+                $.ajax({
+                    url: '/update-assigned-to', // Your update route
+                    type: 'GET',
+                    data: {
+                        rowId: $(this).data('row-id'),
+                        assignedTo: authUserId
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        // Update the assigned_to cell with the authenticated user's ID (Assuming you are using Laravel's Auth)
+
+                        assignedToCell.html(
+                            '<span class="d-inline-block badge badge-success badge-pill badge-lg owned" style="cursor: pointer">Owned</span>'
+                        );
+                        console.log(response);
+
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        console.log(xhr);
+                    }
+                });
+
+            });
         });
     </script>
 
