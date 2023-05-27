@@ -52,8 +52,7 @@ class TicketController extends Controller
         foreach ($tickets as $ticket) {
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('tickets.edit', ['ticket' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
+            array_push($items, '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('tickets.destroy', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
@@ -140,9 +139,9 @@ class TicketController extends Controller
     {
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
         $matchingRoles = Role::whereIn('name', $roles)->get();
-        // $screener = Role::where('name', 'screener')->first();
+        $ticket = Ticket::where('id', $id)->first();
         $patients = Patient::all();
-        return view('tickets.show', compact('patients', 'matchingRoles'));
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket'));
     }
 
     /**

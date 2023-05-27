@@ -380,7 +380,7 @@ return [
                     'submenu' => [
 
                         [
-                            'text' => 'Ticket List',
+                            'text' => 'Screener Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '/screening'
                         ]
@@ -424,13 +424,9 @@ return [
                     'icon' => 'fas fa-fw fa-home',
                     'classes' => 'treeview',
                     'submenu' => [
+
                         [
-                            'text' => 'Create Ticket',
-                            'icon' => 'fas fa-fw fa-home',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'Ticket List',
+                            'text' => 'Appointment Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '#',
                         ]

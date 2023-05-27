@@ -51,6 +51,7 @@ class ScreeningController extends Controller
         $data = [];
 
         foreach ($tickets as $ticket) {
+            // dd($ticket->patient()->first()->id);
             if ($ticket->assigned_staff === null) {
                 $assigned = '<span class="d-inline-block badge badge-warning badge-pill badge-lg assign-me" data-row-id="' . $ticket->id . '" style="cursor: pointer">Assign to Me</span>';
             } elseif ($ticket->assigned_staff == Auth::user()->id) {
@@ -58,10 +59,13 @@ class ScreeningController extends Controller
             } else {
                 $assigned = $ticket->assigned_staff;
             }
+
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('screening.edit', ['screening' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
+            // '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('screening.edit', ['screening' => $ticket->id]) . '">
+            //             <i class="fa fa-lg fa-fw fa-pen"></i>'
+
+            array_push($items, '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('screening.destroy', ['screening' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('screening.show', ['screening' => $ticket->id]) . '">
@@ -112,8 +116,9 @@ class ScreeningController extends Controller
         $matchingRoles = Role::whereIn('name', $roles)->get();
         // $screener = Role::where('name', 'screener')->first();
         $patients = Patient::all();
+        $ticket = Ticket::where('id', $id)->first();
         $screening = $id;
-        return view('screener.show', compact('patients', 'matchingRoles', 'screening'));
+        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket'));
     }
 
     /**
@@ -141,30 +146,30 @@ class ScreeningController extends Controller
         try {
             $ticket = Ticket::where('id', $id)->first();
             $ticket->department_id = $data['select-department'];
-            // $ticket->patient_id = $data['select-patient'];
-            // $ticket->mono_multi_zd = $data['mono-multi-zd'];
-            // $ticket->mono_multi_screening = $data['mono-multi-screening'];
-            // $ticket->intake_or_therapist = $data['intakes-therapist'];
-            // $ticket->tresonit_number = $data['tresonit-number'];
-            // $ticket->datum_intake = $data['datum-intake'];
-            // $ticket->datum_intake_2 = $data['datuem-intake-2'];
-            // $ticket->nd_account = $data['nd_account'];
-            // $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
-            // $ticket->honos = $data['honos'];
-            // $ticket->berha_intake = $data['berha-intake'];
-            // $ticket->strike_history = $data['strike-history'];
-            // $ticket->ticket_history = $data['ticket-history'];
-            // $ticket->rom_start = $data['rom-start'];
-            // $ticket->rom_end = $data['rom-end'];
-            // $ticket->berha_end = $data['berha-eind'];
-            // $ticket->vtcb_date = $data['vtcb-date'];
-            // $ticket->closure = $data['closure'];
-            // $ticket->aanm_intake_1 = $data['aanm-intake'];
-            // $ticket->location = $data['location'];
-            // $ticket->call_strike = $data['call-strike'];
-            // $ticket->remarks = $data['remarks'];
+            $ticket->patient_id = $data['select-patient'];
+            $ticket->mono_multi_zd = $data['mono-multi-zd'];
+            $ticket->mono_multi_screening = $data['mono-multi-screening'];
+            $ticket->intake_or_therapist = $data['intakes-therapist'];
+            $ticket->tresonit_number = $data['tresonit-number'];
+            $ticket->datum_intake = $data['datum-intake'];
+            $ticket->datum_intake_2 = $data['datuem-intake-2'];
+            $ticket->nd_account = $data['nd_account'];
+            $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
+            $ticket->honos = $data['honos'];
+            $ticket->berha_intake = $data['berha-intake'];
+            $ticket->strike_history = $data['strike-history'];
+            $ticket->ticket_history = $data['ticket-history'];
+            $ticket->rom_start = $data['rom-start'];
+            $ticket->rom_end = $data['rom-end'];
+            $ticket->berha_end = $data['berha-eind'];
+            $ticket->vtcb_date = $data['vtcb-date'];
+            $ticket->closure = $data['closure'];
+            $ticket->aanm_intake_1 = $data['aanm-intake'];
+            $ticket->location = $data['location'];
+            $ticket->call_strike = $data['call-strike'];
+            $ticket->remarks = $data['remarks'];
             $ticket->comment = $data['comments'];
-            // $ticket->language = $data['language-treatment'];
+            $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
             $ticket->save();

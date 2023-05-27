@@ -75,44 +75,88 @@
                             @endforeach
                         </select>
                     </div>
+                    @php
+                        $config = ['format' => 'DD-MM-YYYY'];
+                    @endphp
                     <div class="form-group">
                         <label for="rom-start">ROM Start:</label>
-                        <input type="date" class="form-control" id="rom-start" name="rom-start">
+                        <x-adminlte-input-date name="rom-start" :config="$config" placeholder="Choose a date..." id="rom-start">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
+
+
                     <div class="form-group">
                         <label for="rom-end">ROM End:</label>
-                        <input type="date" class="form-control" id="rom-end" name="rom-end">
+                        <x-adminlte-input-date name="rom-end" :config="$config" placeholder="Choose a date..." id="rom-end">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
+
                     <div class="form-group">
                         <label for="berha-eind">Berha Eind:</label>
-                        <input type="date" class="form-control" id="berha-eind" name="berha-eind">
+                        <x-adminlte-input-date name="berha-eind" :config="$config" placeholder="Choose a date..." id="berha-eind">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
+
+
                     <div class="form-group">
                         <label for="vtcb-date">VTCB Date:</label>
-                        <input type="date" class="form-control" id="vtcb-date" name="vtcb-date">
+                        <x-adminlte-input-date name="vtcb-date" :config="$config" placeholder="Choose a date..." id="vtcb-date">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
+
+
                     <div class="form-group">
                         <label for="closure">Closure:</label>
-                        <input type="date" class="form-control" id="closure" name="closure">
+                        <x-adminlte-input-date name="closure" :config="$config" placeholder="Choose a date..." id="closure">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
+
                     <div class="form-group">
-                        <label for="aanm-intake">Aanm-intake 1 (dagentussen):</label>
-                        <input type="date" class="form-control" id="aanm-intake" name="aanm-intake">
+                        <label for="aanm-intake">Aanm Intake 1 (dagentussen):</label>
+                        <x-adminlte-input-date name="aanm-intake" :config="$config" placeholder="Choose a date..." id="aanm-intake">
+                            <x-slot name="appendSlot">
+                                <div class="input-group-text bg-gradient-primary">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                     </div>
                     <div class="form-group">
                         <label for="location">Location:</label>
-                        <select class="form-control" id="location" name="location">
-                            <option>Location 1</option>
-                            <option>Location 2</option>
-                            <option>Location 3</option>
-                        </select>
+                        <input class="form-control" id="location" name="location">
                     </div>
                     <div class="form-group">
                         <label for="call-strike">Call Strike:</label>
                         <select class="form-control" id="call-strike" name="call-strike">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
+                            <option value="">Select Strike</option>
+                            <option value="strike_1">Strike 1</option>
+                            <option value="strike_2">Strike 2</option>
+                            <option value="strike_3">Strike 3</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -126,9 +170,9 @@
                     <div class="form-group">
                         <label for="language-treatment">Language Treatment:</label>
                         <select class="form-control" id="language-treatment" name="language-treatment">
-                            <option>Language 1</option>
-                            <option>Language 2</option>
-                            <option>Language 3</option>
+                            <option value="">Select Language</option>
+                            <option value="dutch">Dutch</option>
+                            <option value="english">English</option>
                         </select>
                     </div>
                     <div class="form-group">

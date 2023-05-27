@@ -6,6 +6,7 @@ use App\Models\Therapist;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PragmaRX\Countries\Package\Countries;
 
 class TherapistController extends Controller
 {
@@ -53,11 +54,10 @@ class TherapistController extends Controller
         foreach ($therapists as $therapist) {
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('users.edit', ['user' => $therapist->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('users.destroy', ['user' => $therapist->id]) . '">
+            array_push($items, '<nobr>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('therapists.destroy', ['therapist' => $therapist->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('users.index', ['user' => $therapist->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('therapists.show', ['therapist' => $therapist->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', $therapist->id, $therapist->user()->first()->first_name, $therapist->user()->first()->last_name, $therapist->therapist_type, $therapist->user()->first()->status, $therapist->user()->first()->email, $therapist->user()->first()->phone, $therapist->alternative_phone, $therapist->emergency_contact, $therapist->user()->first()->sex, $therapist->user()->first()->date_of_birth, $therapist->user()->first()->marital_status, $therapist->therapist_source, $therapist->blood_group, $therapist->country, $therapist->residential_address, $therapist->insurance_number, $therapist->city_or_state, $therapist->area, $therapist->DOB_number, $therapist->BSN_number, $therapist->remarks);
             array_push($data, $items);
@@ -123,7 +123,7 @@ class TherapistController extends Controller
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
             // $user->age = $data['age'];
-            $therapist->status = $data['status'];
+            $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];
 
             $user->save();
@@ -164,7 +164,10 @@ class TherapistController extends Controller
      */
     public function show($id)
     {
-        //
+        $therapist = Therapist::where('id', $id)->first();
+        $countries = Countries::all();
+
+        return view('therapists.show', compact('therapist', 'countries'));
     }
 
     /**
@@ -187,7 +190,70 @@ class TherapistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        try {
+            $therapist = Therapist::where('id', $id)->first();
+            $user = $therapist->user()->first();
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $serialLength = 8; // Adjust the length as needed
+            $userSerialNo = 'misi';
+
+            // for ($i = 0; $i < $serialLength; $i++) {
+            //     $randomChar = $characters[rand(0, strlen($characters) - 1)];
+            //     $userSerialNo .= $randomChar;
+            // }
+
+            // while (User::where('user_serial_no', $userSerialNo)->exists()) {
+            //     $userSerialNo = 'misi';
+
+            //     for ($i = 0; $i < $serialLength; $i++) {
+            //         $randomChar = $characters[rand(0, strlen($characters) - 1)];
+            //         $userSerialNo .= $randomChar;
+            //     }
+            // }
+
+            // save user
+            // $user->user_serial_no = $userSerialNo;
+            $user->first_name = $data['first-name'];
+            $user->last_name = $data['last-name'];
+            $user->phone = $data['phone-number'];
+            $user->email = $data['email'];
+            // $user->password = Hash::make($data['password']);
+            $user->sex = $data['sex'];
+            $user->date_of_birth = $data['dob'];
+            // $user->age = $data['age'];
+            $user->status = $data['status'];
+            $user->marital_status = $data['marital-status'];
+
+            $user->save();
+
+            // save patient
+            $therapist->user_id = $user->id;
+            $therapist->therapist_type = $data['therapist-type'];;
+            $therapist->blood_group = $data['blood-group'];
+            $therapist->country = $data['country'];
+            $therapist->residential_address = $data['residential-address'];
+            $therapist->insurance_number = $data['insurance-number'];
+            // $therapist->status = $data['status'];
+            $therapist->alternative_phone = $data['alt-phone-number'];
+            $therapist->emergency_contact = $data['emergency-contact'];
+            $therapist->remarks = $data['remarks'];
+            $therapist->city_or_state = $data['city-state'];
+            $therapist->area = $data['area'];
+            $therapist->DOB_number = $data['dob-number'];
+            $therapist->BSN_number = $data['bsn-number'];
+            // $therapist->file = $data[''];
+
+
+            $therapist->save();
+
+
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

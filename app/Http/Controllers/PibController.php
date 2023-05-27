@@ -60,8 +60,7 @@ class PibController extends Controller
             }
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('pib.edit', ['pib' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
+            array_push($items, '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pib.destroy', ['pib' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
@@ -114,7 +113,8 @@ class PibController extends Controller
         // $screener = Role::where('name', 'screener')->first();
         $patients = Patient::all();
         $ticketId = $id;
-        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists'));
+        $ticket = Ticket::where('id', $id)->first();
+        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket'));
     }
 
     /**
@@ -142,34 +142,33 @@ class PibController extends Controller
         try {
             $ticket = Ticket::where('id', $id)->first();
             $ticket->department_id = $data['select-department'];
-            // $ticket->patient_id = $data['select-patient'];
-            // $ticket->mono_multi_zd = $data['mono-multi-zd'];
-            // $ticket->mono_multi_screening = $data['mono-multi-screening'];
-            // $ticket->intake_or_therapist = $data['intakes-therapist'];
-            // $ticket->tresonit_number = $data['tresonit-number'];
-            // $ticket->datum_intake = $data['datum-intake'];
-            // $ticket->datum_intake_2 = $data['datuem-intake-2'];
-            // $ticket->nd_account = $data['nd_account'];
-            // $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
-            // $ticket->honos = $data['honos'];
-            // $ticket->berha_intake = $data['berha-intake'];
-            // $ticket->strike_history = $data['strike-history'];
-            // $ticket->ticket_history = $data['ticket-history'];
-            // $ticket->rom_start = $data['rom-start'];
-            // $ticket->rom_end = $data['rom-end'];
-            // $ticket->berha_end = $data['berha-eind'];
-            // $ticket->vtcb_date = $data['vtcb-date'];
-            // $ticket->closure = $data['closure'];
-            // $ticket->aanm_intake_1 = $data['aanm-intake'];
-            // $ticket->location = $data['location'];
-            // $ticket->call_strike = $data['call-strike'];
-            // $ticket->remarks = $data['remarks'];
+            $ticket->patient_id = $data['select-patient'];
+            $ticket->mono_multi_zd = $data['mono-multi-zd'];
+            $ticket->mono_multi_screening = $data['mono-multi-screening'];
+            $ticket->intake_or_therapist = $data['intakes-therapist'];
+            $ticket->tresonit_number = $data['tresonit-number'];
+            $ticket->datum_intake = $data['datum-intake'];
+            $ticket->datum_intake_2 = $data['datuem-intake-2'];
+            $ticket->nd_account = $data['nd_account'];
+            $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
+            $ticket->honos = $data['honos'];
+            $ticket->berha_intake = $data['berha-intake'];
+            $ticket->strike_history = $data['strike-history'];
+            $ticket->ticket_history = $data['ticket-history'];
+            $ticket->rom_start = $data['rom-start'];
+            $ticket->rom_end = $data['rom-end'];
+            $ticket->berha_end = $data['berha-eind'];
+            $ticket->vtcb_date = $data['vtcb-date'];
+            $ticket->closure = $data['closure'];
+            $ticket->aanm_intake_1 = $data['aanm-intake'];
+            $ticket->location = $data['location'];
+            $ticket->call_strike = $data['call-strike'];
+            $ticket->remarks = $data['remarks'];
 
-            // $suggestedTherapistsString = implode(',', $suggestedTherapists);
             $ticket->comment = $data['comments'];
             $suggestedTherapists = $data['suggest-therapists'];
             $ticket->suggested_therapists = $suggestedTherapists;
-            // $ticket->language = $data['language-treatment'];
+            $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
             $ticket->save();
