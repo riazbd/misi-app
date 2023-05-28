@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -23,7 +24,8 @@ class UserController extends Controller
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
-            'Name',
+            'First Name',
+            'Last Name',
             // ['label' => 'Phone', 'width' => 40],
             'Email',
 
@@ -34,13 +36,11 @@ class UserController extends Controller
         foreach ($users as $user) {
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('users.edit', ['user' => $user->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('users.destroy', ['user' => $user->id]) . '">
+            array_push($items, '<nobr><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('users.destroy', ['user' => $user->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('users.index', ['user' => $user->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('users.show', ['user' => $user->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a></nobr>', $user->id, $user->name, $user->email);
+                    </a></nobr>', $user->id, $user->first_name, $user->last_name, $user->email);
             array_push($data, $items);
         }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name', 'name')->all();
+        $roles = Role::all();
         return view('users.create', compact('roles'));
     }
 
@@ -71,21 +71,41 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
 
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
 
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        try {
+            // $this->validate($request, [
+            //     'first_name' => 'required',
+            //     'last_name' => 'required',
+            //     'email' => 'required|email|unique:users,email',
+            //     'password' => 'required|same:confirm-password',
+            //     'roles' => 'required'
+            // ]);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully');
+            $input = $request->all();
+            $input['password'] = Hash::make($input['password']);
+
+            // $user = User::create($input);
+            // $user->assignRole($request->input('roles'));
+            $user = new User();
+            $user->first_name = $input['first_name'];
+            $user->last_name = $input['last_name'];
+            $user->email = $input['email'];
+            $user->password = $input['password'];
+            $user->marital_status = $input['marital_status'];
+            $user->sex = $input['sex'];
+            $user->date_of_birth = $input['dob'];
+            // $user->first_name = $input['first-name'];
+
+            $roles = $request->input('roles', []); // Get the selected roles from the request
+            $user->syncRoles($roles);
+
+            $user->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**
@@ -97,7 +117,10 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        // dd($user->getRoleNames());
+        $assignedRoles = $user->getRoleNames();
+        $roles = Role::all();
+        return view('users.show', compact('user', 'assignedRoles', 'roles'));
     }
 
     /**

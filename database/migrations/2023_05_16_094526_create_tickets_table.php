@@ -32,12 +32,12 @@ class CreateTicketsTable extends Migration
             $table->string('berha_intake')->nullable();
             $table->string('strike_history')->nullable();
             $table->string('ticket_history')->nullable();
-            $table->date('rom_start')->nullable();
-            $table->date('rom_end')->nullable();
-            $table->date('berha_end')->nullable();
-            $table->date('vtcb_date')->nullable();
-            $table->date('closure')->nullable();
-            $table->date('aanm_intake_1')->nullable();
+            $table->string('rom_start')->nullable();
+            $table->string('rom_end')->nullable();
+            $table->string('berha_end')->nullable();
+            $table->string('vtcb_date')->nullable();
+            $table->string('closure')->nullable();
+            $table->string('aanm_intake_1')->nullable();
             $table->string('location')->nullable();
             $table->string('call_strike')->nullable();
             $table->string('remarks')->nullable();

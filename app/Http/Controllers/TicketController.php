@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -108,7 +109,13 @@ class TicketController extends Controller
             $ticket->berha_intake = $data['berha-intake'];
             $ticket->strike_history = $data['strike-history'];
             $ticket->ticket_history = $data['ticket-history'];
-            $ticket->rom_start = $data['rom-start'];
+            // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
+            // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
+            // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
+            // $ticket->vtcb_date = Carbon::createFromFormat('d/m/Y', $data['vtcb-date'])->format('Y-m-d');
+            // $ticket->closure = Carbon::createFromFormat('d/m/Y', $data['closure'])->format('Y-m-d');
+            // $ticket->aanm_intake_1 = Carbon::createFromFormat('d/m/Y', $data['aanm-intake'])->format('Y-m-d');
+            $ticket->rom_start =  $data['rom-start'];
             $ticket->rom_end = $data['rom-end'];
             $ticket->berha_end = $data['berha-eind'];
             $ticket->vtcb_date = $data['vtcb-date'];

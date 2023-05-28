@@ -38,9 +38,10 @@
                                 onchange="calculateAge()"> --}}
                             {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
                             @php
-                                 $config = ['format' => 'DD/MM/YYYY'];
+                                $config = ['format' => 'DD-MM-YYYY'];
                             @endphp
-                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..." id="dob" onchange="calculateAge()">
+                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
+                                id="dob" onchange="calculateAge()">
                                 <x-slot name="appendSlot">
                                     <div class="input-group-text bg-gradient-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -172,7 +173,6 @@
 
 @section('js')
     <script>
-
         // $("#dob").datepicker();
         function calculateAge() {
             var dobInput = moment(document.getElementById('dob').value, 'DD-MM-YYYY');
@@ -191,7 +191,7 @@
             }
 
             // Set the calculated age in the input field
-            document.getElementById('age').value = age;
+            // document.getElementById('age').value = age;
         }
 
 

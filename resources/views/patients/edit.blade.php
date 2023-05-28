@@ -14,23 +14,28 @@
 
                         <div class="form-group">
                             <label for="first-name">First Name:</label>
-                            <input type="text" class="form-control" id="first-name" name="first-name" value="{{ $patient->user()->first()->first_name }}">
+                            <input type="text" class="form-control" id="first-name" name="first-name"
+                                value="{{ $patient->user()->first()->first_name }}">
                         </div>
                         <div class="form-group">
                             <label for="last-name">Last Name:</label>
-                            <input type="text" class="form-control" id="last-name" name="last-name" value="{{ $patient->user()->first()->last_name }}">
+                            <input type="text" class="form-control" id="last-name" name="last-name"
+                                value="{{ $patient->user()->first()->last_name }}">
                         </div>
                         <div class="form-group">
                             <label for="phone-number">Phone Number:</label>
-                            <input type="text" class="form-control" id="phone-number" name="phone-number" value="{{ $patient->user()->first()->phone }}">
+                            <input type="text" class="form-control" id="phone-number" name="phone-number"
+                                value="{{ $patient->user()->first()->phone }}">
                         </div>
                         <div class="form-group">
                             <label for="alt-phone-number">Alternative Phone Number:</label>
-                            <input type="text" class="form-control" id="alt-phone-number" name="alt-phone-number" value="{{ $patient->alternative_phone }}">
+                            <input type="text" class="form-control" id="alt-phone-number" name="alt-phone-number"
+                                value="{{ $patient->alternative_phone }}">
                         </div>
                         <div class="form-group">
                             <label for="emergency-contact">Emergency Contact:</label>
-                            <input type="text" class="form-control" id="emergency-contact" name="emergency-contact" value="{{ $patient->emergency_contact }}">
+                            <input type="text" class="form-control" id="emergency-contact" name="emergency-contact"
+                                value="{{ $patient->emergency_contact }}">
                         </div>
 
                         <div class="form-group">
@@ -39,9 +44,10 @@
                                 onchange="calculateAge()"> --}}
                             {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
                             @php
-                                 $config = ['format' => 'DD/MM/YYYY'];
+                                $config = ['format' => 'DD-MM-YYYY'];
                             @endphp
-                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..." id="dob" onchange="calculateAge()" :value="$patient->user()->first()->date_of_birth">
+                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
+                                id="dob" onchange="calculateAge()" :value="$patient->user()->first()->date_of_birth">
                                 <x-slot name="appendSlot">
                                     <div class="input-group-text bg-gradient-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -56,32 +62,45 @@
                         <div class="form-group">
                             <label for="marital-status">Marital Status:</label>
                             <select class="form-control" id="marital-status" name="marital-status">
-                                <option value="Single" {{ $patient->user()->first()->marital_status == 'Single' ? 'selected' : '' }}>Single</option>
-                                <option value="Married" {{ $patient->user()->first()->marital_status == 'Married' ? 'selected' : '' }}>Married</option>
-                                <option value="Divorced" {{ $patient->user()->first()->marital_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                <option value="Single"
+                                    {{ $patient->user()->first()->marital_status == 'Single' ? 'selected' : '' }}>Single
+                                </option>
+                                <option value="Married"
+                                    {{ $patient->user()->first()->marital_status == 'Married' ? 'selected' : '' }}>Married
+                                </option>
+                                <option value="Divorced"
+                                    {{ $patient->user()->first()->marital_status == 'Divorced' ? 'selected' : '' }}>Divorced
+                                </option>
                                 <!-- Add more options as needed -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="Active" {{ $patient->user()->first()->status == 'Avtive' ? 'selected' : '' }}>Active</option>
-                                <option value="Inavtive" {{ $patient->user()->first()->status == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="Active"
+                                    {{ $patient->user()->first()->status == 'Avtive' ? 'selected' : '' }}>Active</option>
+                                <option value="Inavtive"
+                                    {{ $patient->user()->first()->status == 'Inactive' ? 'selected' : '' }}>Inactive
+                                </option>
                                 <!-- Add more options as needed -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="sex">Sex:</label>
                             <select class="form-control" id="sex" name="sex">
-                                <option value="Male" {{ $patient->user()->first()->sex == 'Male' ? 'selected' : '' }}>Male</option>
-                                <option value="Femail" {{ $patient->user()->first()->sex == 'Female' ? 'selected' : '' }}>Femail</option>
-                                <option value="Other" {{ $patient->user()->first()->sex == 'Other' ? 'selected' : '' }}>Other</option>
+                                <option value="Male" {{ $patient->user()->first()->sex == 'Male' ? 'selected' : '' }}>
+                                    Male</option>
+                                <option value="Femail" {{ $patient->user()->first()->sex == 'Female' ? 'selected' : '' }}>
+                                    Femail</option>
+                                <option value="Other" {{ $patient->user()->first()->sex == 'Other' ? 'selected' : '' }}>
+                                    Other</option>
                                 <!-- Add more options as needed -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="occupation">Occupation:</label>
-                            <input type="text" class="form-control" id="occupation" name="occupation" value="{{ $patient->occupation }}">
+                            <input type="text" class="form-control" id="occupation" name="occupation"
+                                value="{{ $patient->occupation }}">
                         </div>
                     </div>
                     {{-- {{ dd($patient->blood_group) }} --}}
@@ -108,17 +127,21 @@
                                 <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 2</option>
                                 <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 3</option> --}}
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country['name_en'] }}" {{ $patient->country === $country['name_en'] ? 'selected' : '' }}>{{ $country['name_en'] }}</option>
+                                    <option value="{{ $country['name_en'] }}"
+                                        {{ $patient->country === $country['name_en'] ? 'selected' : '' }}>
+                                        {{ $country['name_en'] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="city-state">City/State:</label>
-                            <input class="form-control" id="city-state" name="city-state" value="{{ $patient->city_or_state }}">
+                            <input class="form-control" id="city-state" name="city-state"
+                                value="{{ $patient->city_or_state }}">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ $patient->user()->first()->email }}">
+                            <input type="email" class="form-control" id="email" name="email"
+                                value="{{ $patient->user()->first()->email }}">
                         </div>
                         {{-- <div class="form-group">
                             <label for="password">Password:</label>
@@ -126,24 +149,29 @@
                         </div> --}}
                         <div class="form-group">
                             <label for="insurance-number">Insurance Number:</label>
-                            <input type="text" class="form-control" id="insurance-number" name="insurance-number" value="{{ $patient->insurance_number }}">
+                            <input type="text" class="form-control" id="insurance-number" name="insurance-number"
+                                value="{{ $patient->insurance_number }}">
                         </div>
 
                         <div class="form-group">
                             <label for="area">Area:</label>
-                            <input type="text" class="form-control" id="area" name="area" value="{{ $patient->area }}">
+                            <input type="text" class="form-control" id="area" name="area"
+                                value="{{ $patient->area }}">
                         </div>
                         <div class="form-group">
                             <label for="dob-number">DOB Number:</label>
-                            <input type="text" class="form-control" id="dob-number" name="dob-number" value="{{ $patient->DOB_number }}">
+                            <input type="text" class="form-control" id="dob-number" name="dob-number"
+                                value="{{ $patient->DOB_number }}">
                         </div>
                         <div class="form-group">
                             <label for="bsn-number">BSN Number:</label>
-                            <input type="text" class="form-control" id="bsn-number" name="bsn-number" value="{{ $patient->BSN_number }}">
+                            <input type="text" class="form-control" id="bsn-number" name="bsn-number"
+                                value="{{ $patient->BSN_number }}">
                         </div>
                         <div class="form-group">
                             <label for="remarks">Remarks:</label>
-                            <input type="text" class="form-control" id="remarks" name="remarks" value="{{ $patient->remarks }}">
+                            <input type="text" class="form-control" id="remarks" name="remarks"
+                                value="{{ $patient->remarks }}">
                         </div>
                         <div class="form-group">
                             <label for="file-type">File Type:</label>
@@ -182,7 +210,6 @@
 
 @section('js')
     <script>
-
         // $("#dob").datepicker();
         function calculateAge() {
             var dobInput = moment(document.getElementById('dob').value, 'DD-MM-YYYY');

@@ -80,7 +80,8 @@
                     @endphp
                     <div class="form-group">
                         <label for="rom-start">ROM Start:</label>
-                        <x-adminlte-input-date name="rom-start" :config="$config" placeholder="Choose a date..." id="rom-start">
+                        <x-adminlte-input-date name="rom-start" :config="$config" placeholder="Choose a date..."
+                            id="rom-start">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
@@ -92,7 +93,8 @@
 
                     <div class="form-group">
                         <label for="rom-end">ROM End:</label>
-                        <x-adminlte-input-date name="rom-end" :config="$config" placeholder="Choose a date..." id="rom-end">
+                        <x-adminlte-input-date name="rom-end" :config="$config" placeholder="Choose a date..."
+                            id="rom-end">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
@@ -103,7 +105,8 @@
 
                     <div class="form-group">
                         <label for="berha-eind">Berha Eind:</label>
-                        <x-adminlte-input-date name="berha-eind" :config="$config" placeholder="Choose a date..." id="berha-eind">
+                        <x-adminlte-input-date name="berha-eind" :config="$config" placeholder="Choose a date..."
+                            id="berha-eind">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
@@ -115,7 +118,8 @@
 
                     <div class="form-group">
                         <label for="vtcb-date">VTCB Date:</label>
-                        <x-adminlte-input-date name="vtcb-date" :config="$config" placeholder="Choose a date..." id="vtcb-date">
+                        <x-adminlte-input-date name="vtcb-date" :config="$config" placeholder="Choose a date..."
+                            id="vtcb-date">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
@@ -127,7 +131,8 @@
 
                     <div class="form-group">
                         <label for="closure">Closure:</label>
-                        <x-adminlte-input-date name="closure" :config="$config" placeholder="Choose a date..." id="closure">
+                        <x-adminlte-input-date name="closure" :config="$config" placeholder="Choose a date..."
+                            id="closure">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
@@ -138,7 +143,8 @@
 
                     <div class="form-group">
                         <label for="aanm-intake">Aanm Intake 1 (dagentussen):</label>
-                        <x-adminlte-input-date name="aanm-intake" :config="$config" placeholder="Choose a date..." id="aanm-intake">
+                        <x-adminlte-input-date name="aanm-intake" :config="$config" placeholder="Choose a date..."
+                            id="aanm-intake">
                             <x-slot name="appendSlot">
                                 <div class="input-group-text bg-gradient-primary">
                                     <i class="fas fa-calendar-alt"></i>
