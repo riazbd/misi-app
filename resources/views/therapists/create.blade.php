@@ -2,156 +2,189 @@
 
 @section('content')
 
-    <div class="container">
-        <h1>Therapist Management</h1>
-        <div class="mt-5">
+    <div class="p-5">
+        {{-- <h1>Therapist Management</h1> --}}
+        <div class="">
 
             <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form">
                 @csrf
-                <div class="row">
+                <div class="row justify-content-between">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="first-name">Therapist Type:</label>
-                            <select type="text" class="form-control" id="therapist-type" name="therapist-type">
-                                <option value="Therapist type 1">Therapist type 1</option>
-                                <option value="Therapist type 2">Therapist type 2</option>
-                                <option value="Therapist type 3">Therapist type 3</option>
-                                <option value="Therapist type 4">Therapist type 4</option>
-                            </select>
+                        <div class="form-group row">
+                            <label for="therapist-type" class="col-5 text-right">Therapist Type:</label>
+                            <div class="col-7">
+                                <select type="text" class="form-control  form-control-sm" id="therapist-type"
+                                    name="therapist-type">
+                                    <option value="Therapist type 1">Therapist type 1</option>
+                                    <option value="Therapist type 2">Therapist type 2</option>
+                                    <option value="Therapist type 3">Therapist type 3</option>
+                                    <option value="Therapist type 4">Therapist type 4</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="first-name">First Name:</label>
-                            <input type="text" class="form-control" id="first-name" name="first-name">
+                        <div class="form-group row">
+                            <label for="first-name" class="col-5 text-right">First Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="first-name"
+                                    name="first-name"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="last-name">Last Name:</label>
-                            <input type="text" class="form-control" id="last-name" name="last-name">
+                        <div class="form-group row">
+                            <label for="last-name" class="col-5 text-right">Last Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="last-name"
+                                    name="last-name">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone-number">Phone Number:</label>
-                            <input type="text" class="form-control" id="phone-number" name="phone-number">
+                        <div class="form-group row">
+                            <label for="phone-number" class="col-5 text-right">Phone Number:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="phone-number"
+                                    name="phone-number"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="alt-phone-number">Alternative Phone Number:</label>
-                            <input type="text" class="form-control" id="alt-phone-number" name="alt-phone-number">
+                        <div class="form-group row">
+                            <label for="alt-phone-number" class="col-5 text-right">Alternative Phone Number:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="alt-phone-number" name="alt-phone-number"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="emergency-contact">Emergency Contact:</label>
-                            <input type="text" class="form-control" id="emergency-contact" name="emergency-contact">
+                        <div class="form-group row">
+                            <label for="emergency-contact" class="col-5 text-right">Emergency Contact:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="emergency-contact" name="emergency-contact"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="dob">Date of Birth:</label>
+                        <div class="form-group row">
+                            <label for="dob" class="col-5 text-right">Date of Birth:</label>
                             {{-- <input type="date" class="form-control" id="dob" name="dob"
                                 onchange="calculateAge()"> --}}
                             {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
                             @php
-                                 $config = ['format' => 'DD-MM-YYYY'];
+                                $config = ['format' => 'DD-MM-YYYY'];
                             @endphp
-                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..." id="dob" onchange="calculateAge()">
-                                <x-slot name="appendSlot">
-                                    <div class="input-group-text bg-gradient-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-date>
+                            <div class="col-7">
+                                <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
+                                    id="dob" onchange="calculateAge()" class="form-control-sm">
+                                    <x-slot name="appendSlot">
+                                        <div class="input-group-text bg-gradient-primary">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                    </x-slot>
+                                </x-adminlte-input-date>
+                            </div>
                         </div>
                         {{-- <div class="form-group">
                             <label for="age">Age:</label>
                             <input type="number" class="form-control" id="age" name="age" readonly>
                         </div> --}}
-                        <div class="form-group">
-                            <label for="marital-status">Marital Status:</label>
-                            <select class="form-control" id="marital-status" name="marital-status">
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="divorced">Divorced</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                        <div class="form-group row">
+                            <label for="marital-status" class="col-5 text-right">Marital Status:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="marital-status" name="marital-status">
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="status">Status:</label>
-                            <select class="form-control" id="status" name="status">
-                                <option value="Active">Active</option>
-                                <option value="Inavtive">Inactive</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                        <div class="form-group row">
+                            <label for="status" class="col-5 text-right">Status:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="status" name="status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inavtive">Inactive</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="sex">Sex:</label>
-                            <select class="form-control" id="sex" name="sex">
-                                <option value="Male">Male</option>
-                                <option value="Femail">Femail</option>
-                                <option value="Other">Other</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                        <div class="form-group row">
+                            <label for="sex" class="col-5 text-right">Sex:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="sex" name="sex">
+                                    <option value="Male">Male</option>
+                                    <option value="Femail">Femail</option>
+                                    <option value="Other">Other</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
                         </div>
 
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="blood-group">Blood group:</label>
-                            <select class="form-control" id="blood-group" name="blood-group">
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                        <div class="form-group row">
+                            <label for="blood-group" class="col-5 text-right">Blood group:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="blood-group" name="blood-group">
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="country">Country:</label>
-                            <select class="form-control" id="country" name="country">
-                                <option value="country1">Country 1</option>
-                                <option value="country1">Country 2</option>
-                                <option value="country1">Country 3</option>
-                            </select>
+                        <div class="form-group row">
+                            <label for="country" class="col-5 text-right">Country:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="country" name="country">
+                                    <option value="country1">Country 1</option>
+                                    <option value="country1">Country 2</option>
+                                    <option value="country1">Country 3</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="city-state">City/State:</label>
-                            <input class="form-control" id="city-state" name="city-state">
+                        <div class="form-group row">
+                            <label for="city-state" class="col-5 text-right">City/State:</label>
+                            <div class="col-7"><input class="form-control form-control-sm" id="city-state"
+                                    name="city-state"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                        <div class="form-group row">
+                            <label for="email" class="col-5 text-right">Email:</label>
+                            <div class="col-7"><input type="email" class="form-control form-control-sm"
+                                    id="email" name="email"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password">
+                        <div class="form-group row">
+                            <label for="password" class="col-5 text-right">Password:</label>
+                            <div class="col-7"><input type="password" class="form-control form-control-sm"
+                                    id="password" name="password"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="insurance-number">Insurance Number:</label>
-                            <input type="text" class="form-control" id="insurance-number" name="insurance-number">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="area">Area:</label>
-                            <input type="text" class="form-control" id="area" name="area">
-                        </div>
-                        <div class="form-group">
-                            <label for="dob-number">DOB Number:</label>
-                            <input type="text" class="form-control" id="dob-number" name="dob-number">
-                        </div>
-                        <div class="form-group">
-                            <label for="bsn-number">BSN Number:</label>
-                            <input type="text" class="form-control" id="bsn-number" name="bsn-number">
-                        </div>
-                        <div class="form-group">
-                            <label for="remarks">Remarks:</label>
-                            <input type="text" class="form-control" id="remarks" name="remarks">
+                        <div class="form-group row">
+                            <label for="insurance-number" class="col-5 text-right">Insurance Number:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="insurance-number" name="insurance-number"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="file">File:</label>
-                            <input type="file" class="form-control-file" id="file" name="file">
+                        <div class="form-group row">
+                            <label for="area" class="col-5 text-right">Area:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="area" name="area"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dob-number" class="col-5 text-right">DOB Number:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="dob-number" name="dob-number"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
+                            <div class="col-7"><input type="text" class="form-control  form-control-sm"
+                                    id="bsn-number" name="bsn-number"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="remarks" class="col-5 text-right">Remarks:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="remarks" name="remarks"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="file" class="col-5 text-right">File:</label>
+                            <div class="col-7"><input type="file" class="form-control-file form-control-file-sm"
+                                    id="file" name="file"></div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="residential-address">Residential Address:</label>
-                            <textarea class="form-control" id="residential-address" rows="3" name="residential-address"></textarea>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="residential-address" class="col-5 text-right">Residential Address:</label>
+                            <div class="col-7">
+                                <textarea class="form-control" id="residential-address" rows="3" name="residential-address"></textarea>
+                            </div>
                         </div>
 
 
@@ -167,7 +200,6 @@
 
 @section('js')
     <script>
-
         // $("#dob").datepicker();
         function calculateAge() {
             var dobInput = moment(document.getElementById('dob').value, 'DD-MM-YYYY');

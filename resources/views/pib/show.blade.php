@@ -1,38 +1,35 @@
 @extends('adminlte::page')
 
 @section('content')
-    <div class="container">
-        <h1 class="text-align-center">Ticket Information</h1>
-        <div class="row mt-5">
-            <div class="col-md-6 px-3" style="border-right: 1px solid #dedede">
-                <div>
-                    Hello
-                </div>
+    <div class="p-5">
+        {{-- <h1 class="text-align-center">Ticket Information</h1> --}}
 
-            </div>
-            <div class="col-md-6 px-3">
-                <form method="POST" action="{{ route('pib.update', ['pib' => $ticketId]) }}" id="update-ticket-form">
+        <div class="">
+            <form method="POST" action="{{ route('pib.update', ['pib' => $ticketId]) }}" id="update-ticket-form">
 
-                    @csrf
-                    @method('PUT')
-                    <div class="row">
-                        <!-- First Column -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="select-department">Select Department:</label>
-                                <select class="form-control" id="select-department" name="select-department">
+                @csrf
+                @method('PUT')
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="select-department" class="col-5 text-right">Select Department:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="select-department"
+                                    name="select-department">
                                     @foreach ($matchingRoles as $matchingRole)
                                         <option value="{{ $matchingRole->id }}"
                                             {{ $ticket->department_id == $matchingRole->id ? 'selected' : '' }}>
                                             {{ $matchingRole->name }}</option>
                                     @endforeach
-
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="select-therapists">Suggest Therapists:</label>
-                                <select class="form-control selectpicker" id="select-therapists" name="suggest-therapists[]"
-                                    multiple data-live-search="true">
+                        </div>
+                        <div class="form-group row">
+                            <label for="select-therapists" class="col-5 text-right">Suggest Therapists:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm selectpicker" id="select-therapists"
+                                    name="suggest-therapists[]" multiple data-live-search="true">
                                     @foreach ($therapists as $therapist)
                                         @php
                                             $therapistId = $therapist->id;
@@ -43,73 +40,98 @@
                                             {{ $therapist->user()->first()->first_name }}
                                             {{ $therapist->user()->first()->last_name }}</option>
                                     @endforeach
-
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="mono-multi-zd">Mono/Multi ZD:</label>
-                                <input type="text" class="form-control" id="mono-multi-zd" name="mono-multi-zd"
-                                    value="{{ $ticket->mono_multi_zd }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="mono-multi-screening">Mono/Multi Screening:</label>
-                                <input type="text" class="form-control" id="mono-multi-screening"
-                                    name="mono-multi-screening" value="{{ $ticket->mono_multi_screening }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="intakes-therapist">Intakes/Therapist:</label>
-                                <input type="text" class="form-control" id="intakes-therapist" name="intakes-therapist"
-                                    value="{{ $ticket->intake_or_therapist }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="tresonit-number">Tresonit Number:</label>
-                                <input type="text" class="form-control" id="tresonit-number" name="tresonit-number"
-                                    value="{{ $ticket->tresonit_number }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="datum-intake">Datum Intake:</label>
-                                <input type="text" class="form-control" id="datum-intake" name="datum-intake"
-                                    value="{{ $ticket->datum_intake }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="datuem-intake-2">Datuem Intake 2:</label>
-                                <input type="text" class="form-control" id="datuem-intake-2" name="datuem-intake-2"
-                                    value="{{ $ticket->datum_intake_2 }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="nd-account">ND Account:</label>
-                                <input type="text" class="form-control" id="nd-account" name="nd_account"
-                                    value="{{ $ticket->nd_account }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="avc-alfmvm-sbg">AvC/AlfmVm/SBG:</label>
-                                <input type="text" class="form-control" id="avc-alfmvm-sbg" name="avc-alfmvm-sbg"
-                                    value="{{ $ticket->avc_alfmvm_sbg }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="honos">Honos:</label>
-                                <input type="text" class="form-control" id="honos" name="honos"
-                                    value="{{ $ticket->honos }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="berha-intake">Berha Intake:</label>
-                                <input type="text" class="form-control" id="berha-intake" name="berha-intake"
-                                    value="{{ $ticket->berha_intake }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="strike-history">Strike History:</label>
-                                <textarea class="form-control" id="strike-history" rows="3" name="strike-history"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="ticket-history">Ticket History:</label>
-                                <textarea class="form-control" id="ticket-history" rows="3" name="ticket-history"></textarea>
+                        </div>
+                        <div class="form-group row">
+                            <label for="mono-multi-zd" class="col-5 text-right">Mono/Multi ZD:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="mono-multi-zd"
+                                    name="mono-multi-zd" value="{{ $ticket->mono_multi_zd }}">
                             </div>
                         </div>
-                        <!-- Second Column -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="select-department">Select Patient:</label>
-                                <select class="form-control" id="select-patient" name="select-patient">
+                        <div class="form-group row">
+                            <label for="mono-multi-screening" class="col-5 text-right">Mono/Multi Screening:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="mono-multi-screening"
+                                    name="mono-multi-screening" value="{{ $ticket->mono_multi_screening }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="intakes-therapist" class="col-5 text-right">Intakes/Therapist:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="intakes-therapist"
+                                    name="intakes-therapist" value="{{ $ticket->intake_or_therapist }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tresonit-number" class="col-5 text-right">Tresonit Number:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="tresonit-number"
+                                    name="tresonit-number" value="{{ $ticket->tresonit_number }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="datum-intake" class="col-5 text-right">Datum Intake:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="datum-intake"
+                                    name="datum-intake" value="{{ $ticket->datum_intake }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="datuem-intake-2" class="col-5 text-right">Datuem Intake 2:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="datuem-intake-2"
+                                    name="datuem-intake-2" value="{{ $ticket->datum_intake_2 }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nd-account" class="col-5 text-right">ND Account:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="nd-account" name="nd_account"
+                                    value="{{ $ticket->nd_account }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="avc-alfmvm-sbg" class="col-5 text-right">AvC/AlfmVm/SBG:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="avc-alfmvm-sbg"
+                                    name="avc-alfmvm-sbg" value="{{ $ticket->avc_alfmvm_sbg }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="honos" class="col-5 text-right">Honos:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="honos" name="honos"
+                                    value="{{ $ticket->honos }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="berha-intake" class="col-5 text-right">Berha Intake:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="berha-intake"
+                                    name="berha-intake" value="{{ $ticket->berha_intake }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="strike-history" class="col-5 text-right">Strike History:</label>
+                            <div class="col-7">
+                                <textarea class="form-control form-control-sm" id="strike-history" rows="3" name="strike-history"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ticket-history" class="col-5 text-right">Ticket History:</label>
+                            <div class="col-7">
+                                <textarea class="form-control form-control-sm" id="ticket-history" rows="3" name="ticket-history"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="select-department" class="col-5 text-right">Select Patient:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="select-patient" name="select-patient">
                                     <option value="">Select Patient</option>
                                     @foreach ($patients as $patient)
                                         <option value="{{ $patient->id }}"
@@ -119,13 +141,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @php
-                                $config = ['format' => 'DD-MM-YYYY'];
-                            @endphp
-                            <div class="form-group">
-                                <label for="rom-start">ROM Start:</label>
+                        </div>
+                        @php
+                            $config = ['format' => 'DD-MM-YYYY'];
+                        @endphp
+                        <div class="form-group row">
+                            <label for="rom-start" class="col-5 text-right">ROM Start:</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="rom-start" :config="$config" placeholder="Choose a date..."
-                                    id="rom-start" :value="$ticket->rom_start">
+                                    id="rom-start" :value="$ticket->rom_start" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -133,12 +157,14 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
+                        </div>
 
 
-                            <div class="form-group">
-                                <label for="rom-end">ROM End:</label>
+                        <div class="form-group row">
+                            <label for="rom-end" class="col-5 text-right">ROM End:</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="rom-end" :config="$config" placeholder="Choose a date..."
-                                    id="rom-end" :value="$ticket->rom_end">
+                                    id="rom-end" :value="$ticket->rom_end" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -146,11 +172,13 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="berha-eind">Berha Eind:</label>
+                        <div class="form-group row">
+                            <label for="berha-eind" class="col-5 text-right">Berha Eind:</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="berha-eind" :config="$config" placeholder="Choose a date..."
-                                    id="berha-eind" :value="$ticket->berha_end">
+                                    id="berha-eind" :value="$ticket->berha_end" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -158,12 +186,14 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
+                        </div>
 
 
-                            <div class="form-group">
-                                <label for="vtcb-date">VTCB Date:</label>
+                        <div class="form-group row">
+                            <label for="vtcb-date" class="col-5 text-right">VTCB Date:</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="vtcb-date" :config="$config" placeholder="Choose a date..."
-                                    id="vtcb-date" :value="$ticket->vtcb_date">
+                                    id="vtcb-date" :value="$ticket->vtcb_date" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -171,12 +201,14 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
+                        </div>
 
 
-                            <div class="form-group">
-                                <label for="closure">Closure:</label>
+                        <div class="form-group row">
+                            <label for="closure" class="col-5 text-right">Closure:</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="closure" :config="$config" placeholder="Choose a date..."
-                                    id="closure" :value="$ticket->closure">
+                                    id="closure" :value="$ticket->closure" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -184,11 +216,14 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="aanm-intake">Aanm Intake 1 (dagentussen):</label>
+                        <div class="form-group row">
+                            <label for="aanm-intake" class="col-5 text-right">Aanm Intake 1 (dagentussen):</label>
+                            <div class="col-7">
                                 <x-adminlte-input-date name="aanm-intake" :config="$config"
-                                    placeholder="Choose a date..." id="aanm-intake" :value="$ticket->aanm_intake_1">
+                                    placeholder="Choose a date..." id="aanm-intake" :value="$ticket->aanm_intake_1"
+                                    class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -196,14 +231,18 @@
                                     </x-slot>
                                 </x-adminlte-input-date>
                             </div>
-                            <div class="form-group">
-                                <label for="location">Location:</label>
-                                <input class="form-control" id="location" name="location"
+                        </div>
+                        <div class="form-group row">
+                            <label for="location" class="col-5 text-right">Location:</label>
+                            <div class="col-7">
+                                <input class="form-control form-control-sm" id="location" name="location"
                                     value="{{ $ticket->location }}">
                             </div>
-                            <div class="form-group">
-                                <label for="call-strike">Call Strike:</label>
-                                <select class="form-control" id="call-strike" name="call-strike">
+                        </div>
+                        <div class="form-group row">
+                            <label for="call-strike" class="col-5 text-right">Call Strike:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="call-strike" name="call-strike">
                                     <option value="">Select Strike</option>
                                     <option value="strike_1" {{ $ticket->call_strike == 'strike_1' ? 'selected' : '' }}>
                                         Strike 1</option>
@@ -213,33 +252,40 @@
                                         Strike 3</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="remarks">Remarks:</label>
-                                <input type="text" class="form-control" id="remarks" name="remarks"
+                        </div>
+                        <div class="form-group row">
+                            <label for="remarks" class="col-5 text-right">Remarks:</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="remarks" name="remarks"
                                     value="{{ $ticket->remarks }}">
                             </div>
-                            <div class="form-group">
-                                <label for="comments">Comments:</label>
-                                <input type="text" class="form-control" id="comments" name="comments">
-                            </div>
-                            <div class="form-group">
-                                <label for="language-treatment">Language Treatment:</label>
-                                <select class="form-control" id="language-treatment" name="language-treatment">
+                        </div>
+                        <div class="form-group row">
+                            <label for="comments" class="col-5 text-right">Comments:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="comments" name="comments"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="language-treatment" class="col-5 text-right">Language Treatment:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="language-treatment"
+                                    name="language-treatment">
                                     <option value="dutch" {{ $ticket->language == 'dutch' ? 'selected' : '' }}>Dutch
                                     </option>
                                     <option value="english" {{ $ticket->language == 'english' ? 'selected' : '' }}>English
                                     </option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="file">File:</label>
-                                <input type="file" class="form-control-file" id="file">
-                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="file" class="col-5 text-right">File:</label>
+                            <div class="col-7"><input type="file" class="form-control-file form-control-sm"
+                                    id="file"></div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
 
     </div>
