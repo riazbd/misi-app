@@ -7,8 +7,8 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <div class="container">
-        <h1>Screener</h1>
+    <div class="">
+        {{-- <h1>Screener</h1> --}}
 
         <div class="mt-2 datatable-container">
             <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify

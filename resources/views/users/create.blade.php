@@ -1,143 +1,94 @@
 @extends('adminlte::page')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="text-center">
+    <div class="p-5">
+        {{-- <div class="text-center">
             <h1>Create New User</h1>
-        </div>
+        </div> --}}
 
 
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-
-
-        {{-- {!! Form::open(['route' => 'users.store', 'method' => 'POST']) !!}
-        <div class="row mt-5">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Name:</strong>
-                    {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Password:</strong>
-                    {!! Form::password('password', ['placeholder' => 'Password', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Confirm Password:</strong>
-                    {!! Form::password('confirm-password', ['placeholder' => 'Confirm Password', 'class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="row">
-                    <div class="col-xs-4 col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <strong>Role:</strong>
-                            {!! Form::select('roles[]', $roles, [], ['class' => 'form-control', 'multiple']) !!}
-                        </div>
-                    </div>
-                    <div class="col-xs-4 col-sm-12 col-md-4 text-center align-self-center">
-                        <div class="d-flex flex-direction-row">
-                            <a class="btn btn-info mr-2" href="{{ route('users.index') }}"> Back</a>
-                            <button type="submit" class="btn btn-primary ml-2">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {!! Form::close() !!} --}}
-
-
-        <form action="{{ route('users.store') }}" method="POST" id="create-user-form">
+        <form action="{{ route('users.store') }}" method="POST" id="create-user-form" class="">
             @csrf
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="first_name">First Name:</label>
-                        <input type="text" id="first_name" class="form-control" name="first_name">
+            <div class="row justify-content-between">
+                <div class="col-md-5">
+                    <div class="form-group row">
+                        <label for="first_name" class="form-label col-4 text-right">First Name:</label>
+                        <div class="col-7"><input type="text" id="first_name" class="form-control" name="first_name"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="first_name">Email:</label>
-                        <input type="email" id="email" class="form-control" name="email">
+                    <div class="form-group row">
+                        <label for="first_name" class="form-label col-4 text-right">Email:</label>
+                        <div class="col-7"><input type="email" id="email" class="form-control" name="email"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="dob">Date of Birth:</label>
+                    <div class="form-group row">
+                        <label for="dob" class="form-label col-4 text-right">Date of Birth:</label>
                         @php
                             $config = ['format' => 'DD-MM-YYYY'];
                         @endphp
-                        <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
-                            id="dob">
-                            <x-slot name="appendSlot">
-                                <div class="input-group-text bg-gradient-primary">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                            </x-slot>
-                        </x-adminlte-input-date>
+                        <div class="col-7">
+                            <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
+                                id="dob">
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-gradient-primary">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input-date>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="status">Status:</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                    <div class="form-group row">
+                        <label for="status" class="form-label col-4 text-right">Status:</label>
+                        <div class="col-7">
+                            <select name="status" id="status" class="form-control">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" name="password" id="password" class="form-control">
+                    <div class="form-group row ">
+                        <label for="password" class="form-label col-4 text-right">Password:</label>
+                        <div class="col-7"><input type="password" name="password" id="password" class="form-control"></div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="last_name">Last Name:</label>
-                        <input type="text" id="last_name" class="form-control" name="last_name">
+                <div class="col-md-5">
+                    <div class="form-group row">
+                        <label for="last_name " class="form-label col-4 text-right">Last Name:</label>
+                        <div class="col-7"><input type="text" id="last_name" class="form-control" name="last_name"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="first_name">Phone:</label>
-                        <input type="text" id="phone" class="form-control" name="phone">
+                    <div class="form-group row">
+                        <label for="first_name" class="form-label col-4 text-right">Phone:</label>
+                        <div class="col-7"><input type="text" id="phone" class="form-control" name="phone"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="sex">Sex:</label>
-                        <select name="sex" id="sex" class="form-control">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
+                    <div class="form-group row">
+                        <label for="sex" class="form-label col-4 text-right">Sex:</label>
+                        <div class="col-7">
+                            <select name="sex" id="sex" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="marital_status">Marital status:</label>
-                        <select name="marital_status" id="marital_status" class="form-control">
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Divorceed">divorced</option>
-                        </select>
+                    <div class="form-group row">
+                        <label for="marital_status" class="form-label col-4 text-right">Marital status:</label>
+                        <div class="col-7">
+                            <select name="marital_status" id="marital_status" class="form-control">
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorceed">divorced</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="roles">Select Group:</label>
-                        <select class="form-control selectpicker" id="roles" name="roles[]" multiple
-                            data-live-search="true">
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->name }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="form-group row">
+                        <label for="roles" class="form-label col-4 text-right">Select Group:</label>
+                        <div class="col-7">
+                            <select class="form-control selectpicker" id="roles" name="roles[]" multiple
+                                data-live-search="true">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
 
