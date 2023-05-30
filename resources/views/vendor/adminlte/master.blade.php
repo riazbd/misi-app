@@ -28,6 +28,7 @@
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/mod.css') }}">
 
         @if (config('adminlte.google_fonts.allowed', true))
             <link rel="stylesheet"

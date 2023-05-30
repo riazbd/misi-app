@@ -1,0 +1,92 @@
+.content-wrapper>.content {
+    padding: 0;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+div.dt-buttons {
+    position: absolute !important;
+}
+
+.btn-group .btn {
+    border-radius: 0;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    padding-right: 2rem;
+}
+
+
+
+.nav-treeview>li.has-treeview>.nav-link {
+    padding-left: 1.8rem;
+}
+
+.nav-treeview>.nav-item>.nav-link {
+    padding-left: 2.5rem;
+}
+
+.nav-treeview>.nav-item>.nav-link:hover {
+    background-color: transparent !important;
+    color: #F79327;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link, [class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link, [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus {
+    background-color: transparent !important;
+    color: #F79327;
+}
+
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+    background-color: transparent !important;
+    color: #F79327;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
+    color: #F79327;
+    box-shadow: none;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: transparent !important;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.top-button {
+    background-color: #eee;
+    border: none;
+    padding: 15px 20px;
+    color: #6b6a6a;
+    clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%);
+}
+
+.top-button:hover {
+    background-color: #ddd;
+}
+
+.top-button:before {
+    content: "";
+    background: white;
+    height: 100%;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    /* transform: translate(-50%, -50%); */
+    clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%);
+  }
+
+
+  .go-back {
+    clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 0% 50%, 0% 0%);
+  }
+
+

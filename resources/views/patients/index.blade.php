@@ -1,29 +1,9 @@
 @extends('adminlte::page')
 @section('content')
-    {{-- <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Users Management</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
-            </div>
-        </div>
-    </div> --}}
 
-
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
-
-
-
-    <div class="container">
+    <div class="pt-5">
         <div class="text-center">
-            <h1>Patients Management</h1>
+            {{-- <h1>Patients Management</h1> --}}
         </div>
         <div class="pull-right mt-5">
             <a class="btn btn-success" href="{{ route('patients.create') }}"> Create New Patient</a>
@@ -48,7 +28,7 @@
 
 
         table.dataTable td, table.dataTable th {
-            padding: 10px 10px;
+            padding: 5px 5px;
             width: 1px;
             white-space: nowrap;
         }

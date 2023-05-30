@@ -2,13 +2,8 @@
 @section('content')
 
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-    <div class="container">
-        <h1>PIB</h1>
+    <div class="pt-5">
+        {{-- <h1>PIB</h1> --}}
 
         <div class="mt-2 datatable-container">
             <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
@@ -29,7 +24,7 @@
     <style>
         table.dataTable td,
         table.dataTable th {
-            padding: 10px 10px;
+            padding: 5px 5px;
             width: 1px;
             white-space: nowrap;
         }
