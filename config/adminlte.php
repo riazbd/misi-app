@@ -318,12 +318,12 @@ return [
         [
             'text' => 'Dashboard',
             'url'  => 'home',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
         ],
 
         [
             'text' => 'Patients',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-hospital-user',
             'submenu' => [
                 [
                     'text' => 'Create Patient',
@@ -339,7 +339,7 @@ return [
         ],
         [
             'text' => 'Therapists',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-user-md',
             'submenu' => [
                 [
                     'text' => 'Create Therapist',
@@ -355,7 +355,7 @@ return [
         ],
         [
             'text' => 'Tickets',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-ticket-alt',
             'submenu' => [
                 [
                     'text' => 'Create Ticket',
@@ -371,7 +371,7 @@ return [
         ],
         [
             'text' => 'Ticket Groups',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-users-cog',
 
             'submenu' => [
                 [
@@ -451,7 +451,7 @@ return [
                 [
                     'text' => 'Roles',
                     'url'  => 'roles',
-                    'icon' => 'fas fa-fw fa-user',
+                    'icon' => 'fas fa-fw fa-tags',
                     'pull-right' => true,
                 ],
                 // [

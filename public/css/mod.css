@@ -1,3 +1,13 @@
+body{
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+
 .content-wrapper>.content {
     padding: 0;
 }
@@ -48,11 +58,30 @@ div.dataTables_wrapper div.dataTables_filter {
 [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link.active {
     color: #F79327;
     box-shadow: none;
+    background-color: transparent !important;
 }
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
     background-color: transparent !important;
+    color: #F79327;
 }
+
+.nav-item.menu-open {
+    background-color: transparent !important;
+}
+
+.nav-item.menu-open>.nav-link {
+    background-color: transparent !important;
+}
+
+.menu-is-opening>.nav-link {
+    background-color: transparent !important;
+}
+
+/* .nav-item {
+    text-transform: uppercase;
+} */
+
 
 .sticky-top {
     position: sticky;
@@ -89,4 +118,28 @@ div.dataTables_wrapper div.dataTables_filter {
     clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 0% 50%, 0% 0%);
   }
 
+  [class*=sidebar-dark-] {
+    /* background-color: #282C77; */
+    background-color: #374259;
+}
+
+/* .main-sidebar, .main-sidebar::before {
+    transition: margin-left .3s ease-in-out,width .3s ease-in-out;
+    width: 300px;
+}
+
+.sidebar-mini .main-sidebar .nav-link, .sidebar-mini-md .main-sidebar .nav-link, .sidebar-mini-xs .main-sidebar .nav-link {
+    width: calc(300px - 0.5rem * 2);
+    transition: width ease-in-out .3s;
+}
+
+
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 300px;
+    }
+} */
 
