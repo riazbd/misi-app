@@ -342,6 +342,7 @@
                 $('select[name="select-status"] option').removeAttr('disabled');
                 $('select[name="select-patient"]').removeAttr('disabled');
                 $('#update-ticket-form').submit()
+                $('select[name="select-patient"]').attr('disabled', 'disabled');
             });
             $('#update-ticket-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
