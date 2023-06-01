@@ -273,6 +273,7 @@ class TicketController extends Controller
         if ($record) {
             // Update the assigned_to value with the provided assignedTo value
             $record->assigned_staff = $assignedTo;
+            $record->status = 'onhold';
             $record->save();
 
             return response()->json(['message' => 'Assigned To updated successfully'], 200);
