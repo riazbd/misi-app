@@ -108,7 +108,7 @@ class PibController extends Controller
      */
     public function show($id)
     {
-        $roles = ['pit', 'heranmelding'];
+        $roles = ['screener', 'pib', 'pit', 'heranmelding', 'yes approval', 'no approval', 'vtcb',  'appointment'];
         $therapists = Therapist::all();
         $matchingRoles = Role::whereIn('name', $roles)->get();
         // $screener = Role::where('name', 'screener')->first();
@@ -142,7 +142,39 @@ class PibController extends Controller
 
         try {
             $ticket = Ticket::where('id', $id)->first();
+
+            if ($data['select-status'] == 'onhold' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'in_progress' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'open' && $data['select-department'] == '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-department'] != $ticket->department_id) {
+                $ticket->status = 'open';
+            }
+
+            if ($data['assign-to'] == '') {
+                $ticket->status = 'open';
+            }
+
+            // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
+            //     $ticket->status = $data['select-status'];
+            // }
+
+
             $ticket->department_id = $data['select-department'];
+
+            if ($ticket->department_id != null && $data['assign-to'] != '') {
+                $ticket->assigned_staff = $data['assign-to'];
+            } else {
+                $ticket->assigned_staff = null;
+            }
             $ticket->patient_id = $data['select-patient'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];

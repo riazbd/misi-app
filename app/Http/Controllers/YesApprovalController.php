@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
-class PitController extends Controller
+class YesApprovalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class PitController extends Controller
      */
     public function index()
     {
-        $pitId = Role::where('name', 'pit')->first()->id;
+        $pitId = Role::where('name', 'yes approval')->first()->id;
         $tickets = Ticket::where('department_id', $pitId)->get();
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
@@ -62,9 +62,9 @@ class PitController extends Controller
             $items = [];
 
             array_push($items, '<nobr>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pit.destroy', ['pit' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('yes-approvals.destroy', ['yes-approval' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pit.show', ['pit' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('yes-approvals.show', ['yes-approval' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', $ticket->id, $assigned, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
             array_push($data, $items);
@@ -76,7 +76,7 @@ class PitController extends Controller
 
         ];
 
-        return view('pit.index', compact('heads', 'config'));
+        return view('yesapproval.index', compact('heads', 'config'));
     }
 
     /**
@@ -115,7 +115,7 @@ class PitController extends Controller
         $patients = Patient::all();
         $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket'));
+        return view('yesapproval.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket'));
     }
 
     /**

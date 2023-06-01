@@ -18,9 +18,12 @@
         {{-- <h1 class="text-align-center">Ticket Information</h1> --}}
 
         <div class="">
-            <form method="POST" action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" id="update-ticket-form">
+            <form method="POST" action="{{ route('yes-approvals.update', ['yes-approval' => $ticketId]) }}"
+                id="update-ticket-form">
+
                 @csrf
-                <div class="row justify-content-between">
+                @method('PUT')
+                <div class="row">
                     <!-- First Column -->
                     <div class="col-md-6">
                         <div class="form-group row">
@@ -42,6 +45,24 @@
                                 <select class="form-control form-control-sm" id="assign-to" name="assign-to">
                                     <option value="">Select Staff</option>
 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="select-therapists" class="col-5 text-right">Suggest Therapists:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm selectpicker" id="select-therapists"
+                                    name="suggest-therapists[]" multiple data-live-search="true">
+                                    @foreach ($therapists as $therapist)
+                                        @php
+                                            $therapistId = $therapist->id;
+                                            $suggested_array = json_decode($ticket->suggested_therapists) ?? [];
+                                            $isSelected = in_array($therapistId, $suggested_array);
+                                        @endphp
+                                        <option value="{{ $therapist->id }}" {{ $isSelected ? 'selected' : '' }}>
+                                            {{ $therapist->user()->first()->first_name }}
+                                            {{ $therapist->user()->first()->last_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -101,7 +122,7 @@
                                     name="avc-alfmvm-sbg" value="{{ $ticket->avc_alfmvm_sbg }}">
                             </div>
                         </div>
-                        <div class="form-group row" class="col-5 text-right">
+                        <div class="form-group row">
                             <label for="honos" class="col-5 text-right">Honos:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="honos" name="honos"
@@ -118,13 +139,13 @@
                         <div class="form-group row">
                             <label for="strike-history" class="col-5 text-right">Strike History:</label>
                             <div class="col-7">
-                                <textarea class="form-control form-control-sm" id="strike-history" rows="3" name="strike-history">{{ $ticket->strike_history }}</textarea>
+                                <textarea class="form-control form-control-sm" id="strike-history" rows="3" name="strike-history"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ticket-history" class="col-5 text-right">Ticket History:</label>
                             <div class="col-7">
-                                <textarea class="form-control form-control-sm" id="ticket-history" rows="3" name="ticket-history">{{ $ticket->ticket_history }}</textarea>
+                                <textarea class="form-control form-control-sm" id="ticket-history" rows="3" name="ticket-history"></textarea>
                             </div>
                         </div>
                     </div>
@@ -263,11 +284,11 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="select-status" class="col-5 text-right">Call Strike:</label>
+                            <label for="select-status" class="col-5 text-right">Status:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
-                                    <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>
+                                    <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
                                         Open</option>
                                     <option value="onhold" {{ $ticket->call_strike == 'onhold' ? 'selected' : '' }}>
                                         On hold</option>
@@ -275,7 +296,7 @@
                                         {{ $ticket->call_strike == 'in_progress' ? 'selected' : '' }}>
                                         In progess</option>
                                     {{-- <option value="work_finished"
-                                        {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }}>
+                                        {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
                                         Work Finished</option> --}}
                                     <option value="cancelled" {{ $ticket->call_strike == 'cancelled' ? 'selected' : '' }}
                                         disabled>
@@ -283,7 +304,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="comments" class="col-5 text-right">Comments:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
@@ -294,7 +314,6 @@
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="language-treatment"
                                     name="language-treatment">
-                                    <option value="">Select Language</option>
                                     <option value="dutch" {{ $ticket->language == 'dutch' ? 'selected' : '' }}>Dutch
                                     </option>
                                     <option value="english" {{ $ticket->language == 'english' ? 'selected' : '' }}>English
@@ -325,11 +344,11 @@
             var defaultRole = $('#select-department').val();
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
+
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('#update-ticket-form').submit()
             });
             $('#update-ticket-form').submit(function(event) {
-
                 event.preventDefault(); // Prevent form submission
 
                 var formData = $(this).serialize(); // Serialize form data
@@ -337,7 +356,7 @@
 
                 $.ajax({
                     url: $(this).attr('action'),
-                    type: 'PUT',
+                    type: 'POST',
                     data: formData,
                     success: function(response) {
                         // Handle success response
@@ -351,6 +370,10 @@
                     }
                 });
             });
+
+            // var assignToSelect = $('#assign-to');
+
+            // var defaultRole = $('#select-department').val();
 
             getUsers(defaultRole)
 

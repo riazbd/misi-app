@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
-use App\Models\Therapist;
 use App\Models\Ticket;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
-class PitController extends Controller
+class VtcbController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +19,9 @@ class PitController extends Controller
      */
     public function index()
     {
-        $pitId = Role::where('name', 'pit')->first()->id;
-        $tickets = Ticket::where('department_id', $pitId)->get();
+        $screenerId = Role::where('name', 'vtcb')->first()->id;
+        // dd($screenerId);
+        $tickets = Ticket::where('department_id', $screenerId)->get();
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -52,6 +53,7 @@ class PitController extends Controller
         $data = [];
 
         foreach ($tickets as $ticket) {
+            // dd($ticket->patient()->first()->id);
             if ($ticket->assigned_staff === null) {
                 $assigned = '<span class="d-inline-block badge badge-warning badge-pill badge-lg assign-me" data-row-id="' . $ticket->id . '" style="cursor: pointer">Assign to Me</span>';
             } elseif ($ticket->assigned_staff == Auth::user()->id) {
@@ -59,12 +61,16 @@ class PitController extends Controller
             } else {
                 $assigned = $ticket->assigned_staff;
             }
+
             $items = [];
 
+            // '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('screening.edit', ['screening' => $ticket->id]) . '">
+            //             <i class="fa fa-lg fa-fw fa-pen"></i>'
+
             array_push($items, '<nobr>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pit.destroy', ['pit' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('vtcbs.destroy', ['vtcb' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pit.show', ['pit' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('vtcbs.show', ['vtcb' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', $ticket->id, $assigned, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
             array_push($data, $items);
@@ -76,7 +82,7 @@ class PitController extends Controller
 
         ];
 
-        return view('pit.index', compact('heads', 'config'));
+        return view('vtcb.index', compact('heads', 'config'));
     }
 
     /**
@@ -109,13 +115,14 @@ class PitController extends Controller
     public function show($id)
     {
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'yes approval', 'no approval', 'vtcb',  'appointment'];
-        $therapists = Therapist::all();
         $matchingRoles = Role::whereIn('name', $roles)->get();
+        // $staffs = User::role('admin')->get();
+        // dd($staffs);
         // $screener = Role::where('name', 'screener')->first();
         $patients = Patient::all();
-        $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket'));
+        $screening = $id;
+        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket'));
     }
 
     /**
@@ -175,6 +182,7 @@ class PitController extends Controller
             } else {
                 $ticket->assigned_staff = null;
             }
+
             $ticket->patient_id = $data['select-patient'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
@@ -204,10 +212,6 @@ class PitController extends Controller
             $ticket->call_strike = $data['call-strike'];
             $ticket->remarks = $data['remarks'];
             $ticket->comment = $data['comments'];
-            if (array_key_exists('suggest-therapists', $data)) {
-                $suggestedTherapists = $data['suggest-therapists'];
-                $ticket->suggested_therapists = $suggestedTherapists;
-            }
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
@@ -225,8 +229,8 @@ class PitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($role)
     {
-        //
+        $staffs = User::role($role)->get();
     }
 }

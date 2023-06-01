@@ -107,6 +107,7 @@ class TicketController extends Controller
             $ticket->nd_account = $data['nd_account'];
             $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
             $ticket->honos = $data['honos'];
+            $ticket->status = 'open';
             $ticket->berha_intake = $data['berha-intake'];
             $ticket->strike_history = $data['strike-history'];
             $ticket->ticket_history = $data['ticket-history'];
@@ -172,7 +173,81 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        try {
+            $ticket = Ticket::where('id', $id)->first();
+
+            if ($data['select-status'] == 'onhold' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'in_progress' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'open' && $data['select-department'] == '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-department'] != $ticket->department_id) {
+                $ticket->status = 'open';
+            }
+
+            if ($data['assign-to'] == '') {
+                $ticket->status = 'open';
+            }
+
+            // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
+            //     $ticket->status = $data['select-status'];
+            // }
+
+
+            $ticket->department_id = $data['select-department'];
+
+            if ($ticket->department_id != null && $data['assign-to'] != '') {
+                $ticket->assigned_staff = $data['assign-to'];
+            } else {
+                $ticket->assigned_staff = null;
+            }
+            $ticket->patient_id = $data['select-patient'];
+            $ticket->mono_multi_zd = $data['mono-multi-zd'];
+            $ticket->mono_multi_screening = $data['mono-multi-screening'];
+            $ticket->intake_or_therapist = $data['intakes-therapist'];
+            $ticket->tresonit_number = $data['tresonit-number'];
+            $ticket->datum_intake = $data['datum-intake'];
+            $ticket->datum_intake_2 = $data['datuem-intake-2'];
+            $ticket->nd_account = $data['nd_account'];
+            $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
+            $ticket->honos = $data['honos'];
+            $ticket->berha_intake = $data['berha-intake'];
+            $ticket->strike_history = $data['strike-history'];
+            $ticket->ticket_history = $data['ticket-history'];
+            // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
+            // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
+            // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
+            // $ticket->vtcb_date = Carbon::createFromFormat('d/m/Y', $data['vtcb-date'])->format('Y-m-d');
+            // $ticket->closure = Carbon::createFromFormat('d/m/Y', $data['closure'])->format('Y-m-d');
+            // $ticket->aanm_intake_1 = Carbon::createFromFormat('d/m/Y', $data['aanm-intake'])->format('Y-m-d');
+            $ticket->rom_start =  $data['rom-start'];
+            $ticket->rom_end = $data['rom-end'];
+            $ticket->berha_end = $data['berha-eind'];
+            $ticket->vtcb_date = $data['vtcb-date'];
+            $ticket->closure = $data['closure'];
+            $ticket->aanm_intake_1 = $data['aanm-intake'];
+            $ticket->location = $data['location'];
+            $ticket->call_strike = $data['call-strike'];
+            $ticket->remarks = $data['remarks'];
+            $ticket->comment = $data['comments'];
+            $ticket->language = $data['language-treatment'];
+            // $ticket->files = $data[''];
+
+            $ticket->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

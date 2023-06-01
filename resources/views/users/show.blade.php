@@ -66,8 +66,9 @@
         {!! Form::close() !!} --}}
 
 
-        <form action="{{ route('users.store') }}" method="POST" id="create-user-form">
+        <form action="{{ route('users.update', ['user' => $user->id]) }}" method="POST" id="create-user-form">
             @csrf
+            @method('PUT')
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -182,7 +183,7 @@
 
                 $.ajax({
                     url: $(this).attr('action'),
-                    type: 'POST',
+                    type: 'PUT',
                     data: formData,
                     success: function(response) {
                         // Handle success response

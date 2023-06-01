@@ -39,6 +39,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="assign-to" class="col-5 text-right">Assign To:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="assign-to" name="assign-to">
+                                    <option value="">Select Staff</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="select-therapists" class="col-5 text-right">Suggest Therapists:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm selectpicker" id="select-therapists"
@@ -274,6 +283,27 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="select-status" class="col-5 text-right">Status:</label>
+                            <div class="col-7">
+                                <select class="form-control form-control-sm" id="select-status" name="select-status">
+                                    <option value="">Select Status</option>
+                                    <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
+                                        Open</option>
+                                    <option value="onhold" {{ $ticket->call_strike == 'onhold' ? 'selected' : '' }}>
+                                        On hold</option>
+                                    <option value="in_progress"
+                                        {{ $ticket->call_strike == 'in_progress' ? 'selected' : '' }}>
+                                        In progess</option>
+                                    {{-- <option value="work_finished"
+                                        {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
+                                        Work Finished</option> --}}
+                                    <option value="cancelled" {{ $ticket->call_strike == 'cancelled' ? 'selected' : '' }}
+                                        disabled>
+                                        Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="comments" class="col-5 text-right">Comments:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="comments" name="comments"></div>
@@ -308,10 +338,14 @@
     <script>
         // submit form
         $(document).ready(function() {
+            var assignToSelect = $('#assign-to');
+
+            var defaultRole = $('#select-department').val();
+
+            var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
+
             document.getElementById('top-submit-button').addEventListener('click', function() {
-
-                $('#update-ticket-form').submit();
-
+                $('#update-ticket-form').submit()
             });
             $('#update-ticket-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
@@ -335,21 +369,54 @@
                     }
                 });
             });
-        });
 
-        $('#suggest-therapists').on('change', function() {
-            var selectedOptions = $(this).val();
-            var maxSelections = 3;
+            // var assignToSelect = $('#assign-to');
 
-            if (selectedOptions.length >= maxSelections) {
-                // Disable remaining options when the maximum limit is reached
-                $(this).find('option:not(:selected)').prop('disabled', true);
-            } else {
-                // Enable all options when the selection count is below the limit
-                $(this).find('option').prop('disabled', false);
+            // var defaultRole = $('#select-department').val();
+
+            getUsers(defaultRole)
+
+            function getUsers(roleVal) {
+                $.ajax({
+                    url: '/get-role-users', // Replace with your Laravel route
+                    type: 'GET',
+                    data: {
+                        role: roleVal
+                    },
+                    success: function(response) {
+                        // Populate the "Assign To" select input with the retrieved users
+                        $.each(response.users, function(index, user) {
+                            var option = $('<option></option>').text(user.first_name).val(user
+                                .id);
+
+
+
+                            // Check if the user ID matches the "Assign To" value
+                            if (user.id == assignedStaff) {
+                                option.prop('selected', true);
+                            }
+
+                            assignToSelect.append(option);
+                        });
+
+                        console.log(response.users)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
             }
 
-            $(this).selectpicker('refresh');
+
+
+            // Handle the change event of the "Roles" select input
+            $('#select-department').on('change', function() {
+                var selectedRole = $(this).val();
+
+                getUsers(selectedRole)
+
+
+            });
         });
     </script>
 @stop

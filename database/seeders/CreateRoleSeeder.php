@@ -19,6 +19,8 @@ class CreateRoleSeeder extends Seeder
         Role::create(['name' => 'screener']);
         Role::create(['name' => 'pib']);
         Role::create(['name' => 'pit']);
+        Role::create(['name' => 'yes approval']);
+        Role::create(['name' => 'no approval']);
         Role::create(['name' => 'heranmelding']);
         Role::create(['name' => 'appointment']);
         Role::create(['name' => 'vtcb']);

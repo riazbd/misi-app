@@ -42,6 +42,7 @@ class TicketFactory extends Factory
             'location' => $this->faker->word,
             'call_strike' => $this->faker->word,
             'remarks' => $this->faker->word,
+            'status' => 'open',
             'comment' => $this->faker->word,
             'language' => $this->faker->word,
             // 'status' => $this->faker->word,

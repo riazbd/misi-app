@@ -409,6 +409,29 @@ return [
                     ]
                 ],
                 [
+                    'text' => 'Yes Approval Group',
+                    'icon' => 'fas fa-fw fa-home',
+                    'submenu' => [
+                        [
+                            'text' => 'Yes Approval Ticket List',
+                            'icon' => 'fas fa-fw fa-home',
+                            'url' => '/yes-approvals'
+                        ]
+                    ]
+                ],
+                [
+                    'text' => 'No Approval Group',
+                    'icon' => 'fas fa-fw fa-home',
+                    'submenu' => [
+                        [
+                            'text' => 'NO Approval Ticket List',
+                            'icon' => 'fas fa-fw fa-home',
+                            'url' => '/no-approvals'
+                        ]
+                    ]
+                ],
+
+                [
                     'text' => 'Heranmelding Group',
                     'icon' => 'fas fa-fw fa-home',
                     'submenu' => [
@@ -416,6 +439,17 @@ return [
                             'text' => 'Heranmenlding Ticket List',
                             'icon' => 'fas fa-fw fa-home',
                             'url' => '/heranmelding'
+                        ]
+                    ]
+                ],
+                [
+                    'text' => 'VTCB Group',
+                    'icon' => 'fas fa-fw fa-home',
+                    'submenu' => [
+                        [
+                            'text' => 'VTCB Ticket List',
+                            'icon' => 'fas fa-fw fa-home',
+                            'url' => '/vtcbs'
                         ]
                     ]
                 ],

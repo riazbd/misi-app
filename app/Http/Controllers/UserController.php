@@ -147,28 +147,67 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:users,email,' . $id,
+        //     'password' => 'same:confirm-password',
+        //     'roles' => 'required'
+        // ]);
 
-        $input = $request->all();
-        if (!empty($input['password'])) {
-            $input['password'] = Hash::make($input['password']);
-        } else {
-            $input = Arr::except($input, array('password'));
+        // $input = $request->all();
+        // if (!empty($input['password'])) {
+        //     $input['password'] = Hash::make($input['password']);
+        // } else {
+        //     $input = Arr::except($input, array('password'));
+        // }
+
+        // $user = User::find($id);
+        // $user->update($input);
+        // DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        // $user->assignRole($request->input('roles'));
+
+        // return redirect()->route('users.index')
+        //     ->with('success', 'User updated successfully');
+
+        try {
+            // $this->validate($request, [
+            //     'first_name' => 'required',
+            //     'last_name' => 'required',
+            //     'email' => 'required|email|unique:users,email',
+            //     'password' => 'required|same:confirm-password',
+            //     'roles' => 'required'
+            // ]);
+
+            $user = User::where('id', $id)->first();
+
+            $input = $request->all();
+            if ($input['password'] != '') {
+                $input['password'] = Hash::make($input['password']);
+                $user->password = $input['password'];
+            }
+
+            // $user = User::create($input);
+            // $user->assignRole($request->input('roles'));
+
+            $user->first_name = $input['first_name'];
+            $user->last_name = $input['last_name'];
+            $user->email = $input['email'];
+
+            $user->marital_status = $input['marital_status'];
+            $user->sex = $input['sex'];
+            $user->date_of_birth = $input['dob'];
+            // $user->first_name = $input['first-name'];
+
+            $roles = $request->input('roles', []); // Get the selected roles from the request
+            $user->syncRoles($roles);
+
+            $user->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
         }
-
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id', $id)->delete();
-
-        $user->assignRole($request->input('roles'));
-
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
     }
 
     /**

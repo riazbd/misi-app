@@ -7,9 +7,12 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HeranmeldingController;
+use App\Http\Controllers\NoApprovalController;
 use App\Http\Controllers\PibController;
 use App\Http\Controllers\PitController;
 use App\Http\Controllers\ScreeningController;
+use App\Http\Controllers\VtcbController;
+use App\Http\Controllers\YesApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('pib', PibController::class);
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);
+    Route::resource('yes-approvals', YesApprovalController::class);
+    Route::resource('no-approvals', NoApprovalController::class);
+    Route::resource('vtcbs', VtcbController::class);
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
     Route::get('/get-role-users', 'App\Http\Controllers\TicketController@getUsersByRole');
 });
