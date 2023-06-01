@@ -164,6 +164,10 @@ class HeranmeldingController extends Controller
                 $ticket->status = 'open';
             }
 
+            if ($data['assign-to'] != '' && $ticket->assigned_staff != $data['assign-to']) {
+                $ticket->status = 'onhold';
+            }
+
             // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
             //     $ticket->status = $data['select-status'];
             // }
