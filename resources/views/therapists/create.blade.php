@@ -1,7 +1,19 @@
 @extends('adminlte::page')
 
 @section('content')
+    <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
+        style="min-height: 10px; background-color: #fff;">
+        <div>
+            <div class="d-flex flex-direction-row button-container">
+                <button class="top-button go-back">Go Back</button>
+                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
 
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
     <div class="p-5">
         {{-- <h1>Therapist Management</h1> --}}
         <div class="">
@@ -59,7 +71,7 @@
                             @endphp
                             <div class="col-7">
                                 <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
-                                    id="dob" onchange="calculateAge()" class="form-control-sm">
+                                    id="dob" class="form-control-sm">
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -190,7 +202,7 @@
 
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
             </form>
 
         </div>
@@ -224,6 +236,9 @@
 
         // submit form
         $(document).ready(function() {
+            document.getElementById('top-submit-button').addEventListener('click', function() {
+                $('#create-therapist-form').submit()
+            });
             $('#create-therapist-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
 

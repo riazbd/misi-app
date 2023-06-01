@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -202,5 +203,21 @@ class TicketController extends Controller
         }
 
         // return response()->json(['message' => 'Record not found'], 404);
+    }
+
+    public function getUsersByRole(Request $request)
+    {
+        try {
+            $role = $request->input('role');
+
+            $roleName = Role::where('id', $role)->first()->name;
+
+            // Retrieve the users based on the selected role
+            $users = User::role($roleName)->get();
+
+            return response()->json(['users' => $users]);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 }

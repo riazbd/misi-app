@@ -41,4 +41,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
+    Route::get('/get-role-users', 'App\Http\Controllers\TicketController@getUsersByRole');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -115,6 +116,8 @@ class ScreeningController extends Controller
     {
         $roles = ['pib', 'pit', 'heranmelding', 'appointment'];
         $matchingRoles = Role::whereIn('name', $roles)->get();
+        // $staffs = User::role('admin')->get();
+        // dd($staffs);
         // $screener = Role::where('name', 'screener')->first();
         $patients = Patient::all();
         $ticket = Ticket::where('id', $id)->first();
@@ -193,8 +196,8 @@ class ScreeningController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($role)
     {
-        //
+        $staffs = User::role($role)->get();
     }
 }

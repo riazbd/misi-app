@@ -1,6 +1,19 @@
 @extends('adminlte::page')
 
 @section('content')
+    <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
+        style="min-height: 10px; background-color: #fff;">
+        <div>
+            <div class="d-flex flex-direction-row button-container">
+                <button class="top-button go-back">Go Back</button>
+                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
     <div class="p-5">
         {{-- <h1 class="text-align-center">Ticket Information</h1> --}}
 
@@ -283,7 +296,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
             </form>
         </div>
 
@@ -295,6 +308,9 @@
     <script>
         // submit form
         $(document).ready(function() {
+            document.getElementById('top-submit-button').addEventListener('click', function() {
+                $('#update-ticket-form').submit()
+            });
             $('#update-ticket-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
 
