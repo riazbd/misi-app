@@ -3,7 +3,6 @@
 
 
     <div class="pt-5">
-        {{-- <h1>PIB</h1> --}}
 
         <div class="mt-2 datatable-container">
             <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify

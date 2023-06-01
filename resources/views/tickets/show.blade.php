@@ -326,6 +326,7 @@
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
             document.getElementById('top-submit-button').addEventListener('click', function() {
+                $('select[name="select-status"] option').removeAttr('disabled');
                 $('#update-ticket-form').submit()
             });
             $('#update-ticket-form').submit(function(event) {
