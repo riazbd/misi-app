@@ -18,7 +18,7 @@
         {{-- <h1 class="text-align-center">Ticket Information</h1> --}}
 
         <div class="">
-            <form method="POST" action="{{ route('yes-approvals.update', ['yes-approval' => $ticketId]) }}"
+            <form method="POST" action="{{ route('yes-approvals.update', ['yes_approval' => $ticketId]) }}"
                 id="update-ticket-form">
 
                 @csrf
