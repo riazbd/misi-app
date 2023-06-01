@@ -289,15 +289,14 @@
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
                                         Open</option>
-                                    <option value="onhold" {{ $ticket->call_strike == 'onhold' ? 'selected' : '' }}>
+                                    <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
                                         On hold</option>
-                                    <option value="in_progress"
-                                        {{ $ticket->call_strike == 'in_progress' ? 'selected' : '' }}>
+                                    <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
                                         In progess</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
                                         Work Finished</option> --}}
-                                    <option value="cancelled" {{ $ticket->call_strike == 'cancelled' ? 'selected' : '' }}
+                                    <option value="cancelled" {{ $ticket->status == 'cancelled' ? 'selected' : '' }}
                                         disabled>
                                         Cancelled</option>
                                 </select>
