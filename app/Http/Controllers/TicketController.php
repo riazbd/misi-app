@@ -289,10 +289,14 @@ class TicketController extends Controller
 
             $roleName = Role::where('id', $role)->first()->name;
 
+            $admin = User::role('admin')->get();
+
             // Retrieve the users based on the selected role
             $users = User::role($roleName)->get();
 
-            return response()->json(['users' => $users]);
+            $newUsers = array_merge($users->toArray(), $admin->toArray());
+
+            return response()->json(['users' => $newUsers]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }

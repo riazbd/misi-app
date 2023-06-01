@@ -393,6 +393,7 @@
                             }
 
                             assignToSelect.append(option);
+
                         });
 
                         console.log(response.users)
