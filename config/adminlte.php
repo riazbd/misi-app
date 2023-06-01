@@ -327,12 +327,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create Patient',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/patients/create'
                 ],
                 [
                     'text' => 'Patients List',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/patients'
                 ]
             ]
@@ -343,12 +343,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create Therapist',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/therapists/create'
                 ],
                 [
                     'text' => 'Therapists List',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/therapists'
                 ]
             ]
@@ -359,12 +359,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create Ticket',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/tickets/create'
                 ],
                 [
                     'text' => 'Ticket List',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/tickets'
                 ]
             ]
@@ -376,56 +376,56 @@ return [
             'submenu' => [
                 [
                     'text' => 'Screener Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
 
                         [
                             'text' => 'Screener Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/screening'
                         ]
                     ]
                 ],
                 [
                     'text' => 'PiB Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'PiB Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/pib'
                         ]
                     ]
                 ],
                 [
                     'text' => 'PiT Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'PiT Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/pit'
                         ]
                     ]
                 ],
                 [
                     'text' => 'Yes Approval Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'Yes Approval Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/yes-approvals'
                         ]
                     ]
                 ],
                 [
                     'text' => 'No Approval Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'NO Approval Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/no-approvals'
                         ]
                     ]
@@ -433,35 +433,35 @@ return [
 
                 [
                     'text' => 'Heranmelding Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'Heranmenlding Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/heranmelding'
                         ]
                     ]
                 ],
                 [
                     'text' => 'VTCB Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'submenu' => [
                         [
                             'text' => 'VTCB Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/vtcbs'
                         ]
                     ]
                 ],
                 [
                     'text' => 'Appointment Group',
-                    'icon' => 'fas fa-fw fa-home',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'classes' => 'treeview',
                     'submenu' => [
 
                         [
                             'text' => 'Appointment Ticket List',
-                            'icon' => 'fas fa-fw fa-home',
+                            'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '#',
                         ]
                     ]

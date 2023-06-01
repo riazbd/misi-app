@@ -108,7 +108,7 @@
                             <label for="honos" class="col-5 text-right">Honos:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="honos" name="honos"
-                                    value="{{ $ticket->honos }}">
+                                    value="{{ $ticket->honos }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -137,7 +137,7 @@
                             <label for="select-department" class="col-5 text-right">Select Patient:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-patient" name="select-patient"
-                                    readonly>
+                                    disabled>
                                     <option value="">Select Patient</option>
                                     @foreach ($patients as $patient)
                                         <option value="{{ $patient->id }}"
@@ -330,8 +330,17 @@
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
 
+            $('#rom-start').prop('readonly', true);
+            $('#rom-end').prop('readonly', true);
+            $('#berha-eind').prop('readonly', true);
+            $('#vtcb-date').prop('readonly', true);
+            $('#closure').prop('readonly', true);
+            $('#aanm-intake').prop('readonly', true);
+
             document.getElementById('top-submit-button').addEventListener('click', function() {
+
                 $('select[name="select-status"] option').removeAttr('disabled');
+                $('select[name="select-patient"]').removeAttr('disabled');
                 $('#update-ticket-form').submit()
             });
             $('#update-ticket-form').submit(function(event) {

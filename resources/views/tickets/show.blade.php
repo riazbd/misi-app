@@ -115,7 +115,7 @@
                                     name="berha-intake" value="{{ $ticket->berha_intake }}">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="strike-history" class="col-5 text-right">Strike History:</label>
                             <div class="col-7">
                                 <textarea class="form-control form-control-sm" id="strike-history" rows="3" name="strike-history">{{ $ticket->strike_history }}</textarea>
@@ -126,7 +126,7 @@
                             <div class="col-7">
                                 <textarea class="form-control form-control-sm" id="ticket-history" rows="3" name="ticket-history">{{ $ticket->ticket_history }}</textarea>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- Second Column -->
                     <div class="col-md-6">

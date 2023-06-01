@@ -110,8 +110,8 @@ class TicketController extends Controller
             $ticket->honos = $data['honos'];
             $ticket->status = 'open';
             $ticket->berha_intake = $data['berha-intake'];
-            $ticket->strike_history = $data['strike-history'];
-            $ticket->ticket_history = $data['ticket-history'];
+            // $ticket->strike_history = $data['strike-history'];
+            // $ticket->ticket_history = $data['ticket-history'];
             // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
             // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
             // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
@@ -222,8 +222,8 @@ class TicketController extends Controller
             $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
             $ticket->honos = $data['honos'];
             $ticket->berha_intake = $data['berha-intake'];
-            $ticket->strike_history = $data['strike-history'];
-            $ticket->ticket_history = $data['ticket-history'];
+            // $ticket->strike_history = $data['strike-history'];
+            // $ticket->ticket_history = $data['ticket-history'];
             // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
             // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
             // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
