@@ -23,4 +23,9 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function histories()
+    {
+        return $this->hasMany('App\Models\TicketHistory');
+    }
 }

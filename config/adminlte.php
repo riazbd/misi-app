@@ -366,6 +366,11 @@ return [
                     'text' => 'Ticket List',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/tickets'
+                ],
+                [
+                    'text' => 'Cancelled Tickets',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                    'url' => '/cancelled-tickets'
                 ]
             ]
         ],

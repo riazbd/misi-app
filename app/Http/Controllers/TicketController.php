@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use App\Models\TicketHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -243,11 +244,17 @@ class TicketController extends Controller
             $ticket->location = $data['location'];
             $ticket->call_strike = $data['call-strike'];
             $ticket->remarks = $data['remarks'];
-            $ticket->comment = $data['comments'];
+            // $ticket->comment = $data['comments'];
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
+            $history = new TicketHistory();
+
+            $history->ticket_id = $id;
+            $history->comment = $data['comments'];
+
             $ticket->save();
+            $history->save();
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
@@ -280,6 +287,18 @@ class TicketController extends Controller
             $record->status = 'onhold';
             $record->save();
 
+            // history add
+
+            $history = new TicketHistory();
+
+            $assigneduser = User::where('id', $assignedTo)->first();
+
+            $history->ticket_id = $rowId;
+            $history->comment = 'Updated to the user' . $assigneduser->first_name . " " . $assigneduser->last_name;
+            $history->save();
+
+            // histiry add end
+
             return response()->json(['message' => 'Assigned To updated successfully'], 200);
         }
 
@@ -305,4 +324,112 @@ class TicketController extends Controller
             return response()->json($th->getMessage(), 500);
         }
     }
+
+    public function cancelTicket(Request $request) {
+        try {
+
+
+            $ticket = Ticket::where('id', $request->input('id'))->first();
+
+            $ticket->status = 'cancelled';
+            $ticket->department_id = null;
+            $ticket->assigned_staff = null;
+
+            $ticket->save();
+
+
+            // history add
+
+            $history = new TicketHistory();
+
+            $assigneduser = User::where('id', $ticket->assigned_staff)->first();
+
+            $history->ticket_id = $request->input('id');
+            $history->comment = 'Updated to the user' . $assigneduser->first_name . " " . $assigneduser->last_name;
+            $history->save();
+
+            // histiry add end
+
+            return response()->json(['message' => 'Tciket Successfully Cancelled']);
+
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+
+
+    }
+
+    public function getCancelledTickets()
+    {
+        $tickets = Ticket::where('status', 'cancelled')->get();
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'Patient ID',
+            'Mono/Multi ZD',
+            'Mono/Multi Screening',
+            'Intake or Therapist',
+            // ['label' => 'Phone', 'width' => 40],
+            'Tresonit Number',
+            'Datum Intake',
+            'Datum Intake 2',
+            'ND Account',
+            'AVC/ALFMVM/SBG',
+            'Honos',
+            'Berha Intake',
+            'ROM Start',
+            'ROM End',
+            'Berha End',
+            'VTCB Date',
+            'Closure',
+            'Aanm Intake',
+            'Location',
+            'Strike',
+            'Remarks',
+
+
+        ];
+
+
+
+        $data = [];
+
+        foreach ($tickets as $ticket) {
+            $items = [];
+
+            array_push($items, '<nobr>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('tickets.destroy', ['ticket' => $ticket->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+
+        return view('tickets.index', compact('heads', 'config'));
+
+    }
+
+    public function getHistories (Request $request)
+    {
+        try {
+            $id = $request->input('id');
+
+            $histories = TicketHistory::where('ticket_id', $id)->get();
+
+
+            return response()->json(['histories' => $histories]);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+
+    }
+
 }

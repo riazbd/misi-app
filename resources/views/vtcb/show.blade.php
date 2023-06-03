@@ -7,6 +7,7 @@
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back">Go Back</button>
                 <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+                <button class="top-button top-cancel-button" id="top-cancel-button">Cancel</button>
 
             </div>
         </div>
@@ -30,6 +31,7 @@
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-department"
                                     name="select-department">
+                                    <option value="">Select Department</option>
                                     @foreach ($matchingRoles as $matchingRole)
                                         <option value="{{ $matchingRole->id }}"
                                             {{ $ticket->department_id == $matchingRole->id ? 'selected' : '' }}>
@@ -399,6 +401,31 @@
                 var selectedRole = $(this).val();
 
                 getUsers(selectedRole)
+
+
+            });
+
+            function cancelTicket(ticketId) {
+                $.ajax({
+                    url: '/cancel-ticket/', // Replace with your Laravel route
+                    type: 'GET',
+                    data: {
+                        id: ticketId
+                    },
+                    success: function(response) {
+                        // Populate thconsole.log(response);
+                        Swal.fire('Success!', 'Ticket Cancelled', 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error!', 'Request failed', 'error');
+                    }
+                });
+            }
+
+            $('#top-cancel-button').on('click', function() {
+                var ticketId = '{{ $ticket->id }}';
+
+                cancelTicket(ticketId)
 
 
             });

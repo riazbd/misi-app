@@ -15,8 +15,12 @@ class CreateTicketHistoriesTable extends Migration
     {
         Schema::create('ticket_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('ticket_id')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
+
+
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
     }
 

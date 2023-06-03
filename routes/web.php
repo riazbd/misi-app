@@ -48,4 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('vtcbs', VtcbController::class);
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
     Route::get('/get-role-users', 'App\Http\Controllers\TicketController@getUsersByRole');
+    Route::get('/cancel-ticket', 'App\Http\Controllers\TicketController@cancelTicket')->name('cancel-ticket');
+    Route::get('/cancelled-tickets', 'App\Http\Controllers\TicketController@getCancelledTickets')->name('cancelled-tickets');
+    Route::get('/get-histories', 'App\Http\Controllers\TicketController@getHistories')->name('ticket-history');
 });

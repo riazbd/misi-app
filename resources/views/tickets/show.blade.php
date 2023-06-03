@@ -312,6 +312,17 @@
             </form>
         </div>
 
+        <div id="ticket-history">
+            <h4 class="ml-5">Histories</h4>
+            <div class="px-5 py-3" id="history-card">
+                <div class="card">
+                    <div class="card-body" id="history-body">
+                        {{-- <div id="history-content"></div> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 @stop
 
@@ -324,6 +335,8 @@
             var defaultRole = $('#select-department').val();
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
+            var ticketId = '{{ $ticket->id }}';
+            getHistories(ticketId)
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('select[name="select-status"] option').removeAttr('disabled');
                 $('#update-ticket-form').submit()
@@ -350,6 +363,8 @@
                         Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
+
+                getHistories(ticketId)
             });
 
             getUsers(defaultRole)
@@ -378,6 +393,36 @@
                         });
 
                         console.log(response.users)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            function getHistories(ticketId) {
+                $.ajax({
+                    url: '/get-histories', // Replace with your Laravel route
+                    type: 'GET',
+                    data: {
+                        id: ticketId
+                    },
+                    success: function(response) {
+                        // Populate the "Assign To" select input with the retrieved users
+                        var history_card = $('#history-card');
+                        const histories = [];
+                        $.each(response.histories, function(index, history) {
+
+                            var history_content = $('<div class="card p-5"></div>').html('<div class="card-body" id="history-body"></div>').html(history.comment);
+
+                            histories.push(history_content)
+
+
+                        });
+
+                        history_card.html(histories);
+
+                        console.log(response.histories)
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
