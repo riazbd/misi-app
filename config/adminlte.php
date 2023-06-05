@@ -485,13 +485,16 @@ return [
                     'text' => 'Users',
                     'url'  => 'users',
                     'icon' => 'fas fa-fw fa-user',
-                    'pull-right' => true,
                 ],
                 [
                     'text' => 'Roles',
                     'url'  => 'roles',
                     'icon' => 'fas fa-fw fa-tags',
-                    'pull-right' => true,
+                ],
+                [
+                    'text' => 'Questions',
+                    'url'  => 'questions',
+                    'icon' => 'fas fa-fw fa-question',
                 ],
                 // [
                 //     'text'    => 'level_one',

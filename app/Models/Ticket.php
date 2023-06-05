@@ -28,4 +28,9 @@ class Ticket extends Model
     {
         return $this->hasMany('App\Models\TicketHistory');
     }
+
+    public function forms()
+    {
+        return $this->hasMany('App\Models\Form');
+    }
 }
