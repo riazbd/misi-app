@@ -43,7 +43,7 @@ function fetchUserInfo(ticketId) {
                     '<th style="width: 10%; word-wrap: break-word;">'
                 ).text("ErnstSchaal 0-10");
 
-                headerRow = $("<tr>");
+                let headerRow = $("<tr>");
 
                 headerRow.append(th1);
                 headerRow.append(th2);
