@@ -1,4 +1,4 @@
-var labels = document.querySelectorAll("label");
+let labels = document.querySelectorAll("label");
 
 labels.forEach(function (label) {
     label.addEventListener("click", function (event) {
@@ -53,11 +53,11 @@ function fetchUserInfo(ticketId) {
                 numberForm.append(numberTable);
 
                 numberType.forEach((el) => {
-                    var tr = $("<tr>");
+                    let tr = $("<tr>");
 
                     // Create and append the td elements to the tr
-                    var td1 = $("<td>").text(el.question.question);
-                    var td2 = $("<td >")
+                    let td1 = $("<td>").text(el.question.question);
+                    let td2 = $("<td >")
                         .html(
                             '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="number">'
                         )
@@ -76,7 +76,7 @@ function fetchUserInfo(ticketId) {
 }
 
 $(".pib-form-open").click(function () {
-    var ticketId = $(this).data("ticket-id");
+    let ticketId = $(this).data("ticket-id");
     fetchUserInfo(ticketId);
     $("#pib-form-modal").modal("show");
 });
