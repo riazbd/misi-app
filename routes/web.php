@@ -54,4 +54,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/cancelled-tickets', 'App\Http\Controllers\TicketController@getCancelledTickets')->name('cancelled-tickets');
     Route::get('/get-histories', 'App\Http\Controllers\TicketController@getHistories')->name('ticket-history');
     Route::get('/to-formula', 'App\Http\Controllers\QuestionController@toFormula')->name('get-form-data');
+    Route::get('/update-answers', 'App\Http\Controllers\QuestionController@updateAnswers')->name('update-answer');
 });

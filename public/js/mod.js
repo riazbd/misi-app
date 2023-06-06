@@ -57,13 +57,13 @@ function fetchUserInfo(ticketId) {
 
                     // Create and append the td elements to the tr
                     let td1 = $("<td>").text(el.question.question);
-                    let td2 = $("<td >")
-                        .html(
-                            '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="number" name="' +
-                                el.answer.id +
-                                '">'
-                        )
-                        .val(el.answer.answer);
+                    let td2 = $("<td >").html(
+                        '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="number" name="' +
+                            el.answer.id +
+                            '" value="' +
+                            el.answer.answer +
+                            '">'
+                    );
                     tr.append(td1);
                     tr.append(td2);
                     // Append the tr to the table
@@ -81,7 +81,7 @@ function fetchUserInfo(ticketId) {
 
                 checkType.forEach((el) => {
                     let tr = $("<tr>");
-                    let options = el.question.options.split(",");
+                    let options = el.question.options.split(/\s*,\s*/);
 
                     console.log(options);
 
@@ -96,15 +96,33 @@ function fetchUserInfo(ticketId) {
                         let innerTr = $("<tr>");
                         let innerTd1 = $(
                             '<td class="" style="width: 5%">'
-                        ).html('<input type="checkbox" name="option">');
+                        ).html(
+                            '<input type="radio" name="' +
+                                el.answer.id +
+                                '" class="group-checkbox" data-group="group' +
+                                el.answer.id +
+                                '" value="' +
+                                option +
+                                '">'
+                        );
 
                         let innerTd2 = $("<td>").text(option);
+                        console.log(el.answer.answer);
+                        console.log(option);
 
                         if (option == el.answer.answer) {
+                            console.log("matched");
+
                             innerTd1 = $(
                                 '<td class="" style="width: 5%">'
                             ).html(
-                                '<input type="checkbox" name="option" checked>'
+                                '<input type="radio" name="' +
+                                    el.answer.id +
+                                    '" class="group-checkbox" data-group="group' +
+                                    el.answer.id +
+                                    '" value="' +
+                                    option +
+                                    '" checked>'
                             );
                         }
 
@@ -134,13 +152,13 @@ function fetchUserInfo(ticketId) {
                     let td1 = $('<td style="width: 35%">').text(
                         el.question.question
                     );
-                    let td2 = $("<td >")
-                        .html(
-                            '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="text" name="' +
-                                el.answer.id +
-                                '">'
-                        )
-                        .val(el.answer.answer);
+                    let td2 = $("<td >").html(
+                        '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="text" name="' +
+                            el.answer.id +
+                            '" value="' +
+                            el.answer.answer +
+                            '">'
+                    );
                     tr.append(td1);
                     tr.append(td2);
                     // Append the tr to the table
@@ -156,8 +174,40 @@ function fetchUserInfo(ticketId) {
     });
 }
 
+document
+    .getElementById("pib-pit-submit")
+    .addEventListener("click", function () {
+        $("#pib-pit-table-form").submit();
+    });
+$("#pib-pit-table-form").submit(function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    var formData = $(this).serialize(); // Serialize form data
+    console.log(formData);
+
+    $.ajax({
+        url: $(this).attr("action"),
+        type: "GET",
+        data: formData,
+        success: function (response) {
+            // Handle success response
+            console.log(response);
+            Swal.fire("Success!", "Form updated", "success");
+        },
+        error: function (xhr) {
+            // Handle error response
+            console.log(xhr.responseText);
+            Swal.fire("Error!", "Request failed", "error");
+        },
+    });
+});
+
 $(".pib-form-open").click(function () {
     let ticketId = $(this).data("ticket-id");
     fetchUserInfo(ticketId);
     $("#pib-form-modal").modal("show");
+});
+
+$("#pib-form-modal").on("hidden.bs.modal", function () {
+    $("#pib-pit-table-form").empty();
 });

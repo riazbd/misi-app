@@ -105,7 +105,7 @@
 
                         </table>
 
-                        <form id="pib-pit-table-form" method="POST">
+                        <form id="pib-pit-table-form" method="GET" action="{{ route('update-answer') }}">
                             @csrf
 
                         </form>

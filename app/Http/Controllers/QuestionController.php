@@ -185,4 +185,26 @@ class QuestionController extends Controller
             return $this->createAnswers($questions, $form->id);
         }
     }
+
+    public function updateAnswers(Request $request)
+    {
+        $datas = $request->all();
+
+
+        try {
+            foreach ($datas as $id => $data) {
+                $intId = (int) $id;
+                $answer = Answer::where('id', $intId)->first();
+
+                if ($answer) {
+                    $answer->answer = $data != null ? $data : '';
+                    $answer->save();
+                }
+            }
+
+            return response()->json(['message' => 'answer updated']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+    }
 }
