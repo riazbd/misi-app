@@ -105,7 +105,8 @@
 
                         </table>
 
-                        <form action="" id="pib-pit-table-number-form">
+                        <form id="pib-pit-table-form" method="POST">
+                            @csrf
 
                         </form>
 
@@ -113,7 +114,7 @@
                 </div>
                 <div class="modal-footer">
                     {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="pib-pit-submit">Save changes</button>
                 </div>
             </div>
         </div>

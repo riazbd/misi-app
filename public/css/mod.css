@@ -143,7 +143,10 @@ div.dataTables_wrapper div.dataTables_filter {
     }
 } */
 
-.pib-pit-table td {
+.pib-pit-table td,
+#pib-pit-table-form td {
     font-size: 14px;
 }
+
+
 
