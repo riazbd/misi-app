@@ -2,77 +2,106 @@
 
 @section('content')
 
-<div class="pt-5">
-    <div class=" pull-right">
-        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-            Create Question
-        </button>
-    </div>
-
-    <div class="mt-2 datatable-container">
-        <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
-            with-footer>
-            @foreach ($config['data'] as $row)
-                <tr>
-                    @foreach ($row as $cell)
-                        <td>{!! $cell !!}</td>
-                    @endforeach
-                </tr>
-            @endforeach
-        </x-adminlte-datatable>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Create Question</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="pt-5">
+        <div class=" pull-right">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Create Question
+            </button>
         </div>
-        <div class="modal-body">
-            <form method="POST" action="{{ route('questions.store') }}" id="create-question-form">
 
-                @csrf
-                <div class="row">
-                    <!-- First Column -->
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="select-type" class="col-5 text-right">Select Type:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="select-type"
-                                    name="select-type">
-                                    <option value="">Select Type</option>
-                                    <option value="1">PiB</option>
-                                    <option value="1">PiT</option>
-                                </select>
+        <div class="mt-2 datatable-container">
+            <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
+                with-footer>
+                @foreach ($config['data'] as $row)
+                    <tr>
+                        @foreach ($row as $cell)
+                            <td>{!! $cell !!}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            </x-adminlte-datatable>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Create Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('questions.store') }}" id="create-question-form">
+
+                        @csrf
+                        <div class="row">
+                            <!-- First Column -->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="select-type" class="col-5 text-right">Select Type:</label>
+                                    <div class="col-7">
+                                        <select class="form-control form-control-sm" id="select-type" name="select-type">
+                                            <option value="">Select Type</option>
+                                            <option value="1">PiB</option>
+                                            <option value="1">PiT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="select-answer-type" class="col-5 text-right">Select Answer Type:</label>
+                                    <div class="col-7">
+                                        <select class="form-control form-control-sm" id="select-answer-type"
+                                            name="select-answer-type">
+                                            <option value="">Select Answer Type</option>
+                                            <option value="text">Text</option>
+                                            <option value="number">Number Scale</option>
+                                            <option value="check">Check</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="options" class="col-2 text-right">Options:</label>
+
+                                    <div class="col-10">
+                                        <input type="text" class="form-control form-control-sm" id="options"
+                                            name="options">
+                                        <small>Options must be seperated with comma (ex: option1, option2)</small>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label for="question" class="col-2 text-right">Question:</label>
-                            <div class="col-10">
-                                <input type="text" class="form-control form-control-sm" id="question" name="question">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="question" class="col-2 text-right">Question:</label>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control form-control-sm" id="question"
+                                            name="question">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-primary" id="question-submit">Save Question</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-          <button type="button" class="btn btn-primary" id="question-submit">Save Question</button>
-        </div>
-      </div>
     </div>
-  </div>
 @stop
 
 @section('css')
@@ -194,7 +223,7 @@
                         // Handle success response
                         console.log(response);
                         setTimeout(function() {
-                         $('#exampleModalCenter').modal('hide');
+                            $('#exampleModalCenter').modal('hide');
                         }, 100);
                         Swal.fire('Success!', 'Question Saved Successfully', 'success');
                     },

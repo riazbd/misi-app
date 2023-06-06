@@ -292,7 +292,8 @@
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
                                         On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        In progess</option>
+                                        In progess
+                                    </option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
                                         Work Finished</option> --}}
@@ -314,7 +315,8 @@
                                     name="language-treatment">
                                     <option value="dutch" {{ $ticket->language == 'dutch' ? 'selected' : '' }}>Dutch
                                     </option>
-                                    <option value="english" {{ $ticket->language == 'english' ? 'selected' : '' }}>English
+                                    <option value="english" {{ $ticket->language == 'english' ? 'selected' : '' }}>
+                                        English
                                     </option>
                                 </select>
                             </div>

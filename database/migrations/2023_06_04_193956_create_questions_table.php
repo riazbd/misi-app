@@ -18,7 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->string('question');
             $table->string('form_type');
             $table->string('answer_type')->default('text');
-            $table->string('optons')->nullable();
+            $table->string('options')->nullable();
             $table->timestamps();
         });
     }

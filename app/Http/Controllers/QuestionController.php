@@ -76,13 +76,15 @@ class QuestionController extends Controller
             $question = new Question();
             $question->question = $data['question'];
             $question->form_type = $data['select-type'];
+            $question->answer_type = $data['select-answer-type'];
+            $question->options = $data['options'];
 
             $question->save();
 
             return response()->json(['message' => 'Question saved successfully']);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
-    }
+        }
     }
 
     /**
@@ -130,7 +132,7 @@ class QuestionController extends Controller
         //
     }
 
-    public function createAnswers($questions, $formId, )
+    public function createAnswers($questions, $formId,)
     {
         $formDataArray = [];
         foreach ($questions as $question) {
@@ -143,7 +145,6 @@ class QuestionController extends Controller
                 $data = ['form_id' => $formId, 'question' => $question, 'answer' => $answer];
 
                 array_push($formDataArray, $data);
-
             } else {
                 $answer = new Answer();
                 $answer->form_id = $formId;
@@ -155,13 +156,12 @@ class QuestionController extends Controller
                 $data = ['form_id' => $formId, 'question' => $question->question, 'answer' => $answer->answer];
                 array_push($formDataArray, $data);
             }
-
         }
 
         return response()->json($formDataArray);
     }
 
-    public function toFormula (Request $request)
+    public function toFormula(Request $request)
     {
         $ticketId = $request->input('ticketId');
 
@@ -173,8 +173,6 @@ class QuestionController extends Controller
 
             $formId = Form::where('ticket_id', $ticketId)->where('form_type', 1)->first()->id;
             return $this->createAnswers($questions, $formId);
-
-
         } else {
 
             $form = new Form();
@@ -185,7 +183,6 @@ class QuestionController extends Controller
             $form->save();
 
             return $this->createAnswers($questions, $form->id);
-
         }
     }
 }
