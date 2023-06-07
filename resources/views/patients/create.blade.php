@@ -127,10 +127,14 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="country" name="country">
-                                    <option value="country1">Country 1</option>
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                    {{-- <option value="country1">Country 1</option>
                                     <option value="country1">Country 2</option>
-                                    <option value="country1">Country 3</option>
+                                    <option value="country1">Country 3</option> --}}
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country['name_en'] }}">
+                                            {{ $country['name_en'] }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

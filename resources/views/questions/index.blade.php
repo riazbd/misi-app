@@ -47,7 +47,7 @@
                                         <select class="form-control form-control-sm" id="select-type" name="select-type">
                                             <option value="">Select Type</option>
                                             <option value="1">PiB</option>
-                                            <option value="1">PiT</option>
+                                            <option value="2">PiT</option>
                                         </select>
                                     </div>
                                 </div>

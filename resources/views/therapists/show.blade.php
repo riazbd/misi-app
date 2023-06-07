@@ -1,5 +1,11 @@
 @extends('adminlte::page')
 
+@section('content_top_nav_left')
+<div class="ml-5 d-flex align-items-center">
+    <h6 class="m-0">Therapist - {{$therapist->user()->first()->user_serial_no}}</h6>
+</div>
+@stop
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
         style="min-height: 10px; background-color: #fff;">
@@ -176,7 +182,7 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control" id="country" name="country">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
                                     @foreach ($countries as $country)
                                         <option value="{{ $country['name_en'] }}"
                                             {{ $therapist->country == $country['name_en'] ? 'selected' : '' }}>
@@ -188,14 +194,14 @@
                         <div class="form-group row">
                             <label for="city-state" class="col-5 text-right">City/State:</label>
                             <div class="col-7">
-                                <input class="form-control" id="city-state" name="city-state"
+                                <input class="form-control form-control-sm" id="city-state" name="city-state"
                                     value="{{ $therapist->city_or_state }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="email" class="col-5 text-right">Email:</label>
                             <div class="col-7">
-                                <input type="email" class="form-control" id="email" name="email"
+                                <input type="email" class="form-control form-control-sm" id="email" name="email"
                                     value="{{ $therapist->user()->first()->email }}">
                             </div>
                         </div>
@@ -206,7 +212,7 @@
                         <div class="form-group row">
                             <label for="insurance-number" class="col-5 text-right">Insurance Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="insurance-number" name="insurance-number"
+                                <input type="text" class="form-control form-control-sm" id="insurance-number" name="insurance-number"
                                     value="{{ $therapist->insurance_number }}">
                             </div>
                         </div>
@@ -214,28 +220,28 @@
                         <div class="form-group row">
                             <label for="area" class="col-5 text-right">Area:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="area" name="area"
+                                <input type="text" class="form-control form-control-sm" id="area" name="area"
                                     value="{{ $therapist->area }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="dob-number" class="col-5 text-right">DOB Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="dob-number" name="dob-number"
+                                <input type="text" class="form-control form-control-sm" id="dob-number" name="dob-number"
                                     value="{{ $therapist->DOB_number }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="bsn-number" name="bsn-number"
+                                <input type="text" class="form-control form-control-sm" id="bsn-number" name="bsn-number"
                                     value="{{ $therapist->BSN_number }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="remarks" class="col-5 text-right">Remarks:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control" id="remarks" name="remarks"
+                                <input type="text" class="form-control form-control-sm" id="remarks" name="remarks"
                                     value="{{ $therapist->remarks }}">
                             </div>
                         </div>

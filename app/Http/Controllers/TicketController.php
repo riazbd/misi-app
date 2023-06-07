@@ -8,6 +8,7 @@ use App\Models\TicketHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class TicketController extends Controller
@@ -24,6 +25,11 @@ class TicketController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Patient ID',
+            'Status',
+            'Remarks',
+            'Created At',
+            'Updated At',
+            'Strike',
             'Mono/Multi ZD',
             'Mono/Multi Screening',
             'Intake or Therapist',
@@ -42,8 +48,8 @@ class TicketController extends Controller
             'Closure',
             'Aanm Intake',
             'Location',
-            'Strike',
-            'Remarks',
+
+
 
 
         ];
@@ -61,7 +67,7 @@ class TicketController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,  );
             array_push($data, $items);
         }
 
@@ -310,14 +316,14 @@ class TicketController extends Controller
         try {
             $role = $request->input('role');
 
-            $roleName = Role::where('id', $role)->first()->name;
+            $roleName = $role != null ?? Role::where('id', $role)->first()->name;
 
             $admin = User::role('admin')->get();
 
             // Retrieve the users based on the selected role
-            $users = User::role($roleName)->get();
+            $users = $roleName != '' ? User::role($roleName)->get() : null;
 
-            $newUsers = array_merge($users->toArray(), $admin->toArray());
+            $newUsers = array_merge($users != null ? $users->toArray() : [], $admin->toArray());
 
             return response()->json(['users' => $newUsers]);
         } catch (\Throwable $th) {
@@ -345,7 +351,7 @@ class TicketController extends Controller
             $assigneduser = User::where('id', $ticket->assigned_staff)->first();
 
             $history->ticket_id = $request->input('id');
-            $history->comment = 'Updated to the user' . $assigneduser->first_name . " " . $assigneduser->last_name;
+            $history->comment = 'The ticket has been cancelled by ' . Auth::user()->first_name . " " . Auth::user()->last_name;
             $history->save();
 
             // histiry add end
@@ -366,6 +372,11 @@ class TicketController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Patient ID',
+            'Status',
+            'Strike',
+            'Remarks',
+            'Created At',
+            'Updated At',
             'Mono/Multi ZD',
             'Mono/Multi Screening',
             'Intake or Therapist',
@@ -384,8 +395,7 @@ class TicketController extends Controller
             'Closure',
             'Aanm Intake',
             'Location',
-            'Strike',
-            'Remarks',
+
 
 
         ];
@@ -397,13 +407,16 @@ class TicketController extends Controller
         foreach ($tickets as $ticket) {
             $items = [];
 
+            $department = Role::where('id', $ticket->department_id)->first();
+            $name = $department ? ucfirst($department->name) : '';
+
             array_push($items, '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('tickets.destroy', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst($name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->call_strike, $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 

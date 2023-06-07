@@ -80,7 +80,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patients.create');
+        $countries = Countries::all();
+        return view('patients.create', compact('countries'));
     }
 
     /**

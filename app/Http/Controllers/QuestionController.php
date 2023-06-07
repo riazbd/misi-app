@@ -164,21 +164,22 @@ class QuestionController extends Controller
     public function toFormula(Request $request)
     {
         $ticketId = $request->input('ticketId');
+        $formType = (int) $request->input('formType');
 
-        $formExists = Form::where('ticket_id', $ticketId)->where('form_type', 1)->exists();
-        $questions = Question::all();
+        $formExists = Form::where('ticket_id', $ticketId)->where('form_type', $formType)->exists();
+        $questions = Question::where('form_type', $formType)->get();
 
         if ($formExists) {
 
 
-            $formId = Form::where('ticket_id', $ticketId)->where('form_type', 1)->first()->id;
+            $formId = Form::where('ticket_id', $ticketId)->where('form_type', $formType)->first()->id;
             return $this->createAnswers($questions, $formId);
         } else {
 
             $form = new Form();
 
             $form->ticket_id = $ticketId;
-            $form->form_type = 1;
+            $form->form_type = $formType;
 
             $form->save();
 

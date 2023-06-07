@@ -6,11 +6,11 @@ labels.forEach(function (label) {
     });
 });
 
-function fetchUserInfo(ticketId) {
+function fetchFormInfo(ticketId, formType) {
     $.ajax({
         url: "/to-formula",
         method: "get",
-        data: { ticketId: ticketId },
+        data: { ticketId: ticketId, formType: formType },
         success: function (response) {
             console.log(response);
             console.log("Success");
@@ -167,12 +167,37 @@ function fetchUserInfo(ticketId) {
             }
 
             // let form = $("#pib-pit-table-form");
+
+            $("#pib-form-modal").modal("show");
         },
         error: function (xhr) {
             console.error(xhr.responseText);
         },
     });
 }
+
+$(".pib-form-open").click(function () {
+    let ticketId = $(this).data("ticket-id");
+    let formType = $(this).data("form-type");
+
+    // $("#pib-form-modal").data("ticket-id", ticketId);
+    // $("#pib-form-modal").data("form-type", formType);
+
+    fetchFormInfo(ticketId, formType);
+});
+
+// $("#pib-form-modal").on("shown.bs.modal", function () {
+//     let ticketId = $(this).data("ticket-id");
+//     let formType = $(this).data("form-type");
+
+//     fetchFormInfo(ticketId, formType);
+//   });
+
+$("#pib-form-modal").on("hidden.bs.modal", function () {
+    $("#pib-pit-table-form").empty();
+});
+
+
 
 document
     .getElementById("pib-pit-submit")
@@ -202,12 +227,6 @@ $("#pib-pit-table-form").submit(function (event) {
     });
 });
 
-$(".pib-form-open").click(function () {
-    let ticketId = $(this).data("ticket-id");
-    fetchUserInfo(ticketId);
-    $("#pib-form-modal").modal("show");
-});
 
-$("#pib-form-modal").on("hidden.bs.modal", function () {
-    $("#pib-pit-table-form").empty();
-});
+
+

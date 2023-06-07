@@ -27,6 +27,11 @@ class VtcbController extends Controller
             'ID',
             'Assigned To',
             'Patient ID',
+            'Status',
+            'Strike',
+            'Remarks',
+            'Created At',
+            'Updated At',
             'Mono/Multi ZD',
             'Mono/Multi Screening',
             'Intake or Therapist',
@@ -44,8 +49,7 @@ class VtcbController extends Controller
             'Closure',
             'Aanm Intake',
             'Location',
-            'Strike',
-            'Remarks',
+
         ];
 
 
@@ -73,7 +77,7 @@ class VtcbController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('vtcbs.show', ['vtcb' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('vtcbs.show', ['vtcb' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
+                    ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, $ticket->status != 'cancelled' ? ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->call_strike, $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 

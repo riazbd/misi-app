@@ -1,5 +1,11 @@
 @extends('adminlte::page')
 
+@section('content_top_nav_left')
+<div class="ml-5 d-flex align-items-center">
+    <h6 class="m-0">PiB Ticket - {{$ticket->id}}</h6>
+</div>
+@stop
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
         style="min-height: 10px; background-color: #fff;">
@@ -288,12 +294,14 @@
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
-                                        Open</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Open</option>
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
-                                        On hold</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        In progess
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} In progess
                                     </option>
+                                    <option value="finished" {{ $ticket->status == 'finished' ? 'selected' : '' }}>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Finished</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
                                         Work Finished</option> --}}
@@ -344,6 +352,23 @@
             var defaultRole = $('#select-department').val();
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
+
+            var select = $('#select-therapists');
+
+            // Event listener for change event
+            select.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                var selectedOptions = select.val();
+
+                // Disable remaining options if the limit is reached
+                if (selectedOptions.length >= 3) {
+                    select.find('option:not(:selected)').attr('disabled', true);
+                    select.selectpicker('refresh');
+                } else {
+                    // Enable all options
+                    select.find('option').attr('disabled', false);
+                    select.selectpicker('refresh');
+                }
+            });
 
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('select[name="select-status"] option').removeAttr('disabled');

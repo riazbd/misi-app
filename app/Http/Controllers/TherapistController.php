@@ -79,7 +79,8 @@ class TherapistController extends Controller
      */
     public function create()
     {
-        return view('therapists.create');
+        $countries = Countries::all();
+        return view('therapists.create', compact('countries'));
     }
 
     /**

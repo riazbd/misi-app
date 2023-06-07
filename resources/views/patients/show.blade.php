@@ -1,5 +1,11 @@
 @extends('adminlte::page')
 
+@section('content_top_nav_left')
+<div class="ml-5 d-flex align-items-center">
+    <h6 class="m-0">Patient - {{$patient->user()->first()->user_serial_no}}</h6>
+</div>
+@stop
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
         style="min-height: 10px; background-color: #fff;">
@@ -174,7 +180,7 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="country" name="country">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
                                     {{-- <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 1</option>
                                     <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 2</option>
                                     <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 3</option> --}}

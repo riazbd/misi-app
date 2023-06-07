@@ -12,6 +12,7 @@
 
         {{-- Custom left links --}}
         @yield('content_top_nav_left')
+
     </ul>
 
     {{-- Navbar right links --}}

@@ -1,5 +1,11 @@
 @extends('adminlte::page')
 
+@section('content_top_nav_left')
+<div class="ml-5 d-flex align-items-center">
+    <h6 class="m-0">Ticket - {{$ticket->id}}</h6>
+</div>
+@stop
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
         style="min-height: 10px; background-color: #fff;">
@@ -268,11 +274,13 @@
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>
-                                        Open</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Open</option>
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
-                                        On hold</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        In progess</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} In progess</option>
+                                    <option value="finished" {{ $ticket->status == 'finished' ? 'selected' : '' }}>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Finished</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }}>
                                         Work Finished</option> --}}
