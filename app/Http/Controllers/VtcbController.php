@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use App\Models\TicketHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -127,7 +128,8 @@ class VtcbController extends Controller
         $patients = Patient::all();
         $ticket = Ticket::where('id', $id)->first();
         $screening = $id;
-        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket'));
+        $patient = $ticket->patient()->first();
+        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient'));
     }
 
     /**
@@ -224,7 +226,14 @@ class VtcbController extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
+            // $ticket->save();
+            $history = new TicketHistory();
+
+            $history->ticket_id = $id;
+            $history->comment = $data['comments'];
+
             $ticket->save();
+            $history->save();
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

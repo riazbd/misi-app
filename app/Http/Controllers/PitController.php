@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\Therapist;
 use App\Models\Ticket;
+use App\Models\TicketHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -122,7 +123,8 @@ class PitController extends Controller
         $patients = Patient::all();
         $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket'));
+        $patient = $ticket->patient()->first();
+        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient'));
     }
 
     /**
@@ -222,7 +224,15 @@ class PitController extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
+            $history = new TicketHistory();
+
+            $history->ticket_id = $id;
+            $history->comment = $data['comments'];
+
             $ticket->save();
+            $history->save();
+
+            // $ticket->save();
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

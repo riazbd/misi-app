@@ -224,3 +224,35 @@ $("#pib-pit-table-form").submit(function (event) {
         },
     });
 });
+
+function getHistories(ticketId) {
+    $.ajax({
+        url: '/get-histories', // Replace with your Laravel route
+        type: 'GET',
+        data: {
+            id: ticketId
+        },
+        success: function(response) {
+            // Populate the "Assign To" select input with the retrieved users
+            var history_card = $('#history-card');
+            const histories = [];
+            $.each(response.histories, function(index, history) {
+
+                var history_content = $('<div class="card p-5"></div>').html(
+                    '<div class="card-body" id="history-body"></div>').html(
+                    history.comment);
+
+                histories.push(history_content)
+
+
+            });
+
+            history_card.html(histories);
+
+            console.log(response.histories)
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}

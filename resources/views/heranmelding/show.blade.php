@@ -172,7 +172,8 @@
                                                     {{ $patient->user()->first()->last_name }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="input-group-append " id="view-patient">
+                                        <div class="input-group-append " id="view-patient" data-toggle="modal"
+                                        data-target="#patient-view-modal">
                                             <div class="input-group-text bg-gradient-primary">
                                                 <i class="fas fa-eye"></i>
                                             </div>
@@ -348,7 +349,45 @@
                     </div>
                 </div>
                 {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="ml-3 col-2 text-right">Activity Log</h6>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+
+
+                        <div class="form-group row">
+                            <label for="comments" class="col-2 text-right">Work Note:</label>
+                            <div class="col-10"><textarea class="form-control form-control-sm"
+                                    id="comments" name="comments"></textarea></div>
+                        </div>
+                    </div>
+                </div>
             </form>
+        </div>
+
+        <div id="ticket-history">
+            <div class="row">
+                <div class="col-md-12">
+                    <h6 class="pr-3 col-2 text-right">Activites</h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="px-5 py-3" id="history-card">
+                        <div class="card">
+                            <div class="card-body" id="history-body">
+                                {{-- <div id="history-content"></div> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
 
@@ -365,6 +404,10 @@
             var defaultRole = $('#select-department').val();
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
+
+            var ticketId = '{{ $ticket->id }}';
+
+            getHistories(ticketId)
 
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('select[name="select-status"] option').removeAttr('disabled');
@@ -391,6 +434,8 @@
                         Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
+
+                getHistories(ticketId)
             });
 
             // var assignToSelect = $('#assign-to');
@@ -429,6 +474,8 @@
                     }
                 });
             }
+
+
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use App\Models\Ticket;
+use App\Models\TicketHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -126,8 +127,9 @@ class ScreeningController extends Controller
         // $screener = Role::where('name', 'screener')->first();
         $patients = Patient::all();
         $ticket = Ticket::where('id', $id)->first();
+        $patient = $ticket->patient()->first();
         $screening = $id;
-        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket'));
+        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient'));
     }
 
     /**
@@ -224,7 +226,14 @@ class ScreeningController extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
+            // $ticket->save();
+            $history = new TicketHistory();
+
+            $history->ticket_id = $id;
+            $history->comment = $data['comments'];
+
             $ticket->save();
+            $history->save();
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
