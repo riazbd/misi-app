@@ -197,8 +197,6 @@ $("#pib-form-modal").on("hidden.bs.modal", function () {
     $("#pib-pit-table-form").empty();
 });
 
-
-
 document
     .getElementById("pib-pit-submit")
     .addEventListener("click", function () {
@@ -226,7 +224,3 @@ $("#pib-pit-table-form").submit(function (event) {
         },
     });
 });
-
-
-
-

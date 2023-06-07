@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
 @section('content_top_nav_left')
-<div class="ml-5 d-flex align-items-center">
-    <h6 class="m-0">Ticket - {{$ticket->id}}</h6>
-</div>
+    <div class="ml-5 d-flex align-items-center">
+        <h6 class="m-0">Ticket - {{ $ticket->id }}</h6>
+    </div>
 @stop
 
 @section('content')
@@ -139,15 +139,26 @@
                         <div class="form-group row">
                             <label for="select-department" class="col-5 text-right">Select Patient:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="select-patient" name="select-patient">
-                                    <option value="">Select Patient</option>
-                                    @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}"
-                                            {{ $ticket->patient()->first()->id == $patient->id ? 'selected' : '' }}>
-                                            {{ $patient->user()->first()->first_name }}
-                                            {{ $patient->user()->first()->last_name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm" id="select-patient"
+                                            name="select-patient">
+                                            <option value="">Select Patient</option>
+                                            @foreach ($patients as $patient)
+                                                <option value="{{ $patient->id }}"
+                                                    {{ $ticket->patient()->first()->id == $patient->id ? 'selected' : '' }}>
+                                                    {{ $patient->user()->first()->first_name }}
+                                                    {{ $patient->user()->first()->last_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="input-group-append " id="view-patient" data-toggle="modal"
+                                            data-target="#patient-view-modal">
+                                            <div class="input-group-text bg-gradient-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @php
@@ -274,13 +285,17 @@
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Open</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+                                        Open</option>
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} On hold</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+                                        On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} In progess</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+                                        In progess</option>
                                     <option value="finished" {{ $ticket->status == 'finished' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }} Finished</option>
+                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+                                        Finished</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }}>
                                         Work Finished</option> --}}
@@ -332,6 +347,8 @@
         </div>
 
     </div>
+
+    @include('extras.patient_modal')
 @stop
 
 @section('js')
@@ -421,7 +438,9 @@
                         const histories = [];
                         $.each(response.histories, function(index, history) {
 
-                            var history_content = $('<div class="card p-5"></div>').html('<div class="card-body" id="history-body"></div>').html(history.comment);
+                            var history_content = $('<div class="card p-5"></div>').html(
+                                '<div class="card-body" id="history-body"></div>').html(
+                                history.comment);
 
                             histories.push(history_content)
 

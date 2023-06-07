@@ -67,7 +67,7 @@ class TicketController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,  );
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 
@@ -157,8 +157,9 @@ class TicketController extends Controller
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
         $matchingRoles = Role::whereIn('name', $roles)->get();
         $ticket = Ticket::where('id', $id)->first();
+        $patient = $ticket->patient()->first();
         $patients = Patient::all();
-        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket'));
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient'));
     }
 
     /**
@@ -316,7 +317,7 @@ class TicketController extends Controller
         try {
             $role = $request->input('role');
 
-            $roleName = $role != null ?? Role::where('id', $role)->first()->name;
+            $roleName = $role != null ? Role::where('id', $role)->first()->name : '';
 
             $admin = User::role('admin')->get();
 
@@ -331,7 +332,8 @@ class TicketController extends Controller
         }
     }
 
-    public function cancelTicket(Request $request) {
+    public function cancelTicket(Request $request)
+    {
         try {
 
 
@@ -357,12 +359,9 @@ class TicketController extends Controller
             // histiry add end
 
             return response()->json(['message' => 'Tciket Successfully Cancelled']);
-
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
-
-
     }
 
     public function getCancelledTickets()
@@ -427,10 +426,9 @@ class TicketController extends Controller
         ];
 
         return view('tickets.index', compact('heads', 'config'));
-
     }
 
-    public function getHistories (Request $request)
+    public function getHistories(Request $request)
     {
         try {
             $id = $request->input('id');
@@ -442,7 +440,5 @@ class TicketController extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
-
     }
-
 }
