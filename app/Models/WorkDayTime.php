@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class WorkDayTime extends Model
 {
     use HasFactory;
+
+    public function therapist()
+    {
+        return $this->hasOne('App\Models\Therapist');
+    }
 }

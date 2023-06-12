@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Therapist;
 use App\Models\User;
+use App\Models\WorkDayTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PragmaRX\Countries\Package\Countries;
@@ -148,6 +149,17 @@ class TherapistController extends Controller
 
 
             $therapist->save();
+
+            $WORKDAYTIME = new WorkDayTime();
+
+            $WORKDAYTIME->start_time = '09:00:00';
+            $WORKDAYTIME->end_time = '17:00:00';
+
+            $WORKDAYTIME->weekly_holidays = json_encode(['6', '0']);
+
+            $WORKDAYTIME->therapist_id = $therapist->id;
+
+            $WORKDAYTIME->save();
 
 
 

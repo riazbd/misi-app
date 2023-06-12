@@ -18,4 +18,9 @@ class Therapist extends Model
     {
         return $this->hasMany('App\Models\Ticket');
     }
+
+    public function worktime()
+    {
+        return $this->belongsTo('App\Models\WorkDayTime');
+    }
 }

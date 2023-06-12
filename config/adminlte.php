@@ -474,7 +474,26 @@ return [
             ],
 
         ],
-        ['header' => 'account_settings'],
+
+        [
+            'text'    => 'Appointmant',
+            'icon'    => 'fas fa-fw fa-calendar-check',
+            'submenu' => [
+                [
+                    'text' => 'Create Appointment',
+                    'url'  => '#',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
+                [
+                    'text' => 'Appointments',
+                    'url'  => '#',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
+            ],
+        ],
+
+
+        ['header' => 'SETTINGS'],
 
 
         [
@@ -496,31 +515,25 @@ return [
                     'url'  => 'questions',
                     'icon' => 'fas fa-fw fa-question',
                 ],
-                // [
-                //     'text'    => 'level_one',
-                //     'url'     => '#',
-                //     'submenu' => [
-                //         [
-                //             'text' => 'level_two',
-                //             'url'  => '#',
-                //         ],
-                //         [
-                //             'text'    => 'level_two',
-                //             'url'     => '#',
-                //             'submenu' => [
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url'  => '#',
-                //                 ],
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url'  => '#',
-                //                 ],
-                //             ],
-                //         ],
-                //     ],
-                // ],
 
+
+            ],
+        ],
+
+        [
+            'text'    => 'Schedule',
+            'icon'    => 'fas fa-fw fa-business-time',
+            'submenu' => [
+                [
+                    'text' => 'Work Schedule',
+                    'url'  => 'work-schedules',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
+                [
+                    'text' => 'Leaves',
+                    'url'  => 'leaves',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
             ],
         ],
 

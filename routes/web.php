@@ -13,6 +13,7 @@ use App\Http\Controllers\PitController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\VtcbController;
+use App\Http\Controllers\WorkSchedule;
 use App\Http\Controllers\YesApprovalController;
 
 /*
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('no-approvals', NoApprovalController::class);
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('questions', QuestionController::class);
+    Route::resource('work-schedules', WorkSchedule::class);
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
     Route::get('/get-role-users', 'App\Http\Controllers\TicketController@getUsersByRole');
     Route::get('/cancel-ticket', 'App\Http\Controllers\TicketController@cancelTicket')->name('cancel-ticket');
@@ -55,4 +57,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/get-histories', 'App\Http\Controllers\TicketController@getHistories')->name('ticket-history');
     Route::get('/to-formula', 'App\Http\Controllers\QuestionController@toFormula')->name('get-form-data');
     Route::get('/update-answers', 'App\Http\Controllers\QuestionController@updateAnswers')->name('update-answer');
+    Route::get('/to-fetch-worktime', 'App\Http\Controllers\WorkSchedule@toFetchData')->name('fetch-worktime');
 });

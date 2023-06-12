@@ -176,15 +176,44 @@ function fetchFormInfo(ticketId, formType) {
     });
 }
 
+// function fetchWorkTimeInfo (id) {
+//     $.ajax({
+//         url: "/to-fetch-worktime",
+//         method: "get",
+//         data: { worktimeId: id },
+//         success: function (response) {
+//             console.log(response);
+//             console.log("Success");
+
+//             $('#startTime').val(response.start_time)
+//             $('#endTime').val(response.end_time)
+//             // $('#weekoff').val(response.weekly_off)
+
+//             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+//             days.forEach((day, index) => {
+//                 isSelected = response.weekly_off.includes(index)
+//                 $('#weekoff').append($(`<option value="${index}" ${isSelected ? 'selected' : ''}>`).text(`${day}`))
+//             });
+
+
+//             $("#worktimeModal").modal("show");
+//         },
+//         error: function (xhr) {
+//             console.error(xhr.responseText);
+//         },
+//     });
+// }
+
 $(".pib-form-open").click(function () {
     let ticketId = $(this).data("ticket-id");
     let formType = $(this).data("form-type");
 
-    // $("#pib-form-modal").data("ticket-id", ticketId);
-    // $("#pib-form-modal").data("form-type", formType);
 
     fetchFormInfo(ticketId, formType);
 });
+
+
 
 // $("#pib-form-modal").on("shown.bs.modal", function () {
 //     let ticketId = $(this).data("ticket-id");

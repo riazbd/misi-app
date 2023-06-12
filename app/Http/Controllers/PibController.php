@@ -199,15 +199,7 @@ class PibController extends Controller
             $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
             $ticket->honos = $data['honos'];
             $ticket->berha_intake = $data['berha-intake'];
-            // $ticket->strike_history = $data['strike-history'];
-            // $ticket->ticket_history = $data['ticket-history'];
-            // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
 
-            // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
-            // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
-            // $ticket->vtcb_date = Carbon::createFromFormat('d/m/Y', $data['vtcb-date'])->format('Y-m-d');
-            // $ticket->closure = Carbon::createFromFormat('d/m/Y', $data['closure'])->format('Y-m-d');
-            // $ticket->aanm_intake_1 = Carbon::createFromFormat('d/m/Y', $data['aanm-intake'])->format('Y-m-d');
             $ticket->rom_start =  $data['rom-start'];
             $ticket->rom_end = $data['rom-end'];
             $ticket->berha_end = $data['berha-eind'];
