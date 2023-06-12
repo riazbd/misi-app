@@ -98,25 +98,25 @@
 
             document
                 .getElementById("worktimesubmit")
-                .addEventListener("click", function () {
+                .addEventListener("click", function() {
                     $("#worktimeform").submit();
                 });
-            $("#worktimeform").submit(function (event) {
+            $("#worktimeform").submit(function(event) {
                 event.preventDefault(); // Prevent form submission
 
                 var formData = $(this).serialize(); // Serialize form data
                 console.log(formData);
 
                 $.ajax({
-                    url: $(this).attr("action"),
+                    url: '/update-worktime/' + $(this).data('worktime-id'),
                     type: "GET",
                     data: formData,
-                    success: function (response) {
+                    success: function(response) {
                         // Handle success response
                         console.log(response);
                         Swal.fire("Success!", "Form updated", "success");
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         // Handle error response
                         console.log(xhr.responseText);
                         Swal.fire("Error!", "Request failed", "error");
@@ -124,12 +124,14 @@
                 });
             });
 
-            function fetchWorkTimeInfo (id) {
+            function fetchWorkTimeInfo(id) {
                 $.ajax({
                     url: "/to-fetch-worktime",
                     method: "get",
-                    data: { worktimeId: id },
-                    success: function (response) {
+                    data: {
+                        worktimeId: id
+                    },
+                    success: function(response) {
                         console.log(response);
                         console.log(response.start_time);
                         console.log(response.end_time);
@@ -139,7 +141,11 @@
                         $('#endTimeInput').val(response.end_time)
                         // $('#weekoff').val(response.weekly_off)
 
-                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                        $('#worktimeform').attr('data-worktime-id', response.id)
+
+                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+                            'Saturday'
+                        ]
 
                         var $weekoff = $('#weekoff');
 
@@ -150,7 +156,8 @@
                         days.forEach((day, index) => {
                             isSelected = response.weekly_off.includes(`${index}`);
                             console.log(isSelected)
-                            $weekoff.append($('<option></option>').attr('value', index).prop('selected', isSelected).text(day));
+                            $weekoff.append($('<option></option>').attr('value', index).prop(
+                                'selected', isSelected).text(day));
                         });
 
                         // $weekoff.val(response.weekly_off);
@@ -161,7 +168,7 @@
 
                         $("#worktimeModal").modal("show");
 
-                        $(function () {
+                        $(function() {
                             $('#startTime').datetimepicker({
                                 format: 'LT'
                             });
@@ -175,23 +182,19 @@
 
                         $weekoff.selectpicker('val', response.weekly_off)
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.error(xhr.responseText);
                     },
                 });
             }
 
-            $("#workmodalshow").click(function () {
+            $("#workmodalshow").click(function() {
                 let id = $(this).data("worktime-id");
 
 
                 fetchWorkTimeInfo(id);
             });
         });
-
-
-
-
     </script>
 
 @stop

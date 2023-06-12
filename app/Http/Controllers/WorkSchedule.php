@@ -140,16 +140,32 @@ class WorkSchedule extends Controller
         try {
             $worktime = WorkDayTime::where('id', $request->input('worktimeId'))->first();
 
+            $id = $worktime->id;
             $start_time = $worktime->start_time;
             $end_time = $worktime->end_time;
 
             $weekly_off = json_decode($worktime->weekly_holidays);
 
-            return response()->json(['start_time' => $start_time, 'end_time' => $end_time, 'weekly_off' => $weekly_off]);
+            return response()->json(['id' => $id, 'start_time' => $start_time, 'end_time' => $end_time, 'weekly_off' => $weekly_off]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
+    }
 
+    public function updateWorkTime(Request $request, $id)
+    {
+        try {
+            $data = $request->all();
+            $worktime = WorkDayTime::where('id', $id)->first();
 
+            $worktime->start_time = Carbon::createFromFormat('g:i A', $data['start-time'])->format('H:i:s');
+            $worktime->end_time = Carbon::createFromFormat('g:i A', $data['end-time'])->format('H:i:s');
+            $worktime->weekly_holidays = json_encode($data['weeklyoff']);
+
+            $worktime->save();
+            return response()->json(['message' => 'Succesfully Saved']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 }
