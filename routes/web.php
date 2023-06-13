@@ -58,5 +58,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/to-formula', 'App\Http\Controllers\QuestionController@toFormula')->name('get-form-data');
     Route::get('/update-answers', 'App\Http\Controllers\QuestionController@updateAnswers')->name('update-answer');
     Route::get('/to-fetch-worktime', 'App\Http\Controllers\WorkSchedule@toFetchData')->name('fetch-worktime');
+    Route::get('/leaves', 'App\Http\Controllers\WorkSchedule@leaveIndex')->name('leaves');
+    Route::POST('/create-leaves', 'App\Http\Controllers\WorkSchedule@leaveCreate')->name('create-leaves');
+    Route::get('/to-fetch-leaves', 'App\Http\Controllers\WorkSchedule@toFetchLeaves')->name('fetch-leaves');
+    Route::get('/update-leaves/{id}', 'App\Http\Controllers\WorkSchedule@UpdateLeaves')->name('update-leaves');
     Route::get('/update-worktime/{id}', 'App\Http\Controllers\WorkSchedule@updateWorkTime')->name('update-worktime');
 });

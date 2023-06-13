@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveSchedule;
+use App\Models\Therapist;
 use App\Models\WorkDayTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -167,5 +169,101 @@ class WorkSchedule extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
+    }
+
+    public function leaveIndex()
+    {
+        $leaves = LeaveSchedule::all();
+        $therapists = Therapist::all();
+
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'Therapist',
+            'Star Date',
+            'End Date',
+        ];
+
+
+
+        $data = [];
+
+
+        foreach ($leaves as $leave) {
+            $items = [];
+            array_push($items, '<nobr>
+                    <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-leave-id="' . $leave->id . '" id="leaveUpdatemodalshow">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </button></nobr>', $leave->id, $leave->therapist_id, $leave->start_date, $leave->end_date);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+
+        return view('schedule.leave.index', compact('heads', 'config', 'therapists'));
+
+    }
+
+    public function leaveCreate(Request $request)
+    {
+        try {
+            $data = $request->all();
+
+            $leave = new LeaveSchedule();
+
+            $leave->therapist_id = $data['therapist'];
+
+            $leave->start_date = Carbon::createFromFormat('m/d/Y', $data['start-date'])->format('Y-m-d');
+
+            $leave->end_date = Carbon::createFromFormat('m/d/Y', $data['end-date'])->format('Y-m-d');
+
+            $leave->save();
+
+            return response()->json(['meessage' => 'Leave Created']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+
+    }
+
+    public function toFetchLeaves(Request $request)
+    {
+
+        $leave = LeaveSchedule::where('id', $request->input('leaveId'))->first();
+
+        $therapist = Therapist::where('id', $leave->therapist_id)->first();
+
+        $therapist_id = $therapist->id;
+
+        $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->start_date)->format('m/d/Y');
+        $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->end_date)->format('m/d/Y');
+
+        $therapist_name = $therapist->user()->first()->first_name . " " . $therapist->user()->first()->last_name;
+
+        return response()->json(['leave' => $leave, 'therapist' => $therapist, 'therapist_id' => $therapist_id, 'therapist_name' => $therapist_name, 'start_date' => $start_date, 'end_date' => $end_date]);
+
+    }
+
+    public function UpdateLeaves(Request $request, $id)
+    {
+        try {
+            $data = $request->all();
+
+            $leave = LeaveSchedule::where('id', $id)->first();
+
+            $leave->start_date = Carbon::createFromFormat('m/d/Y', $data['start-date'])->format('Y-m-d');
+            $leave->end_date = Carbon::createFromFormat('m/d/Y', $data['end-date'])->format('Y-m-d');
+
+            $leave->save();
+
+            return response()->json(['message' => 'Updated Successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+
     }
 }

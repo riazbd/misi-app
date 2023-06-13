@@ -11,6 +11,6 @@ class WorkDayTime extends Model
 
     public function therapist()
     {
-        return $this->hasOne('App\Models\Therapist');
+        return $this->belongsTo('App\Models\Therapist');
     }
 }

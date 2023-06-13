@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class LeaveSchedule extends Model
 {
     use HasFactory;
+
+    public function therapist()
+    {
+        return $this->belongsTo('App\Models\Therapist');
+    }
 }

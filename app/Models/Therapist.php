@@ -21,6 +21,11 @@ class Therapist extends Model
 
     public function worktime()
     {
-        return $this->belongsTo('App\Models\WorkDayTime');
+        return $this->hasOne('App\Models\WorkDayTime');
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany('App\Models\LeaveSchedule');
     }
 }
