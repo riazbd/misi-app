@@ -71,6 +71,8 @@
         $(document).ready(function() {
             $.getScript('https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js', function (){
                 $('#email-body').summernote();
+
+                // what?
             });
         });
     </script>
