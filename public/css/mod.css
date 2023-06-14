@@ -168,5 +168,15 @@ div.dataTables_wrapper div.dataTables_filter {
     width: 80%;
 }
 
+.note-btn.btn {
+    background-color: #eee !important;
+    border-color: #ddd !important;
+}
+
+.note-btn.btn:hover {
+    background-color: #ddd !important;
+    border-color: #ddd !important;
+}
+
 
 

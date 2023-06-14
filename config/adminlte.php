@@ -481,7 +481,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Create Appointment',
-                    'url'  => '#',
+                    'url'  => 'ticket-appointments/create',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                 ],
                 [
@@ -532,6 +532,23 @@ return [
                 [
                     'text' => 'Leaves',
                     'url'  => 'leaves',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Email Template',
+            'icon'    => 'fas fa-fw fa-business-time',
+            'submenu' => [
+                [
+                    'text' => 'Email Create',
+                    'url'  => 'email-templates/create',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
+                [
+                    'text' => 'Email List',
+                    'url'  => 'email-templates',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                 ],
             ],

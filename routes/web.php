@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailTamplateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\PibController;
 use App\Http\Controllers\PitController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ScreeningController;
+use App\Http\Controllers\TicketAppointmentController;
 use App\Http\Controllers\VtcbController;
 use App\Http\Controllers\WorkSchedule;
 use App\Http\Controllers\YesApprovalController;
@@ -48,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('yes-approvals', YesApprovalController::class);
     Route::resource('no-approvals', NoApprovalController::class);
     Route::resource('vtcbs', VtcbController::class);
+    Route::resource('ticket-appointments', TicketAppointmentController::class);
     Route::resource('questions', QuestionController::class);
     Route::resource('work-schedules', WorkSchedule::class);
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
@@ -63,4 +66,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/to-fetch-leaves', 'App\Http\Controllers\WorkSchedule@toFetchLeaves')->name('fetch-leaves');
     Route::get('/update-leaves/{id}', 'App\Http\Controllers\WorkSchedule@UpdateLeaves')->name('update-leaves');
     Route::get('/update-worktime/{id}', 'App\Http\Controllers\WorkSchedule@updateWorkTime')->name('update-worktime');
+    Route::resource('email-templates', EmailTamplateController::class);
 });
