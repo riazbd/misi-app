@@ -66,5 +66,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/to-fetch-leaves', 'App\Http\Controllers\WorkSchedule@toFetchLeaves')->name('fetch-leaves');
     Route::get('/update-leaves/{id}', 'App\Http\Controllers\WorkSchedule@UpdateLeaves')->name('update-leaves');
     Route::get('/update-worktime/{id}', 'App\Http\Controllers\WorkSchedule@updateWorkTime')->name('update-worktime');
+    Route::get('/getemailsforcancel', 'App\Http\Controllers\EmailTamplateController@getEmailForCancel')->name('get-cancel-email');
     Route::resource('email-templates', EmailTamplateController::class);
 });

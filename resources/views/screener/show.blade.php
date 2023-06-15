@@ -141,15 +141,15 @@
                                         <select class="form-control form-control-sm" id="select-patient"
                                             name="select-patient">
                                             <option value="">Select Patient</option>
-                                            @foreach ($patients as $patient)
-                                                <option value="{{ $patient->id }}"
-                                                    {{ $ticket->patient()->first()->id == $patient->id ? 'selected' : '' }}>
-                                                    {{ $patient->user()->first()->first_name }}
-                                                    {{ $patient->user()->first()->last_name }}</option>
+                                            @foreach ($patients as $pat)
+                                                <option value="{{ $pat->id }}"
+                                                    {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
+                                                    {{ $pat->user()->first()->first_name }}
+                                                    {{ $pat->user()->first()->last_name }}</option>
                                             @endforeach
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
-                                        data-target="#patient-view-modal">
+                                            data-target="#patient-view-modal">
                                             <div class="input-group-text bg-gradient-primary">
                                                 <i class="fas fa-eye"></i>
                                             </div>
@@ -340,8 +340,9 @@
 
                         <div class="form-group row">
                             <label for="comments" class="col-2 text-right">Work Note:</label>
-                            <div class="col-10"><textarea class="form-control form-control-sm"
-                                    id="comments" name="comments"></textarea></div>
+                            <div class="col-10">
+                                <textarea class="form-control form-control-sm" id="comments" name="comments"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -454,6 +455,8 @@
                             }
 
                             assignToSelect.append(option);
+                            assignToSelect.prepend($('<option></option>').val("").text(
+                                'Select Staff'));
 
                         });
 
@@ -471,7 +474,7 @@
             $('#select-department').on('change', function() {
                 var selectedRole = $(this).val();
 
-                getUsers(selectedRole)
+                getUsersChanged(selectedRole, assignToSelect)
 
 
             });

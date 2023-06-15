@@ -196,7 +196,6 @@ function fetchFormInfo(ticketId, formType) {
 //                 $('#weekoff').append($(`<option value="${index}" ${isSelected ? 'selected' : ''}>`).text(`${day}`))
 //             });
 
-
 //             $("#worktimeModal").modal("show");
 //         },
 //         error: function (xhr) {
@@ -209,11 +208,8 @@ $(".pib-form-open").click(function () {
     let ticketId = $(this).data("ticket-id");
     let formType = $(this).data("form-type");
 
-
     fetchFormInfo(ticketId, formType);
 });
-
-
 
 // $("#pib-form-modal").on("shown.bs.modal", function () {
 //     let ticketId = $(this).data("ticket-id");
@@ -256,32 +252,62 @@ $("#pib-pit-table-form").submit(function (event) {
 
 function getHistories(ticketId) {
     $.ajax({
-        url: '/get-histories', // Replace with your Laravel route
-        type: 'GET',
+        url: "/get-histories", // Replace with your Laravel route
+        type: "GET",
         data: {
-            id: ticketId
+            id: ticketId,
         },
-        success: function(response) {
+        success: function (response) {
             // Populate the "Assign To" select input with the retrieved users
-            var history_card = $('#history-card');
+            var history_card = $("#history-card");
             const histories = [];
-            $.each(response.histories, function(index, history) {
+            $.each(response.histories, function (index, history) {
+                var history_content = $('<div class="card p-5"></div>')
+                    .html('<div class="card-body" id="history-body"></div>')
+                    .html(history.comment);
 
-                var history_content = $('<div class="card p-5"></div>').html(
-                    '<div class="card-body" id="history-body"></div>').html(
-                    history.comment);
-
-                histories.push(history_content)
-
-
+                histories.push(history_content);
             });
 
             history_card.html(histories);
 
-            console.log(response.histories)
+            console.log(response.histories);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error(xhr.responseText);
-        }
+        },
+    });
+}
+
+// change assigned staff when changing department
+function getUsersChanged(roleVal, assignToSelect) {
+    $.ajax({
+        url: "/get-role-users", // Replace with your Laravel route
+        type: "GET",
+        data: {
+            role: roleVal,
+        },
+        success: function (response) {
+            // Populate the "Assign To" select input with the retrieved users
+            assignToSelect.empty();
+            $.each(response.users, function (index, user) {
+                var option = $("<option></option>")
+                    .text(user.first_name)
+                    .val(user.id);
+
+                assignToSelect.append(option);
+                assignToSelect.prepend(
+                    $("<option></option>").val("").text("Select Staff")
+                );
+
+                assignToSelect.val("");
+                assignToSelect.find('option[value=""]').prop("selected", true);
+            });
+
+            console.log(response.users);
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        },
     });
 }

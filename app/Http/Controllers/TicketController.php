@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
 use App\Models\Patient;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\User;
+use App\Mail\CancelMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class TicketController extends Controller
@@ -342,6 +345,8 @@ class TicketController extends Controller
             $ticket->status = 'cancelled';
             $ticket->department_id = null;
             $ticket->assigned_staff = null;
+            $ticket->is_cancelled = true;
+            $ticket->cancel_reason = $request->input('reason');
 
             $ticket->save();
 
@@ -353,8 +358,26 @@ class TicketController extends Controller
             $assigneduser = User::where('id', $ticket->assigned_staff)->first();
 
             $history->ticket_id = $request->input('id');
-            $history->comment = 'The ticket has been cancelled by ' . Auth::user()->first_name . " " . Auth::user()->last_name;
+            $history->comment = 'The ticket has been cancelled by ' . Auth::user()->first_name . " " . Auth::user()->last_name . "<br>" . 'for "' . $request->input('reason') . '"';
             $history->save();
+
+            if ($request->input('mailId') != null) {
+                $emailTemplate = EmailTemplate::where('id', $request->input('mailId'))->first();
+
+                $userEmail = $ticket->patient()->first()->user()->first()->email;
+
+                // Retrieve the dynamic values from the fetched email template
+                $subject = $emailTemplate->mail_subject;
+                $body = $emailTemplate->mail_body;
+                $recipientName = $ticket->patient()->first()->user()->first()->first_name . ' ' . $ticket->patient()->first()->user()->first()->last_name;
+
+                $mail = new CancelMail();
+                $mail->subject = $subject;
+                $mail->body = $body;
+                $mail->recipientName = $recipientName;
+
+                Mail::to($userEmail)->send($mail);
+            }
 
             // histiry add end
 

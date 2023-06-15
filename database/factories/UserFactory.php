@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'date_of_birth' => $date_of_birth,
             // 'age' => $age,
             'status' => $this->faker->randomElement(['Active', 'Inactive']),
-            'marital_status' => $this->faker->randomElement(['Married', 'Single', 'divorced']),
+            'marital_status' => $this->faker->randomElement(['Married', 'Single', 'Divorced']),
             'profile_photo' => $this->faker->imageUrl(200, 200, 'people'),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),

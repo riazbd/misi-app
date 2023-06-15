@@ -44,6 +44,8 @@ class CreateTicketsTable extends Migration
             $table->string('comment')->nullable();
             $table->string('language')->nullable();
             $table->string('status')->nullable();
+            $table->boolean('is_cancelled')->default(false);
+            $table->string('cancel_reason')->nullable();
             $table->string('files')->nullable();
 
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');

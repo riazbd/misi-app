@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
 use App\Models\Patient;
 use App\Models\Therapist;
 use App\Models\Ticket;
@@ -122,7 +123,9 @@ class NoApprovalController extends Controller
         $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
-        return view('noapproval.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient'));
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
+        return view('noapproval.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes'));
     }
 
     /**

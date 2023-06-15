@@ -13,7 +13,8 @@
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back">Go Back</button>
                 <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
-                <button class="top-button top-cancel-button" id="top-cancel-button">Cancel</button>
+                {{-- <button class="top-button top-cancel-button" id="top-cancel-button">Cancel</button> --}}
+                <button class="top-button" id="top-cancel" data-toggle="modal" data-target="#cancelModal">Cancel</button>
 
             </div>
         </div>
@@ -166,15 +167,15 @@
                                         <select class="form-control form-control-sm" id="select-patient"
                                             name="select-patient">
                                             <option value="">Select Patient</option>
-                                            @foreach ($patients as $patient)
-                                                <option value="{{ $patient->id }}"
-                                                    {{ $ticket->patient()->first()->id == $patient->id ? 'selected' : '' }}>
-                                                    {{ $patient->user()->first()->first_name }}
-                                                    {{ $patient->user()->first()->last_name }}</option>
+                                            @foreach ($patients as $pat)
+                                                <option value="{{ $pat->id }}"
+                                                    {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
+                                                    {{ $pat->user()->first()->first_name }}
+                                                    {{ $pat->user()->first()->last_name }}</option>
                                             @endforeach
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
-                                        data-target="#patient-view-modal">
+                                            data-target="#patient-view-modal">
                                             <div class="input-group-text bg-gradient-primary">
                                                 <i class="fas fa-eye"></i>
                                             </div>
@@ -363,8 +364,9 @@
 
                         <div class="form-group row">
                             <label for="comments" class="col-2 text-right">Work Note:</label>
-                            <div class="col-10"><textarea class="form-control form-control-sm"
-                                    id="comments" name="comments"></textarea></div>
+                            <div class="col-10">
+                                <textarea class="form-control form-control-sm" id="comments" name="comments"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,6 +397,7 @@
 
     </div>
     @include('extras.patient_modal')
+    @include('extras.cancelModal')
 @stop
 
 @section('js')
@@ -472,6 +475,7 @@
                     },
                     success: function(response) {
                         // Populate the "Assign To" select input with the retrieved users
+                        assignToSelect.empty()
                         $.each(response.users, function(index, user) {
                             var option = $('<option></option>').text(user.first_name).val(user
                                 .id);
@@ -484,6 +488,8 @@
                             }
 
                             assignToSelect.append(option);
+                            assignToSelect.prepend($('<option></option>').val("").text(
+                                'Select Staff'));
                         });
 
                         console.log(response.users)
@@ -494,12 +500,42 @@
                 });
             }
 
-            function cancelTicket(ticketId) {
+
+
+            // $('#top-cancel-button').on('click', function() {
+            //     var ticketId = '{{ $ticket->id }}';
+
+            //     cancelTicket(ticketId)
+
+
+            // });
+
+
+
+            // Handle the change event of the "Roles" select input
+            $('#select-department').on('change', function() {
+                var selectedRole = $(this).val();
+
+                getUsersChanged(selectedRole, assignToSelect)
+
+
+            });
+
+
+
+
+
+
+            // for cancellation
+
+            function cancelTicket(ticketId, mailId, reason) {
                 $.ajax({
                     url: '/cancel-ticket/', // Replace with your Laravel route
                     type: 'GET',
                     data: {
-                        id: ticketId
+                        id: ticketId,
+                        mailId: mailId,
+                        reason: reason
                     },
                     success: function(response) {
                         // Populate thconsole.log(response);
@@ -512,24 +548,57 @@
                 });
             }
 
-            $('#top-cancel-button').on('click', function() {
+            $('#clickable').click(function() {
+                if ($('#sendEmailToggle').is(':checked')) {
+                    $('#sendEmailToggle').prop('checked', false)
+                    $('#emailFields').hide();
+                    console.log('Toggle button is ON');
+                } else {
+                    $('#sendEmailToggle').prop('checked', true)
+                    $('#emailFields').show();
+                    console.log('Toggle button is OFF');
+                }
+            })
+
+            $('#emailTypeCancel').change(function() {
+                var selectedType = $(this).val();
+                $.ajax({
+                    url: '/getemailsforcancel',
+                    method: 'GET',
+                    data: {
+                        type: selectedType
+                    },
+                    success: function(response) {
+                        var emailNameSelect = $('#emailNameCancel');
+                        console.log(response);
+                        emailNameSelect.empty();
+                        if (response && response.length > 0) {
+                            response.forEach(function(email) {
+                                var option = $('<option></option>').attr('value', email
+                                    .id).text(email.mail_name);
+                                emailNameSelect.append(option);
+                            });
+                        }
+                        // $('#emailFields').show();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            $('#submitCancel').on('click', function() {
                 var ticketId = '{{ $ticket->id }}';
 
-                cancelTicket(ticketId)
+                var mailId = $('#emailNameCancel').val()
+
+                var reason = $('#cancelReason').val()
+
+                cancelTicket(ticketId, mailId, reason)
 
 
             });
 
-
-
-            // Handle the change event of the "Roles" select input
-            $('#select-department').on('change', function() {
-                var selectedRole = $(this).val();
-
-                getUsers(selectedRole)
-
-
-            });
 
 
         });

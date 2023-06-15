@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
 use App\Models\Patient;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
@@ -129,7 +130,9 @@ class VtcbController extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $screening = $id;
         $patient = $ticket->patient()->first();
-        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient'));
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
+        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'mailTypes'));
     }
 
     /**

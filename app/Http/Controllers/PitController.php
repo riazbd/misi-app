@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
 use App\Models\Patient;
 use App\Models\Therapist;
 use App\Models\Ticket;
@@ -124,7 +125,12 @@ class PitController extends Controller
         $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient'));
+
+        // dd($patient->user()->first());
+
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
+        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes'));
     }
 
     /**
