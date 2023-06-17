@@ -168,13 +168,17 @@
                                     <div class="input-group">
                                         <select class="form-control form-control-sm" id="select-patient"
                                             name="select-patient">
-                                            <option value="">Select Patient</option>
+                                            {{-- <option value="">Select Patient</option>
                                             @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
                                                     {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
                                                     {{ $pat->user()->first()->first_name }}
                                                     {{ $pat->user()->first()->last_name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
+                                            <option value="{{ $ticket->patient()->first()->id }}">
+                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                            </option>
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
                                             data-target="#patient-view-modal">
@@ -566,6 +570,11 @@
                 cancelTicket(ticketId, mailId, reason)
 
 
+            });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
             });
         });
     </script>

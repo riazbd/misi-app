@@ -1,3 +1,4 @@
+
 let labels = document.querySelectorAll("label");
 
 labels.forEach(function (label) {
@@ -222,9 +223,7 @@ $("#pib-form-modal").on("hidden.bs.modal", function () {
     $("#pib-pit-table-form").empty();
 });
 
-document
-    .getElementById("pib-pit-submit")
-    .addEventListener("click", function () {
+document.getElementById("pib-pit-submit").addEventListener("click", function () {
         $("#pib-pit-table-form").submit();
     });
 $("#pib-pit-table-form").submit(function (event) {
@@ -311,3 +310,9 @@ function getUsersChanged(roleVal, assignToSelect) {
         },
     });
 }
+
+$('.go-back').click(function() {
+    history.go(-1); // Go back one page
+    console.log('click back button')
+  });
+

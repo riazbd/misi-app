@@ -33,8 +33,8 @@
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">Therapist Type:</label>
                             <div class="col-7">
-                                <select type="text" class="form-control form-control-sm" id="therapist-type"
-                                    name="therapist-type">
+                                <select type="text" class="form-control form-control-sm selectpicker" id="therapist-type"
+                                    name="therapist-type" data-live-search="true">
                                     <option value="Therapist type 1">Therapist type 1</option>
                                     <option value="Therapist type 2">Therapist type 2</option>
                                     <option value="Therapist type 3">Therapist type 3</option>
@@ -324,6 +324,10 @@
                         Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
+            });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
             });
         });
     </script>

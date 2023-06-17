@@ -141,8 +141,8 @@
                             <div class="col-7">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="form-control form-control-sm" id="select-patient"
-                                            name="select-patient">
+                                        <select class="form-control form-control-sm selectpicker" id="select-patient"
+                                            name="select-patient" data-live-search="true">
                                             <option value="">Select Patient</option>
                                             @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
@@ -280,7 +280,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="select-status" class="col-5 text-right">Call Strike:</label>
+                            <label for="select-status" class="col-5 text-right">Status:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
@@ -498,6 +498,11 @@
                 getUsersChanged(selectedRole, assignToSelect)
 
 
+            });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
             });
         });
     </script>

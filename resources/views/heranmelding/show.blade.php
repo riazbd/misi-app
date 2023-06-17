@@ -33,9 +33,9 @@
                     <!-- First Column -->
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label for="select-therapists" class="col-5 text-right">Select Department:</label>
+                            <label for="select-department" class="col-5 text-right">Select Department:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="select-therapists"
+                                <select class="form-control form-control-sm" id="select-department"
                                     name="select-department">
                                     @foreach ($matchingRoles as $matchingRole)
                                         <option value="{{ $matchingRole->id }}"
@@ -76,70 +76,70 @@
                             <label for="mono-multi-zd" class="col-5 text-right">Mono/Multi ZD:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="mono-multi-zd"
-                                    name="mono-multi-zd" value="{{ $ticket->mono_multi_zd }}">
+                                    name="mono-multi-zd" value="{{ $ticket->mono_multi_zd }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="mono-multi-screening" class="col-5 text-right">Mono/Multi Screening:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="mono-multi-screening"
-                                    name="mono-multi-screening" value="{{ $ticket->mono_multi_screening }}">
+                                    name="mono-multi-screening" value="{{ $ticket->mono_multi_screening }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="intakes-therapist" class="col-5 text-right">Intakes/Therapist:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="intakes-therapist"
-                                    name="intakes-therapist" value="{{ $ticket->intake_or_therapist }}">
+                                    name="intakes-therapist" value="{{ $ticket->intake_or_therapist }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="tresonit-number" class="col-5 text-right">Tresonit Number:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="tresonit-number"
-                                    name="tresonit-number" value="{{ $ticket->tresonit_number }}">
+                                    name="tresonit-number" value="{{ $ticket->tresonit_number }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="datum-intake" class="col-5 text-right">Datum Intake:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="datum-intake"
-                                    name="datum-intake" value="{{ $ticket->datum_intake }}">
+                                    name="datum-intake" value="{{ $ticket->datum_intake }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="datuem-intake-2" class="col-5 text-right">Datuem Intake 2:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="datuem-intake-2"
-                                    name="datuem-intake-2" value="{{ $ticket->datum_intake_2 }}">
+                                    name="datuem-intake-2" value="{{ $ticket->datum_intake_2 }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nd-account" class="col-5 text-right">ND Account:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="nd-account"
-                                    name="nd_account" value="{{ $ticket->nd_account }}">
+                                    name="nd_account" value="{{ $ticket->nd_account }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="avc-alfmvm-sbg" class="col-5 text-right">AvC/AlfmVm/SBG:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="avc-alfmvm-sbg"
-                                    name="avc-alfmvm-sbg" value="{{ $ticket->avc_alfmvm_sbg }}">
+                                    name="avc-alfmvm-sbg" value="{{ $ticket->avc_alfmvm_sbg }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="honos" class="col-5 text-right">Honos:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="honos" name="honos"
-                                    value="{{ $ticket->honos }}">
+                                    value="{{ $ticket->honos }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="berha-intake" class="col-5 text-right">Berha Intake:</label>
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="berha-intake"
-                                    name="berha-intake" value="{{ $ticket->berha_intake }}">
+                                    name="berha-intake" value="{{ $ticket->berha_intake }}" readonly>
                             </div>
                         </div>
                         {{-- <div class="form-group row">
@@ -164,13 +164,17 @@
                                     <div class="input-group">
                                         <select class="form-control form-control-sm" id="select-patient"
                                             name="select-patient">
-                                            <option value="">Select Patient</option>
+                                            {{-- <option value="">Select Patient</option>
                                             @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
                                                     {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
                                                     {{ $pat->user()->first()->first_name }}
                                                     {{ $pat->user()->first()->last_name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
+                                            <option value="{{ $ticket->patient()->first()->id }}">
+                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                            </option>
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
                                             data-target="#patient-view-modal">
@@ -189,7 +193,7 @@
                             <label for="rom-start" class="col-5 text-right">ROM Start:</label>
                             <div class="col-7">
                                 <x-adminlte-input-date name="rom-start" :config="$config" placeholder="Choose a date..."
-                                    id="rom-start" :value="$ticket->rom_start" class="form-control-sm">
+                                    id="rom-start" :value="$ticket->rom_start" class="form-control-sm" readonly>
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -206,7 +210,7 @@
                                 <x-adminlte-input-date name="rom-end" :config="$config" placeholder="Choose a date..."
                                     id="rom-end" :value="$ticket->rom_end" class="form-control-sm">
                                     <x-slot name="appendSlot">
-                                        <div class="input-group-text bg-gradient-primary">
+                                        <div class="input-group-text bg-gradient-primary" readonly>
                                             <i class="fas fa-calendar-alt"></i>
                                         </div>
                                     </x-slot>
@@ -218,7 +222,7 @@
                             <label for="berha-eind" class="col-5 text-right">Berha Eind:</label>
                             <div class="col-7">
                                 <x-adminlte-input-date name="berha-eind" :config="$config" placeholder="Choose a date..."
-                                    id="berha-eind" :value="$ticket->berha_end" class="form-control-sm">
+                                    id="berha-eind" :value="$ticket->berha_end" class="form-control-sm" readonly>
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -233,7 +237,7 @@
                             <label for="vtcb-date" class="col-5 text-right">VTCB Date:</label>
                             <div class="col-7">
                                 <x-adminlte-input-date name="vtcb-date" :config="$config" placeholder="Choose a date..."
-                                    id="vtcb-date" :value="$ticket->vtcb_date" class="form-control-sm">
+                                    id="vtcb-date" :value="$ticket->vtcb_date" class="form-control-sm" readonly>
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -248,7 +252,7 @@
                             <label for="closure" class="col-5 text-right">Closure:</label>
                             <div class="col-7">
                                 <x-adminlte-input-date name="closure" :config="$config" placeholder="Choose a date..."
-                                    id="closure" :value="$ticket->closure" class="form-control-sm">
+                                    id="closure" :value="$ticket->closure" class="form-control-sm" readonly>
                                     <x-slot name="appendSlot">
                                         <div class="input-group-text bg-gradient-primary">
                                             <i class="fas fa-calendar-alt"></i>
@@ -275,7 +279,8 @@
                         <div class="form-group row">
                             <label for="location" class="col-5 text-right">Location:</label>
                             <div class="col-7"><input class="form-control form-control-sm" id="location"
-                                    name="location" value="{{ $ticket->location }}"></div>
+                                    name="location" value="{{ $ticket->location }}" readonly>
+                                </div>
                         </div>
                         <div class="form-group row">
                             <label for="call-strike" class="col-5 text-right">Call Strike:</label>
@@ -406,6 +411,13 @@
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
 
+            $('#rom-start').prop('readonly', true);
+            $('#rom-end').prop('readonly', true);
+            $('#berha-eind').prop('readonly', true);
+            $('#vtcb-date').prop('readonly', true);
+            $('#closure').prop('readonly', true);
+            $('#aanm-intake').prop('readonly', true);
+
             var ticketId = '{{ $ticket->id }}';
 
             getHistories(ticketId)
@@ -479,10 +491,6 @@
                 });
             }
 
-
-
-
-
             // Handle the change event of the "Roles" select input
             $('#select-department').on('change', function() {
                 var selectedRole = $(this).val();
@@ -490,6 +498,11 @@
                 getUsersChanged(selectedRole, assignToSelect)
 
 
+            });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
             });
         });
     </script>

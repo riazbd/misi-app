@@ -5,7 +5,7 @@
         style="min-height: 10px; background-color: #fff;">
         <div>
             <div class="d-flex flex-direction-row button-container">
-                <button class="top-button go-back">Go Back</button>
+                <button class="top-button go-back" id="goback">Go Back</button>
                 <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
 
             </div>
@@ -107,7 +107,7 @@
                     <div class="form-group row">
                         <label for="select-department" class="col-5 text-right">Select Patient:</label>
                         <div class="col-7">
-                            <select class="form-control form-control-sm" id="select-patient" name="select-patient">
+                            <select class="form-control form-control-sm selectpicker" id="select-patient" name="select-patient" data-live-search="true">
                                 <option value="">Select Patient</option>
                                 @foreach ($patients as $patient)
                                     <option value="{{ $patient->id }}">{{ $patient->user()->first()->first_name }}
@@ -282,6 +282,11 @@
                         Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
+            });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
             });
         });
     </script>

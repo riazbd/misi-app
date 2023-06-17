@@ -106,6 +106,11 @@
                     }
                 });
             });
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
+            });
         });
     </script>
 
