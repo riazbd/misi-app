@@ -83,6 +83,68 @@ class TicketController extends Controller
         return view('tickets.index', compact('heads', 'config'));
     }
 
+    public function missingInfo()
+    {
+        $tickets = Ticket::where('honos', null)->orWhere('location', null)->get();
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'Patient ID',
+            'Status',
+            'Remarks',
+            'Created At',
+            'Updated At',
+            'Strike',
+            'Mono/Multi ZD',
+            'Mono/Multi Screening',
+            'Intake or Therapist',
+            // ['label' => 'Phone', 'width' => 40],
+            'Tresonit Number',
+            'Datum Intake',
+            'Datum Intake 2',
+            'ND Account',
+            'AVC/ALFMVM/SBG',
+            'Honos',
+            'Berha Intake',
+            'ROM Start',
+            'ROM End',
+            'Berha End',
+            'VTCB Date',
+            'Closure',
+            'Aanm Intake',
+            'Location',
+
+
+
+
+        ];
+
+
+
+        $data = [];
+
+        foreach ($tickets as $ticket) {
+            $items = [];
+
+            array_push($items, '<nobr>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('tickets.destroy', ['ticket' => $ticket->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+
+        return view('tickets.index', compact('heads', 'config'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -258,13 +320,19 @@ class TicketController extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
-            $history = new TicketHistory();
-
-            $history->ticket_id = $id;
-            $history->comment = $data['comments'];
-
             $ticket->save();
-            $history->save();
+            if ($data['comments'] != null) {
+                $history = new TicketHistory();
+
+                $history->ticket_id = $id;
+                $history->comment = $data['comments'];
+
+                $history->save();
+            }
+
+
+
+
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

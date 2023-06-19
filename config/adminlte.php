@@ -368,6 +368,11 @@ return [
                     'url' => '/tickets'
                 ],
                 [
+                    'text' => 'Missing Info Tickets',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                    'url' => '/missing-info-tickets'
+                ],
+                [
                     'text' => 'Cancelled Tickets',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/cancelled-tickets'
