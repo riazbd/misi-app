@@ -193,43 +193,105 @@
             });
 
 
-            $('#start-date').datetimepicker({
-                format: 'L',
-                useCurrent: false,
-                minDate: moment().startOf('day')
+            // $('#start-date').datetimepicker({
+            //     format: 'L',
+            //     useCurrent: false,
+            //     minDate: moment().startOf('day')
+            // });
+
+            // $('#start-date').on('change.datetimepicker', function (e) {
+            //     $(this).find('input').val(e.date.format('L'));
+            // });
+
+            // $('#end-date').datetimepicker({
+            //     format: 'L',
+            //     useCurrent: false,
+            //     minDate: moment().startOf('day')
+            // });
+            // $('#end-date').on('change.datetimepicker', function (e) {
+            //     $(this).find('input').val(e.date.format('L'));
+            // });
+
+            // $('#dates').datetimepicker({
+            //     format: 'yyyy-mm-dd' ,
+            //     useCurrent: false,
+            //     minDate: moment().startOf('day'),
+            //     multidate: true, // Allow multiple dates to be selected
+            //     multidateSeparator: ', ',
+            //     dateRange: true // Enable date range selection
+            // });
+            // $('#dates').on('change.datetimepicker', function (e) {
+            //     $(this).find('input').val(e.date.format('L'));
+            // });
+
+            // $('#dates').on('changeDate', function(e) {
+            //     // Get the selected dates as an array of Date objects
+            //     var selectedDates = $('#dates').datepicker('getDates');
+
+            //     // Convert the array of Date objects to an array of formatted strings
+            //     var formattedDates = selectedDates.map(date => moment(date).format('YYYY-MM-DD'));
+
+            //     // Update the input value with the selected dates
+            //     $('[name="dates"]').val(formattedDates.join(', '));
+            // });
+
+            // $('#dates').datepicker({
+            //     range: true,
+            //     multipleDates: true,
+            //     dateFormat: 'yyyy-mm-dd',
+            //     clearButton: true,
+            //     onSelect: function(formattedDate, date, inst) {
+            //         var selectedDates = inst.selectedDates.map(date => date.toLocaleDateString('en-CA'));
+            //         $('[name="dates"]').val(selectedDates.join(', '));
+            //     }
+            // });
+            var selectedDates = [];
+
+            function updateInputField(startDate, endDate) {
+                if (startDate.format('YYYY-MM-DD') === endDate.format('YYYY-MM-DD')) {
+                    $('#dates').val(startDate.format('YYYY-MM-DD'));
+                } else {
+                    $('#dates').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+                }
+            }
+
+            $('#dates').daterangepicker({
+                opens: 'left', // Adjust the position of the datepicker if needed
+                startDate: moment(), // Set the initial date
+                endDate: moment(), // Set the initial date
+                minDate: moment().startOf('day'), // Set the minimum selectable date
+                showDropdowns: true, // Show dropdowns for month and year selection
+                linkedCalendars: false, // Allow selecting different dates for start and end
+                locale: {
+                    format: 'YYYY-MM-DD' // Date format
+                },
+                ranges: false // Disable the predefined ranges to allow custom selection
+            }, updateInputField);
+
+            // Update the selectedDates array whenever the selection changes
+            $('#dates').on('apply.daterangepicker', function(ev, picker) {
+                selectedDates = picker.selectedDates;
+                updateInputField(picker.startDate, picker.endDate);
             });
 
-            $('#start-date').on('change.datetimepicker', function (e) {
-                $(this).find('input').val(e.date.format('L'));
-            });
+            // $('#start-date-show').datetimepicker({
+            //     format: 'L',
+            //     useCurrent: false,
+            //     minDate: moment().startOf('day')
+            // });
 
-            $('#end-date').datetimepicker({
-                format: 'L',
-                useCurrent: false,
-                minDate: moment().startOf('day')
-            });
-            $('#end-date').on('change.datetimepicker', function (e) {
-                $(this).find('input').val(e.date.format('L'));
-            });
+            // $('#start-date-show').on('change.datetimepicker', function (e) {
+            //     $(this).find('input').val(e.date.format('L'));
+            // });
 
-            $('#start-date-show').datetimepicker({
-                format: 'L',
-                useCurrent: false,
-                minDate: moment().startOf('day')
-            });
-
-            $('#start-date-show').on('change.datetimepicker', function (e) {
-                $(this).find('input').val(e.date.format('L'));
-            });
-
-            $('#end-date-show').datetimepicker({
-                format: 'L',
-                useCurrent: false,
-                minDate: moment().startOf('day')
-            });
-            $('#end-date-show').on('change.datetimepicker', function (e) {
-                $(this).find('input').val(e.date.format('L'));
-            });
+            // $('#end-date-show').datetimepicker({
+            //     format: 'L',
+            //     useCurrent: false,
+            //     minDate: moment().startOf('day')
+            // });
+            // $('#end-date-show').on('change.datetimepicker', function (e) {
+            //     $(this).find('input').val(e.date.format('L'));
+            // });
         });
     </script>
 

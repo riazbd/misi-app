@@ -36,7 +36,22 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="dates" class="col-3 text-right">Dates:</label>
+                                    <div class="col-9">
+                                        <div class="input-group date dateinput" >
+                                            <input type="text" class="form-control form-control-sm" name="dates" id="dates"/>
+                                            <div class="input-group-append"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"> <i class="fas fa-calendar-alt"></i></div>
+                                            </div>
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {{-- <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="start-date" class="col-5 text-right">Start Date:</label>
                                     <div class="col-7">
@@ -50,9 +65,9 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="end-date" class="col-5 text-right">End Date:</label>
                                     <div class="col-7">
@@ -67,7 +82,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>

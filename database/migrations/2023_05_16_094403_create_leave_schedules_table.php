@@ -16,8 +16,9 @@ class CreateLeaveSchedulesTable extends Migration
         Schema::create('leave_schedules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('therapist_id')->nullable();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            // $table->dateTime('start_date')->nullable();
+            // $table->dateTime('end_date')->nullable();
+            $table->text('dates')->nullable();
 
             $table->foreign('therapist_id')->references('id')->on('therapists')->onDelete('cascade');
             $table->timestamps();

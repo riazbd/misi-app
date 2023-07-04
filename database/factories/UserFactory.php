@@ -24,6 +24,7 @@ class UserFactory extends Factory
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'date_of_birth' => $date_of_birth,
             // 'age' => $age,
+            'user_serial_no' => $this->faker->unique()->regexify('[A-Za-z0-9]{10}'),
             'status' => $this->faker->randomElement(['Active', 'Inactive']),
             'marital_status' => $this->faker->randomElement(['Married', 'Single', 'Divorced']),
             'profile_photo' => $this->faker->imageUrl(200, 200, 'people'),

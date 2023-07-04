@@ -178,5 +178,9 @@ div.dataTables_wrapper div.dataTables_filter {
     border-color: #ddd !important;
 }
 
+.air-datepicker {
+    z-index: 9999 !important;
+}
+
 
 
