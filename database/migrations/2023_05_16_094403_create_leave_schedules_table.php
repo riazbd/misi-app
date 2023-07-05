@@ -19,6 +19,8 @@ class CreateLeaveSchedulesTable extends Migration
             // $table->dateTime('start_date')->nullable();
             // $table->dateTime('end_date')->nullable();
             $table->text('dates')->nullable();
+            $table->text('start_time')->nullable();
+            $table->text('end_time')->nullable();
 
             $table->foreign('therapist_id')->references('id')->on('therapists')->onDelete('cascade');
             $table->timestamps();
