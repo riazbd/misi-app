@@ -217,13 +217,33 @@ class WorkSchedule extends Controller
 
             $leave->therapist_id = $data['therapist'];
 
-            $leave->start_date = Carbon::createFromFormat('m/d/Y', $data['start-date'])->format('Y-m-d');
+            $dates = explode(" - ", $data['dates']);
+            $startDate = Carbon::createFromFormat('m/d/Y', $dates[0])->format('Y-m-d');
+            $endDate = Carbon::createFromFormat('m/d/Y', $dates[1])->format('Y-m-d');
 
-            $leave->end_date = Carbon::createFromFormat('m/d/Y', $data['end-date'])->format('Y-m-d');
+            $dateRange = [];
+            $currentDate = Carbon::createFromFormat('Y-m-d', $startDate);
+            while ($currentDate <= $endDate) {
+                $dateRange[] = $currentDate->format('Y-m-d');
+                $currentDate->addDay();
+            }
+
+            $leave->dates = json_encode($dateRange);
+
+            if ($startDate === $endDate) {
+                // Partial leave
+                $leave->start_time = $data['start-time'];
+                $leave->end_time = $data['end-time'];
+                $leave->dates = json_encode([$startDate]);
+            } else {
+                // Full day leave
+                $leave->start_time = null;
+                $leave->end_time = null;
+            }
 
             $leave->save();
 
-            return response()->json(['meessage' => 'Leave Created']);
+            return response()->json(['message' => 'Leave Created']);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }

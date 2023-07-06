@@ -255,18 +255,33 @@
                 }
             }
 
-            $('#dates').daterangepicker({
-                opens: 'left', // Adjust the position of the datepicker if needed
-                startDate: moment(), // Set the initial date
-                endDate: moment(), // Set the initial date
-                minDate: moment().startOf('day'), // Set the minimum selectable date
-                showDropdowns: true, // Show dropdowns for month and year selection
-                linkedCalendars: false, // Allow selecting different dates for start and end
-                locale: {
-                    format: 'YYYY-MM-DD' // Date format
-                },
-                ranges: false // Disable the predefined ranges to allow custom selection
-            }, updateInputField);
+            // $('#dates').daterangepicker({
+            //     opens: 'left', // Adjust the position of the datepicker if needed
+            //     startDate: moment(), // Set the initial date
+            //     endDate: moment(), // Set the initial date
+            //     minDate: moment().startOf('day'), // Set the minimum selectable date
+            //     showDropdowns: true, // Show dropdowns for month and year selection
+            //     linkedCalendars: false, // Allow selecting different dates for start and end
+            //     locale: {
+            //         format: 'YYYY-MM-DD' // Date format
+            //     },
+            //     ranges: false // Disable the predefined ranges to allow custom selection
+            // }, updateInputField);
+
+            flatpickr('#dates', {
+                mode: 'range',
+                dateFormat: 'm/d/Y',
+                minDate: 'today',
+                onChange: function(selectedDates, dateStr) {
+                    if (selectedDates.length === 1) {
+                        $('#dates').val(dateStr);
+                    } else if (selectedDates.length === 2) {
+                        var startDateStr = selectedDates[0].toLocaleDateString('en-US');
+                        var endDateStr = selectedDates[1].toLocaleDateString('en-US');
+                        $('#dates').val(startDateStr + ' - ' + endDateStr);
+                    }
+                }
+            });
 
             // Update the selectedDates array whenever the selection changes
             $('#dates').on('apply.daterangepicker', function(ev, picker) {
@@ -292,6 +307,23 @@
             // $('#end-date-show').on('change.datetimepicker', function (e) {
             //     $(this).find('input').val(e.date.format('L'));
             // });
+            $("#start-time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: false,
+                minuteIncrement: 1,
+                static: true
+            });
+
+            $("#end-time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: false,
+                minuteIncrement: 1,
+                static: true
+            });
         });
     </script>
 

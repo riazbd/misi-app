@@ -84,6 +84,25 @@
                                 </div>
                             </div> --}}
                         </div>
+                        <!-- First Column -->
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="start-time" class="col-5 text-right">Start Time:</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" name="start-time" id="start-time" placeholder="Select start time" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Second Column -->
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="end-time" class="col-5 text-right">End Time:</label>
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" name="end-time" id="end-time" placeholder="Select end time" />
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </form>
