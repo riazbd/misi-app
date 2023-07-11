@@ -143,9 +143,7 @@
 
                         $('#worktimeform').attr('data-worktime-id', response.id)
 
-                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-                            'Saturday'
-                        ]
+                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
                         var $weekoff = $('#weekoff');
 
@@ -153,9 +151,11 @@
                         $weekoff.empty();
 
                         // Add new options
+                        console.log(response.weekly_off)
                         days.forEach((day, index) => {
                             isSelected = response.weekly_off.includes(`${index}`);
                             console.log(isSelected)
+
                             $weekoff.append($('<option></option>').attr('value', index).prop(
                                 'selected', isSelected).text(day));
                         });

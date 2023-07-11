@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TicketAppointmentController extends Controller
@@ -23,7 +24,9 @@ class TicketAppointmentController extends Controller
      */
     public function create()
     {
-        return view('ticketAppointment.create');
+
+        $tickets = Ticket::where('department_id', 10)->get();
+        return view('ticketAppointment.create', compact('tickets'));
     }
 
     /**

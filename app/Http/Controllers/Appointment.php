@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
+use App\Models\Patient;
+use App\Models\Therapist;
 use App\Models\Ticket;
+use App\Models\TicketHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -58,11 +62,11 @@ class Appointment extends Controller
             }
             $items = [];
 
-            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('appointment.edit', ['appointment' => $ticket->id]) . '">
+            array_push($items, '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('appointment-groups.edit', ['appointment_group' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('appointment.destroy', ['appointment' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('appointment-groups.destroy', ['appointment_group' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('appointment.show', ['appointment' => $ticket->id]) . '">
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('appointment-groups.show', ['appointment_group' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', $ticket->id, $assigned, $ticket->patient()->first()->id, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location, $ticket->call_strike, $ticket->remarks);
             array_push($data, $items);
@@ -106,7 +110,22 @@ class Appointment extends Controller
      */
     public function show($id)
     {
-        //
+        $roles = ['screener', 'pib', 'pit', 'heranmelding', 'yes approval', 'no approval', 'vtcb',  'appointment'];
+        $therapists = Therapist::all();
+        $matchingRoles = Role::whereIn('name', $roles)->get();
+        // $screener = Role::where('name', 'screener')->first();
+        $patients = Patient::all();
+        $ticketId = $id;
+        $ticket = Ticket::where('id', $id)->first();
+        $patient = $ticket->patient()->first();
+
+
+
+        // dd($patient->user()->first());
+
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
+        return view('appointment.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes'));
     }
 
     /**
@@ -129,7 +148,98 @@ class Appointment extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        try {
+            $ticket = Ticket::where('id', $id)->first();
+
+            if ($data['select-status'] == 'onhold' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'in_progress' && $data['select-department'] != '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-status'] == 'open' && $data['select-department'] == '') {
+                $ticket->status = $data['select-status'];
+            }
+
+            if ($data['select-department'] != $ticket->department_id) {
+                $ticket->status = 'open';
+            }
+
+            if ($data['assign-to'] == '') {
+                $ticket->status = 'open';
+            }
+
+            if ($data['assign-to'] != '' && $ticket->assigned_staff != $data['assign-to']) {
+                $ticket->status = 'onhold';
+            }
+
+            // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
+            //     $ticket->status = $data['select-status'];
+            // }
+
+
+            $ticket->department_id = $data['select-department'];
+
+            if ($ticket->department_id != null && $data['assign-to'] != '') {
+                $ticket->assigned_staff = $data['assign-to'];
+            } else {
+                $ticket->assigned_staff = null;
+            }
+            $ticket->patient_id = $data['select-patient'];
+            $ticket->mono_multi_zd = $data['mono-multi-zd'];
+            $ticket->mono_multi_screening = $data['mono-multi-screening'];
+            $ticket->intake_or_therapist = $data['intakes-therapist'];
+            $ticket->tresonit_number = $data['tresonit-number'];
+            $ticket->datum_intake = $data['datum-intake'];
+            $ticket->datum_intake_2 = $data['datuem-intake-2'];
+            $ticket->nd_account = $data['nd_account'];
+            $ticket->avc_alfmvm_sbg = $data['avc-alfmvm-sbg'];
+            $ticket->honos = $data['honos'];
+            $ticket->berha_intake = $data['berha-intake'];
+            // $ticket->strike_history = $data['strike-history'];
+            // $ticket->ticket_history = $data['ticket-history'];
+            // $ticket->rom_start =  Carbon::createFromFormat('d/m/Y', $data['rom-start'])->format('Y-m-d');
+            // $ticket->rom_end = Carbon::createFromFormat('d/m/Y', $data['rom-end'])->format('Y-m-d');
+            // $ticket->berha_end = Carbon::createFromFormat('d/m/Y', $data['berha-eind'])->format('Y-m-d');
+            // $ticket->vtcb_date = Carbon::createFromFormat('d/m/Y', $data['vtcb-date'])->format('Y-m-d');
+            // $ticket->closure = Carbon::createFromFormat('d/m/Y', $data['closure'])->format('Y-m-d');
+            // $ticket->aanm_intake_1 = Carbon::createFromFormat('d/m/Y', $data['aanm-intake'])->format('Y-m-d');
+            $ticket->rom_start =  $data['rom-start'];
+            $ticket->rom_end = $data['rom-end'];
+            $ticket->berha_end = $data['berha-eind'];
+            $ticket->vtcb_date = $data['vtcb-date'];
+            $ticket->closure = $data['closure'];
+            $ticket->aanm_intake_1 = $data['aanm-intake'];
+            $ticket->location = $data['location'];
+            $ticket->call_strike = $data['call-strike'];
+            $ticket->remarks = $data['remarks'];
+            $ticket->comment = $data['comments'];
+            // if (array_key_exists('suggest-therapists', $data)) {
+            //     $suggestedTherapists = $data['suggest-therapists'];
+            //     $ticket->suggested_therapists = $suggestedTherapists;
+            // }
+            $ticket->assigned_therapist = $data['assign-therapist'];
+            $ticket->language = $data['language-treatment'];
+            // $ticket->files = $data[''];
+
+            $history = new TicketHistory();
+
+            $history->ticket_id = $id;
+            $history->comment = $data['comments'];
+
+            $ticket->save();
+            $history->save();
+
+            // $ticket->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

@@ -38,17 +38,16 @@ class WorkSchedule extends Controller
             $holidays = json_decode($worktime->weekly_holidays);
 
             $holidayNames = [];
+            $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
             foreach ($holidays as $holiday) {
                 $dayIndex = intval($holiday);
 
                 // Create a Carbon instance and set the day of the week based on the index
-                $date = Carbon::now()->startOfWeek()->addDays($dayIndex);
+                $date = $days[$dayIndex];
 
-                // Format the date to display the day name with a comma
-                $dayNameWithComma = $date->format('l,');
 
-                $holidayNames[] = $dayNameWithComma;
+                $holidayNames[] = $date;
             }
 
             $dayNamesString = implode(', ', $holidayNames);

@@ -247,13 +247,13 @@
             // });
             var selectedDates = [];
 
-            function updateInputField(startDate, endDate) {
-                if (startDate.format('YYYY-MM-DD') === endDate.format('YYYY-MM-DD')) {
-                    $('#dates').val(startDate.format('YYYY-MM-DD'));
-                } else {
-                    $('#dates').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
-                }
-            }
+            // function updateInputField(startDate, endDate) {
+            //     if (startDate.format('YYYY-MM-DD') === endDate.format('YYYY-MM-DD')) {
+            //         $('#dates').val(startDate.format('YYYY-MM-DD'));
+            //     } else {
+            //         $('#dates').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+            //     }
+            // }
 
             // $('#dates').daterangepicker({
             //     opens: 'left', // Adjust the position of the datepicker if needed
@@ -284,10 +284,10 @@
             });
 
             // Update the selectedDates array whenever the selection changes
-            $('#dates').on('apply.daterangepicker', function(ev, picker) {
-                selectedDates = picker.selectedDates;
-                updateInputField(picker.startDate, picker.endDate);
-            });
+            // $('#dates').on('apply.daterangepicker', function(ev, picker) {
+            //     selectedDates = picker.selectedDates;
+            //     updateInputField(picker.startDate, picker.endDate);
+            // });
 
             // $('#start-date-show').datetimepicker({
             //     format: 'L',

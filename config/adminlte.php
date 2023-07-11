@@ -472,7 +472,7 @@ return [
                         [
                             'text' => 'Appointment Ticket List',
                             'icon' => 'fas fa-fw fa-long-arrow-alt-right',
-                            'url' => '#',
+                            'url' => 'appointment-groups',
                         ]
                     ]
                 ],

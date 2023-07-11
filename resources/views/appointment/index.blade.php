@@ -1,10 +1,8 @@
 @extends('adminlte::page')
 @section('content')
 
-    <div class="container">
-        {{-- <div class="pull-right mt-5">
-            <a class="btn btn-success" href="{{ route('patients.create') }}"> Create New Patient</a>
-        </div> --}}
+    <div class="pt-5">
+
         <div class="mt-2 datatable-container">
             <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
                 with-footer>
@@ -24,7 +22,7 @@
     <style>
         table.dataTable td,
         table.dataTable th {
-            padding: 10px 10px;
+            padding: 5px 5px;
             width: 1px;
             white-space: nowrap;
         }

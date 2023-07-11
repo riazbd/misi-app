@@ -22,42 +22,27 @@
                 @csrf
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
-                       <div class="form-group row">
-                            <label for="select-patient" class="col-5 text-right">Select Patient:</label>
+
+                        <div class="form-group row">
+                            <label for="select-ticket" class="col-5 text-right">Slected Ticket:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="select-patient" name="select-patient">
-                                    <option value="Patient 1">Patient 1</option>
-                                    <option value="Patient 2">Patient 2</option>
-                                    <option value="Patient 3">Patient 3</option>
+                                <select class="form-control form-control-sm" id="select-ticket" name="select-ticket">
+                                    <option value="">Select Ticket</option>
+                                    @foreach ($tickets as $ticket)
+                                        <option value="{{ $ticket->id }}">Ticket {{ $ticket->id }}</option>
+                                    @endforeach
+
 
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="select-therapist" class="col-5 text-right">Select Therapist:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="select-therapist" name="select-therapist">
-                                    <option value="Therapist 1">Therapist 1</option>
-                                    <option value="Therapist 2">Therapist 2</option>
-                                    <option value="Therapist 3">Therapist 3</option>
 
-                                    <!-- Add more options as needed -->
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
+                        <div class="form-group row" id="appointment-date-group">
                             <label for="appointment-date" class="col-5 text-right">Appointment Date:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="appointment-date" name="appointment-date">
-                                    <option value="Date 1">Date 1</option>
-                                    <option value="Date 2">Date 2</option>
-                                    <option value="Date 3">Date 3</option>
-
-                                    <!-- Add more options as needed -->
-                                </select>
+                                <input type="text" class="form-control form-control-sm" id="appointment-date" name="appointment-date">
                             </div>
                         </div>
 
@@ -152,11 +137,11 @@
                                     id="therapist-comment" name="therapist-comment"></div>
                         </div>
 
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="appointment-history" class="col-5 text-right">Appointment History:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="appointment-history" name="appointment-history"></div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </form>
@@ -164,4 +149,57 @@
         </div>
     </div>
 
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            // Hide the appointment date field initially
+            $('#appointment-date-group').hide();
+
+            // Listen for changes in the selected ticket field
+            $('#select-ticket').change(function() {
+                // Get the selected ticket value
+                var selectedTicket = $(this).val();
+
+                // Check if the selected ticket is empty or null
+                if (selectedTicket === '' || selectedTicket === null) {
+                    // Hide the appointment date field
+                    $('#appointment-date-group').hide();
+                } else {
+                    // Show the appointment date field
+                    $('#appointment-date-group').show();
+                    // Dates from the leaves array
+                    var leaves = ["2023-07-12", "2023-07-13", "2023-07-14"];
+
+                    // Weekly holidays value from the database (0: Sunday, 1: Monday, etc.)
+                    var weeklyHolidays = [0]; // Example: Sunday and Monday
+
+                    // Function to check if a date is in the leaves array
+                    function isDateInLeaves(date) {
+                        var dateString = date.toLocaleDateString();
+                        return leaves.includes(dateString);
+                    }
+
+                    // Function to check if a date is a weekly holiday
+                    function isDateWeeklyHoliday(date) {
+                        var dayOfWeek = date.getDay();
+                        return weeklyHolidays.includes(dayOfWeek);
+                    }
+
+                    // Initialize the flatpickr
+                    flatpickr("#appointment-date", {
+                    disable: [
+                        function(date) {
+                        return isDateInLeaves(date) || isDateWeeklyHoliday(date);
+                        }
+                    ],
+                    locale: {
+                        firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
+                    }
+                    });
+                }
+            });
+        });
+    </script>
 @stop

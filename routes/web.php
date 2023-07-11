@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Appointment;
 use App\Http\Controllers\EmailTamplateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);
     Route::resource('yes-approvals', YesApprovalController::class);
+    Route::resource('appointment-groups', Appointment::class);
     Route::resource('no-approvals', NoApprovalController::class);
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('ticket-appointments', TicketAppointmentController::class);

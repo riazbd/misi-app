@@ -33,4 +33,9 @@ class Ticket extends Model
     {
         return $this->hasMany('App\Models\Form');
     }
+
+    public function appointments()
+    {
+        return $this->hasMany('App\Models\TicketAppointment');
+    }
 }
