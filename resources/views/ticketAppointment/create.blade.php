@@ -42,7 +42,8 @@
                         <div class="form-group row" id="appointment-date-group">
                             <label for="appointment-date" class="col-5 text-right">Appointment Date:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="appointment-date" name="appointment-date">
+                                <input type="text" class="form-control form-control-sm" id="appointment-date"
+                                    name="appointment-date">
                             </div>
                         </div>
 
@@ -86,8 +87,8 @@
 
                         <div class="form-group row">
                             <label for="remarks" class="col-5 text-right">Remarks:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm"
-                                    id="remarks" name="remarks"></div>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="remarks"
+                                    name="remarks"></div>
                         </div>
 
                         <div class="form-group row">
@@ -167,37 +168,65 @@
                     // Hide the appointment date field
                     $('#appointment-date-group').hide();
                 } else {
+
                     // Show the appointment date field
                     $('#appointment-date-group').show();
-                    // Dates from the leaves array
-                    var leaves = ["2023-07-12", "2023-07-13", "2023-07-14"];
 
-                    // Weekly holidays value from the database (0: Sunday, 1: Monday, etc.)
-                    var weeklyHolidays = [0]; // Example: Sunday and Monday
+                    var selectedTicketId = $(this).val();
 
-                    // Function to check if a date is in the leaves array
-                    function isDateInLeaves(date) {
-                        var dateString = date.toLocaleDateString();
-                        return leaves.includes(dateString);
-                    }
+                    // ajax query
+                    $.ajax({
+                        url: '/datesandappoints/' + selectedTicketId,
+                        method: 'GET',
+                        success: function(response) {
+                            // Handle the response data
+                            console.log(response);
+                            var leaves = response.leave_dates;
 
-                    // Function to check if a date is a weekly holiday
-                    function isDateWeeklyHoliday(date) {
-                        var dayOfWeek = date.getDay();
-                        return weeklyHolidays.includes(dayOfWeek);
-                    }
+                            // Weekly holidays value from the database (0: Sunday, 1: Monday, etc.)
+                            var weeklyHolidays = response
+                            .holidays; // Example: Sunday and Monday
 
-                    // Initialize the flatpickr
-                    flatpickr("#appointment-date", {
-                    disable: [
-                        function(date) {
-                        return isDateInLeaves(date) || isDateWeeklyHoliday(date);
+                            // Function to check if a date is in the leaves array
+                            function isDateInLeaves(date) {
+                                var year = date.getFullYear();
+                                var month = date.getMonth() +
+                                    1; // Months are zero-indexed, so we add 1
+                                var day = date.getDate();
+                                var dateString = year + '-' + month.toString().padStart(2,
+                                        '0') + '-' + day
+                                    .toString().padStart(2, '0');
+                                return leaves.includes(dateString);
+                            }
+
+
+                            // Function to check if a date is a weekly holiday
+                            function isDateWeeklyHoliday(date) {
+                                var dayOfWeek = date.getDay();
+                                return weeklyHolidays.includes(dayOfWeek);
+                            }
+
+                            // Initialize the flatpickr
+                            flatpickr("#appointment-date", {
+                                disable: [
+                                    function(date) {
+                                        return isDateInLeaves(date) ||
+                                            isDateWeeklyHoliday(date);
+                                    }
+                                ],
+                                locale: {
+                                    firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle any errors
+                            console.error('Error fetching dates and holidays:', error);
                         }
-                    ],
-                    locale: {
-                        firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
-                    }
                     });
+                    // end query
+                    // Dates from the leaves array
+
                 }
             });
         });

@@ -143,7 +143,9 @@
 
                         $('#worktimeform').attr('data-worktime-id', response.id)
 
-                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+                            'Saturday'
+                        ]
 
                         var $weekoff = $('#weekoff');
 
@@ -188,7 +190,7 @@
                 });
             }
 
-            $("#workmodalshow").click(function() {
+            $(".workmodalshow").click(function() {
                 let id = $(this).data("worktime-id");
 
 

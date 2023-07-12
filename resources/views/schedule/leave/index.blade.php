@@ -170,7 +170,8 @@
 
                         $('#therapistshow').empty()
 
-                        $('#therapistshow').append($('<option></option>').attr('value', response.therapist_id).text(response.therapist_name));
+                        $('#therapistshow').append($('<option></option>').attr('value', response
+                            .therapist_id).text(response.therapist_name));
 
                         $('#therapistshow').selectpicker('refresh');
                         $('#start-show-update').val(response.start_date)
@@ -276,8 +277,8 @@
                     if (selectedDates.length === 1) {
                         $('#dates').val(dateStr);
                     } else if (selectedDates.length === 2) {
-                        var startDateStr = selectedDates[0].toLocaleDateString('en-US');
-                        var endDateStr = selectedDates[1].toLocaleDateString('en-US');
+                        var startDateStr = flatpickr.formatDate(selectedDates[0], 'm/d/Y');
+                        var endDateStr = flatpickr.formatDate(selectedDates[1], 'm/d/Y');
                         $('#dates').val(startDateStr + ' - ' + endDateStr);
                     }
                 }

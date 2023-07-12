@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveSchedule;
 use App\Models\Ticket;
+use App\Models\WorkDayTime;
 use Illuminate\Http\Request;
 
 class TicketAppointmentController extends Controller
@@ -83,5 +85,23 @@ class TicketAppointmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDatesAndAppoints($id)
+    {
+        $therapistId = Ticket::where('id', $id)->first()->assigned_therapist;
+        $leaves_data = LeaveSchedule::where('therapist_id', $therapistId)->get();
+
+        $holidays = WorkDayTime::where('therapist_id', $therapistId)->first()->weekly_holidays;
+
+        // Convert the dates from JSON string to an array
+        $leaves = $leaves_data->map(function ($leave) {
+            $leave->dates = json_decode($leave->dates);
+            return $leave;
+        });
+
+        $dates = $leaves->pluck('dates')->flatten()->toArray();
+
+        return response()->json(['leave_dates' => $dates, 'holidays' => $holidays]);
     }
 }

@@ -55,7 +55,7 @@ class WorkSchedule extends Controller
             $startTime = Carbon::createFromFormat('H:i:s', $worktime->start_time)->format('h:i A');
             $endTime = Carbon::createFromFormat('H:i:s', $worktime->end_time)->format('h:i A');
             array_push($items, '<nobr>
-                    <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-worktime-id="' . $worktime->id . '" id="workmodalshow">
+                    <button class="btn btn-xs btn-default text-teal mx-1 shadow workmodalshow" data-worktime-id="' . $worktime->id . '" id="workmodalshow1">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </button></nobr>', $worktime->id, $worktime->therapist_id, $startTime, $endTime, $dayNamesString);
             array_push($data, $items);
@@ -159,12 +159,19 @@ class WorkSchedule extends Controller
             $data = $request->all();
             $worktime = WorkDayTime::where('id', $id)->first();
 
-            $worktime->start_time = Carbon::createFromFormat('g:i A', $data['start-time'])->format('H:i:s');
-            $worktime->end_time = Carbon::createFromFormat('g:i A', $data['end-time'])->format('H:i:s');
+            $startTime = Carbon::createFromFormat('g:i A', $data['start-time']);
+            $endTime = Carbon::createFromFormat('g:i A', $data['end-time']);
+
+            if (!$startTime || !$endTime) {
+                throw new \Exception('Invalid time format');
+            }
+
+            $worktime->start_time = $startTime->format('H:i:s');
+            $worktime->end_time = $endTime->format('H:i:s');
             $worktime->weekly_holidays = json_encode($data['weeklyoff']);
 
             $worktime->save();
-            return response()->json(['message' => 'Succesfully Saved']);
+            return response()->json(['message' => 'Successfully Saved']);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
@@ -204,7 +211,6 @@ class WorkSchedule extends Controller
         ];
 
         return view('schedule.leave.index', compact('heads', 'config', 'therapists'));
-
     }
 
     public function leaveCreate(Request $request)
@@ -213,15 +219,14 @@ class WorkSchedule extends Controller
             $data = $request->all();
 
             $leave = new LeaveSchedule();
-
             $leave->therapist_id = $data['therapist'];
 
             $dates = explode(" - ", $data['dates']);
-            $startDate = Carbon::createFromFormat('m/d/Y', $dates[0])->format('Y-m-d');
-            $endDate = Carbon::createFromFormat('m/d/Y', $dates[1])->format('Y-m-d');
+            $startDate = Carbon::createFromFormat('m/d/Y', $dates[0])->startOfDay();
+            $endDate = Carbon::createFromFormat('m/d/Y', $dates[1])->endOfDay();
 
             $dateRange = [];
-            $currentDate = Carbon::createFromFormat('Y-m-d', $startDate);
+            $currentDate = clone $startDate;
             while ($currentDate <= $endDate) {
                 $dateRange[] = $currentDate->format('Y-m-d');
                 $currentDate->addDay();
@@ -229,15 +234,12 @@ class WorkSchedule extends Controller
 
             $leave->dates = json_encode($dateRange);
 
-            if ($startDate === $endDate) {
-                // Partial leave
-                $leave->start_time = $data['start-time'];
-                $leave->end_time = $data['end-time'];
-                $leave->dates = json_encode([$startDate]);
+            if ($startDate->eq($endDate)) {
+                $leave->start_time = $data['start-time']; // Partial leave start time
+                $leave->end_time = $data['end-time']; // Partial leave end time
             } else {
-                // Full day leave
-                $leave->start_time = null;
-                $leave->end_time = null;
+                $leave->start_time = null; // Full-day leave
+                $leave->end_time = null; // Full-day leave
             }
 
             $leave->save();
@@ -246,7 +248,6 @@ class WorkSchedule extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
-
     }
 
     public function toFetchLeaves(Request $request)
@@ -264,7 +265,6 @@ class WorkSchedule extends Controller
         $therapist_name = $therapist->user()->first()->first_name . " " . $therapist->user()->first()->last_name;
 
         return response()->json(['leave' => $leave, 'therapist' => $therapist, 'therapist_id' => $therapist_id, 'therapist_name' => $therapist_name, 'start_date' => $start_date, 'end_date' => $end_date]);
-
     }
 
     public function UpdateLeaves(Request $request, $id)
@@ -283,6 +283,5 @@ class WorkSchedule extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
-
     }
 }
