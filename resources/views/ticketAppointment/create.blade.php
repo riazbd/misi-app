@@ -48,16 +48,11 @@
                         </div>
 
 
-                        <div class="form-group row">
+                        <div class="form-group row" id="appointment-time-group" style="display: none;">
                             <label for="appointment-time" class="col-5 text-right">Appointment Time:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="appointment-time" name="appointment-time">
-                                    <option value="Time 1">Time 1</option>
-                                    <option value="Time 2">Time 2</option>
-                                    <option value="Time 3">Time 3</option>
-
-                                    <!-- Add more options as needed -->
-                                </select>
+                                <input type="text" class="form-control form-control-sm" id="appointment-time"
+                                    name="appointment-time" data-enable-time data-no-calendar placeholder="Select Time">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -185,7 +180,7 @@
 
                             // Weekly holidays value from the database (0: Sunday, 1: Monday, etc.)
                             var weeklyHolidays = response
-                            .holidays; // Example: Sunday and Monday
+                                .holidays; // Example: Sunday and Monday
 
                             // Function to check if a date is in the leaves array
                             function isDateInLeaves(date) {
@@ -216,6 +211,27 @@
                                 ],
                                 locale: {
                                     firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
+                                },
+
+                                onChange: function(selectedDates, dateStr, instance) {
+                                    // Check if a date is selected
+                                    if (selectedDates.length > 0) {
+                                        // Show the appointment time field
+                                        $('#appointment-time-group').show();
+
+                                        // Enable timepicker for the selected date
+                                        var appointmentTimeInput = document
+                                            .getElementById('appointment-time');
+                                        flatpickr(appointmentTimeInput, {
+                                            enableTime: true,
+                                            noCalendar: true,
+                                            dateFormat: "H:i",
+                                            time_24hr: false
+                                        });
+                                    } else {
+                                        // Hide the appointment time field
+                                        $('#appointment-time-group').hide();
+                                    }
                                 }
                             });
                         },
