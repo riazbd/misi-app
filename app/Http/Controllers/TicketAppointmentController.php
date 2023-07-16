@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Intake;
 use App\Models\LeaveSchedule;
 use App\Models\Ticket;
+use App\Models\TicketAppointment;
 use App\Models\WorkDayTime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TicketAppointmentController extends Controller
@@ -39,7 +42,43 @@ class TicketAppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        try {
+
+            $data_startTime = $data['appointment-time'];
+            $startTime = Carbon::parse($data_startTime);
+            $endTime = $startTime->copy()->addMinutes(60);
+
+
+            $appointment = new TicketAppointment();
+
+            $appointment->ticket_id = $data['select-ticket'];
+            $appointment->fee = $data['select-ticket'];
+            $appointment->status = $data['select-status'];
+            $appointment->type = $data['appointment-type'];
+
+            $appointment->therapist_comment = $data['therapist-comment'];
+            $appointment->remarks = $data['remarks'];
+
+            $appointment->save();
+
+            $intake = new Intake();
+
+            $intake->appointment_id = $appointment->id;
+            $intake->date = $data['appointment-date'];
+            $intake->start_time = $startTime->format('H:i:s');
+            $intake->end_time = $endTime->format('H:i:s');
+            $intake->status = 'Active';
+            $intake->payment_method = $data['payment-method'];
+            $intake->payment_status = 'Unpaid';
+
+            $intake->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

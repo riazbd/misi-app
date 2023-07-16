@@ -18,7 +18,8 @@
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class="">
+            <form method="POST" action="{{ route('ticket-appointments.store') }}" id="create-appointment-form"
+                class="">
                 @csrf
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
@@ -60,7 +61,7 @@
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="appointment-fee" name="appointment-fee"></div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="language" class="col-5 text-right">Language:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="language" name="language">
@@ -71,7 +72,7 @@
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
 
 
@@ -244,6 +245,43 @@
                     // Dates from the leaves array
 
                 }
+            });
+
+
+            // create appointment and intake
+            document.getElementById('top-submit-button').addEventListener('click', function() {
+                $('#create-appointment-form').submit()
+            });
+            $('#create-appointment-form').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var formData = $(this).serialize(); // Serialize form data
+                // console.log(formData);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                        // Toast.fire({
+                        //     icon: 'success',
+                        //     title: 'Patient succesfully created'
+                        // });
+                        Swal.fire('Success!', 'Request successful', 'success');
+
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        console.log(xhr.responseText);
+                        // Toast.fire({
+                        //     icon: 'error',
+                        //     title: 'Patient not created'
+                        // });
+                        Swal.fire('Error!', 'Request failed', 'error');
+                    }
+                });
             });
         });
     </script>

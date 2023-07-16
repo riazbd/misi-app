@@ -16,18 +16,14 @@ class CreateTicketAppointmentsTable extends Migration
         Schema::create('ticket_appointments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ticket_id');
-            $table->string('date');
-            $table->string('time');
             $table->string('fee');
             $table->string('status');
             $table->string('type');
-            $table->string('pay_method');
             $table->longText('therapist_comment');
             $table->string('remarks');
             $table->timestamps();
 
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
-
         });
     }
 
