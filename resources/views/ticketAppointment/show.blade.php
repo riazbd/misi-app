@@ -127,6 +127,8 @@
         <hr>
         <div>
             <h4>Intakes</h4>
+            <button class="btn btn-sm btn-primary" id="create-intake" data-appointment="{{ $appointment->id }}">Create
+                Intake</button>
             <div class="mt-2 datatable-container">
                 <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
                     with-footer>
@@ -141,6 +143,9 @@
             </div>
         </div>
     </div>
+
+    @include('ticketAppointment.modals.showIntake')
+    @include('ticketAppointment.modals.createIntakeModal')
 
 @stop
 
@@ -237,6 +242,102 @@
                     'pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis'
                 ]
             })
+
+            var appointment_id = $('#create-intake').data('appointment')
+
+            $('#appointment').html('<option value="' + appointment_id + '">' + appointment_id + '</option>');
+            $('#intakesubmit').click(function() {
+                // Get the form data
+                var formData = $('#create-intake-form').serialize();
+
+                // Make the AJAX call
+                $.ajax({
+                    url: $('#create-intake-form').attr('action'), // Get the form action URL
+                    method: 'POST', // Get the form method (e.g., POST)
+                    data: formData, // Pass the form data
+                    success: function(response) {
+                        // Handle the success response
+                        console.log(response);
+                        Swal.fire('Success!', 'Request successful', 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error response
+                        console.error(xhr.responseText);
+                        Swal.fire('Error!', 'Request failed', 'error');
+                    }
+                });
+            });
+
+            var selectedTicketId = {{ $appointment->ticket_id }}
+
+            console.log(selectedTicketId);
+
+            $.ajax({
+                url: '/datesandappoints/' + selectedTicketId,
+                method: 'GET',
+                success: function(response) {
+                    // Handle the response data
+                    console.log(response);
+                    var leaves = response.leave_dates;
+
+                    // Weekly holidays value from the database (0: Sunday, 1: Monday, etc.)
+                    var weeklyHolidays = response
+                        .holidays; // Example: Sunday and Monday
+
+                    // Function to check if a date is in the leaves array
+                    function isDateInLeaves(date) {
+                        var year = date.getFullYear();
+                        var month = date.getMonth() +
+                            1; // Months are zero-indexed, so we add 1
+                        var day = date.getDate();
+                        var dateString = year + '-' + month.toString().padStart(2,
+                                '0') + '-' + day
+                            .toString().padStart(2, '0');
+                        return leaves.includes(dateString);
+                    }
+
+
+                    // Function to check if a date is a weekly holiday
+                    function isDateWeeklyHoliday(date) {
+                        var dayOfWeek = date.getDay();
+                        return weeklyHolidays.includes(dayOfWeek);
+                    }
+
+                    // Initialize the flatpickr
+                    flatpickr("#date", {
+                        disable: [
+                            function(date) {
+                                return isDateInLeaves(date) ||
+                                    isDateWeeklyHoliday(date);
+                            }
+                        ],
+                        locale: {
+                            firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
+                        },
+
+
+                    });
+
+                    flatpickr('#time', {
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i:s",
+                        time_24hr: false
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors
+                    console.error('Error fetching dates and holidays:', error);
+                }
+            });
         });
+
+        // modals and there actions
+        $('.showModal').click(function() {
+            $('#showIntakeModal').modal('show')
+        })
+        $('#create-intake').click(function() {
+            $('#createIntakeModal').modal('show')
+        })
     </script>
 @stop

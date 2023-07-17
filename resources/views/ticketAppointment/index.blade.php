@@ -16,7 +16,11 @@
                 @endforeach
             </x-adminlte-datatable>
         </div>
+
+        @include('ticketAppointment.modals.createIntakeModal')
     </div>
+
+
 @stop
 
 @section('css')
@@ -82,6 +86,11 @@
                 buttons: [
                     'pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis'
                 ]
+            })
+
+            // MODAL SHOW AND ACTIONS
+            $('.createModal').click(function() {
+                $('#createIntakeModal').modal('show')
             })
         });
     </script>

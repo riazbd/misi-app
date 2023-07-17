@@ -224,7 +224,7 @@
                                         flatpickr(appointmentTimeInput, {
                                             enableTime: true,
                                             noCalendar: true,
-                                            dateFormat: "H:i",
+                                            dateFormat: "H:i:s",
                                             time_24hr: false
                                         });
                                     } else {

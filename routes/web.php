@@ -9,6 +9,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HeranmeldingController;
+use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\NoApprovalController;
 use App\Http\Controllers\PibController;
 use App\Http\Controllers\PitController;
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('no-approvals', NoApprovalController::class);
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('ticket-appointments', TicketAppointmentController::class);
+    Route::resource('appointment-intake', IntakeController::class);
 
     Route::resource('questions', QuestionController::class);
     Route::resource('work-schedules', WorkSchedule::class);
