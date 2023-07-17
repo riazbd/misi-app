@@ -9,6 +9,7 @@ use App\Models\TicketAppointment;
 use App\Models\WorkDayTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class TicketAppointmentController extends Controller
 {
@@ -19,7 +20,42 @@ class TicketAppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = TicketAppointment::all();
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'Ticket',
+            'Status',
+            'Remarks',
+            'Fee',
+            'Created At',
+            'Updated At',
+        ];
+
+
+
+        $data = [];
+
+        foreach ($appointments as $appointment) {
+            $items = [];
+
+            array_push($items, '<nobr>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('ticket-appointments.destroy', ['ticket_appointment' => $appointment->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a></nobr>', '</a><a class="text-info mx-1" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
+                    ' . $appointment->id . '</a>', $appointment->ticket()->first()->id, ucfirst($appointment->status), $appointment->remarks, $appointment->fee, Carbon::parse($appointment->created_at)->format('d F, Y'), Carbon::parse($appointment->updated_at)->format('d F, Y'),);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+
+        return view('ticketAppointment.index', compact('heads', 'config'));
     }
 
     /**
@@ -69,8 +105,8 @@ class TicketAppointmentController extends Controller
             $intake->date = $data['appointment-date'];
             $intake->start_time = $startTime->format('H:i:s');
             $intake->end_time = $endTime->format('H:i:s');
-            $intake->status = 'Active';
-            $intake->payment_method = $data['payment-method'];
+            $intake->status = 'not_visited';
+            $intake->payment_method = 'N/A';
             $intake->payment_status = 'Unpaid';
 
             $intake->save();
@@ -89,7 +125,45 @@ class TicketAppointmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $appointment = TicketAppointment::where('id', $id)->first();
+
+        // intake part
+        $intakes = Intake::where('appointment_id', $appointment->id)->get();
+        $heads = [
+            ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'ID',
+            'Date',
+            'Time',
+            'Status',
+            'Payment Method',
+            'Payment Status',
+            'Created At',
+            'Updated At'
+        ];
+
+
+
+        $data = [];
+
+        foreach ($intakes as $intake) {
+            $items = [];
+
+            array_push($items, '<nobr>
+                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('ticket-appointments.destroy', ['ticket_appointment' => $appointment->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a></nobr>', $intake->id, Carbon::parse($intake->date)->format('d F, Y'), $intake->start_time, ucfirst($intake->status), ucfirst($intake->payment_method), ucfirst($intake->payment_status), Carbon::parse($intake->created_at)->format('d F, Y'), Carbon::parse($intake->updated_at)->format('d F, Y'),);
+            array_push($data, $items);
+        }
+
+        $config = [
+            'data' => $data,
+
+
+        ];
+        // end intake part
+        return view('ticketAppointment.show', compact('appointment', 'heads', 'config'));
     }
 
     /**

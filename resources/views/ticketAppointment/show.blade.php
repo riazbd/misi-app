@@ -1,11 +1,5 @@
 @extends('adminlte::page')
 
-@section('content_top_nav_left')
-<div class="ml-5 d-flex align-items-center">
-    <h6 class="m-0">Patient - {{$patient->user()->first()->user_serial_no}}</h6>
-</div>
-@stop
-
 @section('content')
     <div class="d-flex justify-content-between align-items-center w-100 sticky-top"
         style="min-height: 10px; background-color: #fff;">
@@ -20,272 +14,229 @@
 
         </div>
     </div>
-
     <div class="p-5">
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.update', ['patient' => $patient->id]) }}" id="update-patient-form"
-                class="">
+            <form method="POST"
+                action="{{ route('ticket-appointments.update', ['ticket_appointment' => $appointment->id]) }}"
+                id="update-appointment-form" class="">
                 @csrf
-                @method('PUT')
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
 
                         <div class="form-group row">
-                            <label for="first-name" class="col-5 text-right">First Name:</label>
+                            <label for="select-ticket" class="col-5 text-right">Slected Ticket:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="first-name" name="first-name"
-                                    value="{{ $patient->user()->first()->first_name }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="last-name" class="col-5 text-right">Last Name:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="last-name" name="last-name"
-                                    value="{{ $patient->user()->first()->last_name }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="phone-number" class="col-5 text-right">Phone Number:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="phone-number"
-                                    name="phone-number" value="{{ $patient->user()->first()->phone }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="alt-phone-number" class="col-5 text-right">Alternative Phone Number:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="alt-phone-number"
-                                    name="alt-phone-number" value="{{ $patient->alternative_phone }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="emergency-contact" class="col-5 text-right">Emergency Contact:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="emergency-contact"
-                                    name="emergency-contact" value="{{ $patient->emergency_contact }}">
+                                <select class="form-control form-control-sm" id="select-ticket" name="select-ticket">
+                                    <option value="{{ $appointment->ticket()->first()->id }}">
+                                        {{ $appointment->ticket()->first()->id }}</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="dob" class="col-5 text-right">Date of Birth:</label>
-                            {{-- <input type="date" class="form-control" id="dob" name="dob"
-                                onchange="calculateAge()"> --}}
-                            {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
-                            @php
-                                $config = ['format' => 'DD-MM-YYYY'];
-                            @endphp
-                            <div class="col-7">
-                                <x-adminlte-input-date name="dob" :config="$config" placeholder="Choose a date..."
-                                    id="dob" onchange="calculateAge()" :value="$patient->user()->first()->date_of_birth" class="form-control-sm">
-                                    <x-slot name="appendSlot">
-                                        <div class="input-group-text bg-gradient-primary">
-                                            <i class="fas fa-calendar-alt"></i>
-                                        </div>
-                                    </x-slot>
-                                </x-adminlte-input-date>
-                            </div>
+                            <label for="appointment-fee" class="col-5 text-right">Appointment Fee:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="appointment-fee" name="appointment-fee"></div>
                         </div>
-                        <div class="form-group row">
-                            <label for="age" class="col-5 text-right">Age:</label>
-                            <div class="col-7"><input type="number" class="form-control form-control-sm" id="age"
-                                    name="age" readonly></div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="marital-status" class="col-5 text-right">Marital Status:</label>
+                        {{-- <div class="form-group row">
+                            <label for="language" class="col-5 text-right">Language:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="marital-status" name="marital-status">
-                                    <option value="Single"
-                                        {{ $patient->user()->first()->marital_status == 'Single' ? 'selected' : '' }}>Single
-                                    </option>
-                                    <option value="Married"
-                                        {{ $patient->user()->first()->marital_status == 'Married' ? 'selected' : '' }}>
-                                        Married
-                                    </option>
-                                    <option value="Divorced"
-                                        {{ $patient->user()->first()->marital_status == 'Divorced' ? 'selected' : '' }}>
-                                        Divorced
-                                    </option>
+                                <select class="form-control form-control-sm" id="language" name="language">
+                                    <option value="language1">Language 1</option>
+                                    <option value="language2">Language 2</option>
+                                    <option value="language3">Language 3</option>
+
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="status" class="col-5 text-right">Status:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="status" name="status">
-                                    <option value="Active"
-                                        {{ $patient->user()->first()->status == 'Avtive' ? 'selected' : '' }}>Active
-                                    </option>
-                                    <option value="Inavtive"
-                                        {{ $patient->user()->first()->status == 'Inactive' ? 'selected' : '' }}>Inactive
-                                    </option>
-                                    <!-- Add more options as needed -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="sex" class="col-5 text-right">Sex:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="sex" name="sex">
-                                    <option value="Male"
-                                        {{ $patient->user()->first()->sex == 'Male' ? 'selected' : '' }}>
-                                        Male</option>
-                                    <option value="Femail"
-                                        {{ $patient->user()->first()->sex == 'Female' ? 'selected' : '' }}>
-                                        Femail</option>
-                                    <option value="Other"
-                                        {{ $patient->user()->first()->sex == 'Other' ? 'selected' : '' }}>
-                                        Other</option>
-                                    <!-- Add more options as needed -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="occupation" class="col-5 text-right">Occupation:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="occupation"
-                                    name="occupation" value="{{ $patient->occupation }}">
-                            </div>
-                        </div>
-                    </div>
-                    {{-- {{ dd($patient->blood_group) }} --}}
-                    <div class="col-md-6 justify-content-start">
-                        <div class="form-group row">
-                            <label for="blood-group" class="col-5 text-right">Blood group:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="blood-group" name="blood-group">
-                                    <option value="">Select Blood Group</option>
-                                    <option value="A+" {{ $patient->blood_group === 'A+' ? 'selected' : '' }}>A+
-                                    </option>
-                                    <option value="A-" {{ $patient->blood_group === 'A-' ? 'selected' : '' }}>A-
-                                    </option>
-                                    <option value="B+" {{ $patient->blood_group === 'B+' ? 'selected' : '' }}>B+
-                                    </option>
-                                    <option value="B-" {{ $patient->blood_group === 'B-' ? 'selected' : '' }}>B-
-                                    </option>
-                                    <option value="O+" {{ $patient->blood_group === 'O+' ? 'selected' : '' }}>B-
-                                    </option>
-                                    <option value="O-" {{ $patient->blood_group === 'O-' ? 'selected' : '' }}>B-
-                                    </option>
-                                    <option value="AB+" {{ $patient->blood_group === 'AB+' ? 'selected' : '' }}>B-
-                                    </option>
-                                    <option value="AB-" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>B-
-                                    </option>
-                                    <!-- Add more options as needed -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="country" class="col-5 text-right">Country:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
-                                    {{-- <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 1</option>
-                                    <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 2</option>
-                                    <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 3</option> --}}
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country['name_en'] }}"
-                                            {{ $patient->country === $country['name_en'] ? 'selected' : '' }}>
-                                            {{ $country['name_en'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="city-state" class="col-5 text-right">City/State:</label>
-                            <div class="col-7">
-                                <input class="form-control form-control-sm" id="city-state" name="city-state"
-                                    value="{{ $patient->city_or_state }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-5 text-right">Email:</label>
-                            <div class="col-7">
-                                <input type="email" class="form-control form-control-sm" id="email" name="email"
-                                    value="{{ $patient->user()->first()->email }}">
-                            </div>
-                        </div>
-                        {{-- <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password">
                         </div> --}}
+
+
                         <div class="form-group row">
-                            <label for="insurance-number" class="col-5 text-right">Insurance Number:</label>
+                            <label for="appointment-type" class="col-5 text-right">Appointment Type:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="insurance-number"
-                                    name="insurance-number" value="{{ $patient->insurance_number }}">
+                                <select class="form-control form-control-sm" id="appointment-type" name="appointment-type">
+                                    <option value="online">Online</option>
+                                    <option value="offline">Offline</option>
+
+                                    <!-- Add more options as needed -->
+                                </select>
                             </div>
                         </div>
 
+
                         <div class="form-group row">
-                            <label for="area" class="col-5 text-right">Area:</label>
+                            <label for="payment-method" class="col-5 text-right">Payment Method:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="area" name="area"
-                                    value="{{ $patient->area }}">
+                                <select class="form-control form-control-sm" id="payment-method" name="payment-method">
+                                    <option value="card">Card</option>
+                                    <option value="insurance">Insurance</option>
+                                    <option value="cash">Cash</option>
+
+                                    <!-- Add more options as needed -->
+                                </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="dob-number" class="col-5 text-right">DOB Number:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="dob-number"
-                                    name="dob-number" value="{{ $patient->DOB_number }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="bsn-number"
-                                    name="bsn-number" value="{{ $patient->BSN_number }}">
-                            </div>
-                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-md-6 justify-content-start">
+
+
                         <div class="form-group row">
                             <label for="remarks" class="col-5 text-right">Remarks:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="remarks" name="remarks"
-                                    value="{{ $patient->remarks }}">
-                            </div>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="remarks"
+                                    name="remarks"></div>
                         </div>
+
                         <div class="form-group row">
-                            <label for="file-type" class="col-5 text-right">File Type:</label>
+                            <label for="select-status" class="col-5 text-right">Select Status:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm" id="file-type" name="file-type">
-                                    <option value="type1">File Type 1</option>
-                                    <option value="type2">File Type 2</option>
-                                    <option value="type3">File Type 3</option>
+                                <select class="form-control form-control-sm" id="select-status" name="select-status">
+                                    <option value="active">Active</option>
+                                    <option value="cancelled">Canceled</option>
+
+                                    <!-- Add more options as needed -->
                                 </select>
                             </div>
                         </div>
+
+
+
+
                         <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file form-cntrol-file-sm"
-                                    id="file" name="file"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="residential-address" class="col-5 text-right">Residential Address:</label>
-                            <div class="col-7">
-                                <textarea class="form-control" id="residential-address" rows="3" name="residential-address">{{ $patient->residential_address }}</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="medical-history" class="col-5 text-right">Medical History:</label>
-                            <div class="col-7">
-                                <textarea class="form-control" id="medical-history" rows="3" name="medical-history">{{ $patient->medical_history }}</textarea>
-                            </div>
+                            <label for="therapist-comment" class="col-5 text-right">Therapist Comment:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="therapist-comment" name="therapist-comment"></div>
                         </div>
 
+                        {{-- <div class="form-group row">
+                            <label for="appointment-history" class="col-5 text-right">Appointment History:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="appointment-history" name="appointment-history"></div>
+                        </div> --}}
                     </div>
                 </div>
-                {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
             </form>
 
+        </div>
+        <hr>
+        <div>
+            <h4>Intakes</h4>
+            <div class="mt-2 datatable-container">
+                <x-adminlte-datatable id="patientsTable" :heads="$heads" striped hoverable bordered with-buttons beautify
+                    with-footer>
+                    @foreach ($config['data'] as $row)
+                        <tr>
+                            @foreach ($row as $cell)
+                                <td>{!! $cell !!}</td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </x-adminlte-datatable>
+            </div>
         </div>
     </div>
 
 @stop
 
+@section('css')
+    <style>
+        table.dataTable td,
+        table.dataTable th {
+            padding: 5px 5px;
+            width: 1px;
+            white-space: nowrap;
+        }
 
+        .column-search-input::placeholder {
+            text-align: center;
+        }
+    </style>
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            // update appointment
+            document.getElementById('top-submit-button').addEventListener('click', function() {
+                $('#update-appointment-form').submit()
+            });
+            $('#update-appointment-form').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var formData = $(this).serialize(); // Serialize form data
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                        Swal.fire('Success!', 'Request successful', 'success');
+
+                    },
+                    error: function(xhr) {
+                        // Handle error response
+                        console.log(xhr.responseText);
+                        Swal.fire('Error!', 'Request failed', 'error');
+                    }
+                });
+            });
+
+
+
+            // table js
+            $('#patientsTable').DataTable().destroy();
+            $('#patientsTable tfoot th').each(function(index) {
+                if (index != 0) {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" placeholder="Search ' + title +
+                        '" class="form-control column-search-input" />');
+                    $('.column-search-input').each(function() {
+                        var placeholder = $(this).attr('placeholder');
+                        var placeholderLength = placeholder.length;
+
+                        // Calculate the minimum width based on placeholder length
+                        var minWidth = placeholderLength * 10 +
+                            'px'; // Adjust the multiplier to suit your needs
+
+                        $(this).css('min-width', minWidth);
+                    });
+                }
+
+            });
+            $('#patientsTable th').css('text-align', 'center');
+            $('#patientsTable').DataTable({
+                initComplete: function() {
+                    // Apply the search
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            var that = this;
+
+                            $('input', this.footer()).on('keyup change clear', function() {
+                                if (that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                },
+                scrollX: true, // Enable horizontal scrolling
+                fixedHeader: true,
+                scrollY: '50vh',
+                scrollCollapse: true,
+                paging: true,
+                dom: 'Bftip',
+                buttons: [
+                    'pageLength', 'copy', 'excel', 'pdf', 'print', 'colvis'
+                ]
+            })
+        });
+    </script>
+@stop

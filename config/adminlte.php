@@ -491,7 +491,7 @@ return [
                 ],
                 [
                     'text' => 'Appointments',
-                    'url'  => '#',
+                    'url'  => 'ticket-appointments',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                 ],
             ],

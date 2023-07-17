@@ -91,9 +91,8 @@
                             <label for="select-status" class="col-5 text-right">Select Status:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
-                                    <option value="Status1">Status 1</option>
-                                    <option value="Status2">Status 2 </option>
-                                    <option value="Status3">Status 3</option>
+                                    <option value="active">Active</option>
+                                    <option value="cancelled">Canceled</option>
 
                                     <!-- Add more options as needed -->
                                 </select>
@@ -105,9 +104,8 @@
                             <label for="appointment-type" class="col-5 text-right">Appointment Type:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="appointment-type" name="appointment-type">
-                                    <option value="Type1">Type 1</option>
-                                    <option value="Type2">Type 2</option>
-                                    <option value="Type3">Type 3</option>
+                                    <option value="online">Online</option>
+                                    <option value="offline">Offline</option>
 
                                     <!-- Add more options as needed -->
                                 </select>
@@ -115,18 +113,18 @@
                         </div>
 
 
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="payment-method" class="col-5 text-right">Payment Method:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="payment-method" name="payment-method">
-                                    <option value="Method1">Method 1</option>
-                                    <option value="Method2">Method 2</option>
-                                    <option value="Method3">Method 3</option>
+                                    <option value="card">Card</option>
+                                    <option value="insurance">Insurance</option>
+                                    <option value="cash">Cash</option>
 
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row">
                             <label for="therapist-comment" class="col-5 text-right">Therapist Comment:</label>
