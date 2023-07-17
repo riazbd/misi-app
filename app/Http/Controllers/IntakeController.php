@@ -46,8 +46,8 @@ class IntakeController extends Controller
 
             $intake->appointment_id = $data['appointment'];
             $intake->date = $data['date'];
-            $intake->start_time = $startTime;
-            $intake->end_time = $endTime;
+            $intake->start_time = $startTime->format('H:i:s');
+            $intake->end_time = $endTime->format('H:i:s');
             $intake->status = $data['status'];
             $intake->payment_status = $data['payment_status'];
             $intake->payment_method = $data['payment_method'];
@@ -91,7 +91,26 @@ class IntakeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        try {
+            $startTime = Carbon::parse($data['time']);
+            $endTime = $startTime->copy()->addMinutes(60);
+
+            $intake = Intake::where('id', $id)->first();
+
+            $intake->date = $data['date'];
+            $intake->start_time = $startTime->format('H:i:s');
+            $intake->end_time = $endTime->format('H:i:s');
+            $intake->status = $data['status'];
+            $intake->payment_status = $data['payment_status'];
+            $intake->payment_method = $data['payment_method'];
+
+            $intake->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**

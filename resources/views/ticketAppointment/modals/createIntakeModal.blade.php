@@ -19,7 +19,7 @@
                                 <div class="form-group row">
                                     <label for="appointment" class="col-3 text-right">Appointment:</label>
                                     <div class="col-9">
-                                        <select class="form-control form-control-sm selectpicker" id="appointment"
+                                        <select class="form-control form-control-sm" id="appointment"
                                             name="appointment">
 
 
@@ -65,6 +65,7 @@
                                     <div class="col-9">
                                         <select class="form-control form-control-sm selectpicker" id="payment_method"
                                             name="payment_method" data-live-search="true">
+                                            <option value="N/A">N/A</option>
                                             <option value="cash">Cash</option>
                                             <option value="card">Card</option>
                                             <option value="insurance">Insurance</option>

@@ -43,7 +43,7 @@ class TicketAppointmentController extends Controller
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '"  data-toggle="tooltip" data-placement="top" title="Show Appointment Information">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a><button class="btn btn-xs btn-default text-primary mx-1 shadow createModal" data-toggle="tooltip" data-placement="top" title="Create Intake">
+                    </a><button class="btn btn-xs btn-default text-primary mx-1 shadow createModal" data-toggle="tooltip" data-placement="top" title="Create Intake" data-appointment="' . $appointment->id . '" data-ticket-id="' . $appointment->ticket_id . '">
                     <i class="fa fa-lg fa-fw fa-plus"></i>
                 </button></nobr>', '</a><a class="text-info mx-1" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
                     ' . $appointment->id . '</a>', $appointment->ticket()->first()->id, ucfirst($appointment->status), $appointment->remarks, $appointment->fee, Carbon::parse($appointment->created_at)->format('d F, Y'), Carbon::parse($appointment->updated_at)->format('d F, Y'),);
@@ -152,7 +152,7 @@ class TicketAppointmentController extends Controller
             array_push($items, '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('ticket-appointments.destroy', ['ticket_appointment' => $appointment->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><button class="btn btn-xs btn-default text-teal mx-1 shadow showModal">
+                    </a><button class="btn btn-xs btn-default text-teal mx-1 shadow showModal" data-intake-id="' . $intake->id . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </button></nobr>', $intake->id, Carbon::parse($intake->date)->format('d F, Y'), $intake->start_time, ucfirst($intake->status), ucfirst($intake->payment_method), ucfirst($intake->payment_status), Carbon::parse($intake->created_at)->format('d F, Y'), Carbon::parse($intake->updated_at)->format('d F, Y'),);
             array_push($data, $items);
@@ -187,7 +187,27 @@ class TicketAppointmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        try {
+
+
+            $appointment = TicketAppointment::where('id', $id)->first();
+
+            $appointment->ticket_id = $data['select-ticket'];
+            $appointment->fee = $data['select-ticket'];
+            $appointment->status = $data['select-status'];
+            $appointment->type = $data['appointment-type'];
+
+            $appointment->therapist_comment = $data['therapist-comment'];
+            $appointment->remarks = $data['remarks'];
+
+            $appointment->save();
+
+            return response()->json(['message' => 'Data saved successfully']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
     }
 
     /**
@@ -217,5 +237,13 @@ class TicketAppointmentController extends Controller
         $dates = $leaves->pluck('dates')->flatten()->toArray();
 
         return response()->json(['leave_dates' => $dates, 'holidays' => $holidays]);
+    }
+
+    public function getIntake($id)
+    {
+
+        $intake = Intake::where('id', $id)->first();
+
+        return response()->json($intake);
     }
 }

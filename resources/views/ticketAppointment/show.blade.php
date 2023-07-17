@@ -22,6 +22,7 @@
                 action="{{ route('ticket-appointments.update', ['ticket_appointment' => $appointment->id]) }}"
                 id="update-appointment-form" class="">
                 @csrf
+                @method('PUT')
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
 
@@ -38,7 +39,7 @@
                         <div class="form-group row">
                             <label for="appointment-fee" class="col-5 text-right">Appointment Fee:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
-                                    id="appointment-fee" name="appointment-fee"></div>
+                                    id="appointment-fee" name="appointment-fee" value="{{ $appointment->fee }}"></div>
                         </div>
                         {{-- <div class="form-group row">
                             <label for="language" class="col-5 text-right">Language:</label>
@@ -58,8 +59,10 @@
                             <label for="appointment-type" class="col-5 text-right">Appointment Type:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="appointment-type" name="appointment-type">
-                                    <option value="online">Online</option>
-                                    <option value="offline">Offline</option>
+                                    <option value="online" {{ $appointment->type == 'online' ? 'selected' : '' }}>Online
+                                    </option>
+                                    <option value="offline" {{ $appointment->type == 'offline' ? 'selected' : '' }}>Offline
+                                    </option>
 
                                     <!-- Add more options as needed -->
                                 </select>
@@ -71,9 +74,15 @@
                             <label for="payment-method" class="col-5 text-right">Payment Method:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="payment-method" name="payment-method">
-                                    <option value="card">Card</option>
-                                    <option value="insurance">Insurance</option>
-                                    <option value="cash">Cash</option>
+                                    <option value="card" {{ $appointment->payment_method == 'card' ? 'selected' : '' }}>
+                                        Card
+                                    </option>
+                                    <option value="insurance"
+                                        {{ $appointment->payment_method == 'insurance' ? 'selected' : '' }}>
+                                        Insurance</option>
+                                    <option value="cash" {{ $appointment->payment_method == 'cash' ? 'selected' : '' }}>
+                                        Cash
+                                    </option>
 
                                     <!-- Add more options as needed -->
                                 </select>
@@ -90,15 +99,17 @@
                         <div class="form-group row">
                             <label for="remarks" class="col-5 text-right">Remarks:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="remarks"
-                                    name="remarks"></div>
+                                    name="remarks" value="{{ $appointment->remarks }}"></div>
                         </div>
 
                         <div class="form-group row">
                             <label for="select-status" class="col-5 text-right">Select Status:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
-                                    <option value="active">Active</option>
-                                    <option value="cancelled">Canceled</option>
+                                    <option value="active" {{ $appointment->status == 'active' ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="cancelled" {{ $appointment->status == 'cancelled' ? 'selected' : '' }}>
+                                        Canceled</option>
 
                                     <!-- Add more options as needed -->
                                 </select>
@@ -111,7 +122,8 @@
                         <div class="form-group row">
                             <label for="therapist-comment" class="col-5 text-right">Therapist Comment:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
-                                    id="therapist-comment" name="therapist-comment"></div>
+                                    id="therapist-comment" name="therapist-comment"
+                                    value="{{ $appointment->therapist_comment }}"></div>
                         </div>
 
                         {{-- <div class="form-group row">
@@ -324,6 +336,29 @@
                         dateFormat: "H:i:s",
                         time_24hr: false
                     });
+
+                    // for intake update
+
+                    flatpickr("#show-date", {
+                        disable: [
+                            function(date) {
+                                return isDateInLeaves(date) ||
+                                    isDateWeeklyHoliday(date);
+                            }
+                        ],
+                        locale: {
+                            firstDayOfWeek: 1 // Set Monday as the first day of the week (change according to your locale)
+                        },
+
+
+                    });
+
+                    flatpickr('#show-time', {
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i:s",
+                        time_24hr: false
+                    });
                 },
                 error: function(xhr, status, error) {
                     // Handle any errors
@@ -334,8 +369,53 @@
 
         // modals and there actions
         $('.showModal').click(function() {
-            $('#showIntakeModal').modal('show')
+
+            var intakeNo = $(this).data('intake-id')
+            $.ajax({
+                url: '/get-intake/' + intakeNo,
+                method: 'GET', // Get the form method (e.g., POST)
+                success: function(response) {
+                    // Handle the success response
+                    console.log(response);
+                    $('#show-date').val(response.date)
+                    $('#show-time').val(response.start_time)
+                    $('#show-status').val(response.status).change()
+                    $('#show_payment_method').val(response.payment_method).change()
+                    $('#show_payment_status').val(response.payment_status).change()
+                    $('#showIntakeModal').modal('show')
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error(xhr.responseText);
+                }
+            });
+
+            $('#update-intake-submit').click(function() {
+                var intakeFormData = $('#intake-update-form').serialize()
+                $.ajax({
+                    url: '/appointment-intake/' + intakeNo,
+                    method: 'PUT',
+                    data: intakeFormData,
+                    success: function(response) {
+                        // Handle the success response
+                        console.log(response);
+                        Swal.fire('Success!', 'Request successful', 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error response
+                        console.error(xhr.responseText);
+                        Swal.fire('Error!', 'Request failed', 'error');
+                    }
+                });
+
+            })
+
+
+
+
+
         })
+
         $('#create-intake').click(function() {
             $('#createIntakeModal').modal('show')
         })

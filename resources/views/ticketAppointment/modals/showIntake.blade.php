@@ -9,37 +9,39 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" id="worktimeform">
+                <form action="" id="intake-update-form" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div>
                         <div class="row">
                             <!-- First Column -->
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label for="date" class="col-3 text-right">Date:</label>
+                                    <label for="show-date" class="col-3 text-right">Date:</label>
                                     <div class="col-9">
                                         <input type="text" class="form-control form-control-sm" name="date"
-                                            id="date">
+                                            id="show-date">
                                     </div>
 
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="time" class="col-3 text-right">Tiem:</label>
+                                    <label for="show-time" class="col-3 text-right">Time:</label>
                                     <div class="col-9">
                                         <input type="text" class="form-control form-control-sm" name="time"
-                                            id="date">
+                                            id="show-time">
 
                                     </div>
 
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="status" class="col-3 text-right">Status:</label>
+                                    <label for="show-status" class="col-3 text-right">Status:</label>
                                     <div class="col-9">
-                                        <select class="form-control form-control-sm selectpicker" id="status"
-                                            name="country" data-live-search="true">
-                                            <option value="">Visited</option>
-                                            <option value="">Not Visited</option>
+                                        <select class="form-control form-control-sm selectpicker" id="show-status"
+                                            name="status">
+                                            <option value="visited">Visited</option>
+                                            <option value="not_visited">Not Visited</option>
 
                                         </select>
                                     </div>
@@ -47,24 +49,25 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="payment_method" class="col-3 text-right">Payment Method:</label>
+                                    <label for="show_payment_method" class="col-3 text-right">Payment Method:</label>
                                     <div class="col-9">
-                                        <select class="form-control form-control-sm selectpicker" id="payment_method"
-                                            name="country" data-live-search="true">
-                                            <option value="">Card</option>
-                                            <option value="">Insurance</option>
-                                            <option value="">Cash</option>
+                                        <select class="form-control form-control-sm selectpicker"
+                                            id="show_payment_method" name="payment_method">
+                                            <option value="N/A">N/A</option>
+                                            <option value="card">Card</option>
+                                            <option value="insurance">Insurance</option>
+                                            <option value="cash">Cash</option>
                                         </select>
                                     </div>
 
                                 </div>
                                 <div class="form-group row">
-                                    <label for="payment_status" class="col-3 text-right">Payment Status:</label>
+                                    <label for="show_payment_status" class="col-3 text-right">Payment Status:</label>
                                     <div class="col-9">
-                                        <select class="form-control form-control-sm selectpicker" id="payment_status"
-                                            name="country" data-live-search="true">
-                                            <option value="">Paid</option>
-                                            <option value="">Unpaid</option>
+                                        <select class="form-control form-control-sm selectpicker"
+                                            id="show_payment_status" name="payment_status">
+                                            <option value="paid">Paid</option>
+                                            <option value="unpaid">Unpaid</option>
 
                                         </select>
                                     </div>
@@ -78,7 +81,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="leavesubmit">Save changes</button>
+                <button type="button" class="btn btn-primary" id="update-intake-submit">Save changes</button>
             </div>
         </div>
     </div>

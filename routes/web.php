@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('questions', QuestionController::class);
     Route::resource('work-schedules', WorkSchedule::class);
+    Route::get('/get-intake/{id}', 'App\Http\Controllers\TicketAppointmentController@getIntake');
     Route::get('/datesandappoints/{id}', 'App\Http\Controllers\TicketAppointmentController@getDatesAndAppoints');
     Route::get('/missing-info-tickets', 'App\Http\Controllers\TicketController@missingInfo');
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
