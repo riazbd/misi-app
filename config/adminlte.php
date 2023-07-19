@@ -494,6 +494,11 @@ return [
                     'url'  => 'ticket-appointments',
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                 ],
+                [
+                    'text' => 'Calendar',
+                    'url'  => 'appointments-calendar',
+                    'icon' => 'fas fa-fw fa-long-arrow-alt-right',
+                ],
             ],
         ],
 

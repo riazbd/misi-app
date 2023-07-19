@@ -1,23 +1,57 @@
 @extends('adminlte::page')
 
 @section('content')
+    <style>
+        /* Custom select styles */
+        .custom-select {
+            appearance: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            font-size: 14px;
+            width: auto;
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .filter-label {
+            margin-right: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="filter-container pt-5 pl-3">
+        <label for="therapist-select" class="filter-label">Filter by therapist:</label>
+        <select id="therapist-select" class="custom-select">
+            <option value="">All</option>
+            @foreach ($therapists as $therapist)
+                <option value="{{ $therapist->id }}">{{ $therapist->user()->first()->first_name }}
+                    {{ $therapist->user()->first()->last_name }}</option>
+            @endforeach
+        </select>
+    </div>
     <div id='calendar'></div>
 @stop
 
 @section('js')
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                events: '/calendar-events',
-                eventContent: function(info) {
-                    return {
-                        html: '<div class="fc-event-title">' + info.event.title + '</div>',
-                        display: 'block'
-                    };
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                eventDidMount: function(info) {
+                eventContent: function(info) {
                     var eventStartTime = info.event.start.toLocaleTimeString([], {
                         hour: 'numeric',
                         minute: '2-digit'
@@ -27,59 +61,57 @@
                         minute: '2-digit'
                     });
 
-                    var timeHtml = '<div class="fc-time">' + eventStartTime + ' - ' + eventEndTime +
-                        '</div>';
-                    $(info.el).find('.fc-title').prepend(timeHtml);
+                    var timeDiv = document.createElement('div');
+                    timeDiv.classList.add('fc-time');
+                    timeDiv.innerHTML = eventStartTime + ' - ' + eventEndTime;
+
+                    var titleDiv = document.createElement('div');
+                    titleDiv.classList.add('fc-title');
+                    titleDiv.innerHTML = info.event.title;
+
+                    var eventDiv = document.createElement('div');
+                    eventDiv.appendChild(timeDiv);
+                    eventDiv.appendChild(titleDiv);
+                    eventDiv.style.color = '#ffffff';
+
+                    return {
+                        domNodes: [eventDiv]
+                    };
                 }
             });
-            calendar.render();
 
-            // $('#filterForm').on('change', 'input[type="checkbox"]', function() {
-            //     var selectedFilters = getSelectedFilters();
+            var therapistSelect = document.getElementById('therapist-select');
+            var allEvents = [];
 
-            //     calendar.fullCalendar('clientEvents', function(event) {
-            //         var shouldShow = filterEvent(event, selectedFilters);
-            //         event.shouldShow = shouldShow;
-            //         return shouldShow;
-            //     });
+            therapistSelect.addEventListener('change', function() {
+                var selectedTherapistId = therapistSelect.value;
+                var eventsToShow = [];
 
-            //     calendar.fullCalendar('rerenderEvents');
-            // });
+                if (selectedTherapistId === '') {
+                    eventsToShow = allEvents; // Show all events
+                } else {
+                    eventsToShow = allEvents.filter(function(event) {
+                        return event.extendedProps.therapistId == selectedTherapistId;
+                    });
+                }
 
-            // function getSelectedFilters() {
-            //     var selectedFilters = {};
+                calendar.removeAllEvents();
+                calendar.addEventSource(eventsToShow);
+                calendar.render();
+            });
 
-            //     var selectedCategory = $('#categoryFilter').val();
-            //     selectedFilters.category = selectedCategory;
-
-            //     var selectedTags = [];
-            //     $('#tagFilter input[type="checkbox"]:checked').each(function() {
-            //         selectedTags.push($(this).val());
-            //     });
-            //     selectedFilters.tags = selectedTags;
-
-            //     return selectedFilters;
-            // }
-
-            // function filterEvent(event, filters) {
-            //     var shouldShow = true;
-
-            //     if (filters.category && event.category !== filters.category) {
-            //         shouldShow = false;
-            //     }
-
-            //     if (filters.tags && filters.tags.length > 0) {
-            //         var eventTags = event.tags || [];
-            //         var matchingTags = eventTags.filter(function(tag) {
-            //             return filters.tags.includes(tag);
-            //         });
-            //         if (matchingTags.length === 0) {
-            //             shouldShow = false;
-            //         }
-            //     }
-
-            //     return shouldShow;
-            // }
+            fetch('/calendar-events')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    allEvents = data; // Store the original events
+                    calendar.addEventSource(allEvents);
+                    calendar.render();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         });
     </script>
 @stop

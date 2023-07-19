@@ -182,5 +182,52 @@ div.dataTables_wrapper div.dataTables_filter {
     z-index: 9999 !important;
 }
 
+/* Customize FullCalendar grid */
+.fc-header-toolbar {
+    background-color: #f8f8f8;
+    padding: 10px;
+  }
+
+  .fc-header-toolbar .fc-button {
+    margin-right: 5px;
+  }
+
+  .fc-scrollgrid {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .fc-daygrid-day {
+    font-weight: bold;
+  }
+
+  .fc-daygrid-event {
+    background-color: #1e90ff; /* Customize the background color of events */
+    color: #fff; /* Customize the text color of events */
+    border-radius: 5px;
+  }
+
+  .fc-daygrid-event:hover {
+    background-color: #2e90ff; /* Customize the hover background color of events */
+  }
+
+  .fc-daygrid-event .fc-event-main {
+    padding: 5px;
+  }
+
+  .fc-daygrid-event .fc-event-main .fc-event-title {
+    font-size: 14px;
+  }
+
+  .fc-today {
+    background-color: #f2f2f2; /* Customize the background color of today's date */
+  }
+.fc-event {
+    background-color: #374259;
+    padding: 5px;
+    cursor: pointer;
+}
+
 
 

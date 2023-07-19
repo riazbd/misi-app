@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Intake;
 use App\Models\LeaveSchedule;
+use App\Models\Therapist;
 use App\Models\Ticket;
 use App\Models\TicketAppointment;
 use App\Models\WorkDayTime;
@@ -245,5 +246,32 @@ class TicketAppointmentController extends Controller
         $intake = Intake::where('id', $id)->first();
 
         return response()->json($intake);
+    }
+
+    public function toCalendar()
+    {
+        $therapists = Therapist::all();
+        return view('ticketAppointment.calendar', compact('therapists'));
+    }
+
+    public function getEvents()
+    {
+        $intakes = Intake::all();
+
+        $formattedEvents = [];
+
+        foreach ($intakes as $event) {
+            $formattedEvents[] = [
+                'title' => 'Appointment for ticket - ' . $event->appointment()->first()->ticket()->first()->id,
+                'start' => $event->date . 'T' . $event->start_time,
+                'end' => $event->date . 'T' . $event->end_time,
+                'extendedProps' => [
+                    'therapistId' => $event->appointment()->first()->ticket()->first()->assigned_therapist,
+                ],
+
+            ];
+        }
+
+        return response()->json($formattedEvents);
     }
 }
