@@ -26,11 +26,21 @@
         <div class="">
 
             <form method="POST" action="{{ route('patients.update', ['patient' => $patient->id]) }}" id="update-patient-form"
-                class="">
+                enctype="multipart/form-data" class="">
                 @csrf
                 @method('PUT')
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
+
+                        <div class="form-group row">
+                            <label for="first-name" class="col-5 text-right">Profile Image</label>
+                            <div class="col-7">
+                                <input type="file" class="form-control form-control-sm" id="profile-image" name="profile-image"
+                                value="{{ $patient->user()->first()->profile_image }}" >
+                                <img src=" {{ asset('storage/' . $patient->user()->first()->profile_image ) }}"
+                                width="50" height="60" alt="" >
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">First Name:</label>

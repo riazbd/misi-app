@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\User;
+use App\Models\Attachment;
 use App\Mail\CancelMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -167,8 +168,11 @@ class TicketController extends Controller
     {
         $data = $request->all();
 
+
         try {
             $ticket = new Ticket();
+            $attachment= new Attachment();
+
             $ticket->department_id = $data['select-department'];
             $ticket->patient_id = $data['select-patient'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
@@ -204,6 +208,8 @@ class TicketController extends Controller
             // $ticket->files = $data[''];
 
             $ticket->save();
+
+        // attachment
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

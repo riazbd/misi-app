@@ -18,10 +18,40 @@
         {{-- <h1>Therapist Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form">
+            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form" enctype="multipart/form-data">
                 @csrf
                 <div class="row justify-content-between">
                     <div class="col-md-6">
+
+                        <div class="form-group row">
+                            <label for="first-name" class="col-5 text-right">Upload Image </label>
+                            <div class="col-7">
+                                <div class = 'wrapper'>
+                                    <div class = "upload">
+                                        <div class = "upload-wrapper">
+                                            <div class = "upload-img">
+                                                <!-- image here -->
+                                            </div>
+                                            <div class = "upload-info">
+                                                <p>
+                                                    <span class = "upload-info-value">0</span> file(s) uploaded.
+                                                </p>
+                                            </div>
+                                            <div class = "upload-area">
+                                                <div class = "upload-area-img">
+                                                    {{-- <img src = "assets/upload.png" alt = ""> --}}
+                                                    <img src=" {{ asset('storage/users_image/upload.png' ) }}"
+                                                     alt="" >
+                                                </div>
+                                                <p class = "upload-area-text">Select images or <span>browse</span>.</p>
+                                            </div>
+                                            <input type = "file" class = "visually-hidden" id = "upload-input" name="profile-image" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="therapist-type" class="col-5 text-right">Therapist Type:</label>
                             <div class="col-7">
@@ -34,6 +64,8 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">First Name:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="first-name"
@@ -252,7 +284,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData( this ),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -270,5 +305,48 @@
                 history.go(-1); // Go back one page
             });
         });
+
+        //upload  image
+
+        $(document).ready(function(){
+            $(".upload-area").click(function(){
+                $('#upload-input').trigger('click');
+            });
+
+            $('#upload-input').change(event => {
+                if(event.target.files){
+                    let filesAmount = event.target.files.length;
+                    $('.upload-img').html("");
+
+                    for(let i = 0; i < filesAmount; i++){
+                        let reader = new FileReader();
+                        reader.onload = function(event){
+                            let html = `
+                                <div class = "uploaded-img">
+                                    <img src = "${event.target.result}">
+                                    <button type = "button" class = "remove-btn">
+                                        <i class = "fas fa-times"></i>
+                                    </button>
+                                </div>
+                            `;
+                            $(".upload-img").append(html);
+                        }
+                        reader.readAsDataURL(event.target.files[i]);
+                    }
+
+                    $('.upload-info-value').text(filesAmount);
+                    $('.upload-img').css('padding', "20px");
+                }
+            });
+
+            $(window).click(function(event){
+                if($(event.target).hasClass('remove-btn')){
+                    //$(event.target).parent().remove();
+                } else if($(event.target).parent().hasClass('remove-btn')){
+                    $(event.target).parent().parent().remove();
+                }
+            })
+        });
+
     </script>
 @stop

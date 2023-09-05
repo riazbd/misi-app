@@ -38,4 +38,9 @@ class Ticket extends Model
     {
         return $this->hasMany('App\Models\TicketAppointment');
     }
+
+    public function attachment()
+    {
+        return $this->hasMany('App\Models\Attachment');
+    }
 }
