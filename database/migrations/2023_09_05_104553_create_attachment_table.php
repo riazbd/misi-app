@@ -17,6 +17,7 @@ class CreateAttachmentTable extends Migration
             $table->id();
             $table->unsignedBigInteger('ticket_id');
             $table->string('attatchment')->nullable();
+
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
             $table->timestamps();
         });

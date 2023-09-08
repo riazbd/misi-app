@@ -6,8 +6,10 @@
         <div>
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back" id="goback">Go Back</button>
-                <button class="top-button top-submit-button" id="">Attach File</button>
-                <button class="top-button top-submit-button" id="top-submit-button-test">Submit</button>
+                {{-- <button class="top-button top-submit-button" id="">Attach File</button> --}}
+                <button id="showFileInput">Attach Files</button>
+                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+
 
             </div>
         </div>
@@ -25,10 +27,24 @@
             @csrf
             <div class="row justify-content-between">
                 <div class="col-md-12 justify-content-end">
+                    <div class="container">
+                        <input type="file" id="fileInput" class="file-input" name="files[]" accept="image/*,.pdf"
+                            multiple />
+                        <!-- Allow image and PDF files -->
+                        <div id="thumbnailContainer" class="thumbnail-container"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- <div class="row justify-content-between">
+                <div class="col-md-12 justify-content-end">
                     <input type="file" name="files[]" id="multifileInput" multiple>
                     <div id="fileList"></div>
                 </div>
-            </div>
+            </div> --}}
+
+
             <div class="row justify-content-between">
                 <!-- First Column -->
                 <div class="col-md-6 justify-content-end">
@@ -264,7 +280,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
         </form>
     </div>
 @stop
@@ -310,50 +326,116 @@
 
 
 
-        // upload attachment
 
-        const multifileInput = document.getElementById("multifileInput");
-        const fileList = document.getElementById("fileList");
 
-        const getFileIconClass = (file) => {
-            const fileType = file.type.split('/')[1];
 
-            // Map file types to Font Awesome icon classes
-            const fileIcons = {
-                pdf: 'pdf-icon',
-                doc: 'doc-icon',
-                xls: 'xls-icon',
-                default: 'fa-file', // Default icon for other file types
-            };
+        // upload attatchment
 
-            return fileIcons[fileType] || fileIcons.default;
-        };
 
-        multifileInput.addEventListener("change", function() {
-            fileList.innerHTML = ""; // Clear previous previews
+        document.addEventListener("DOMContentLoaded", function() {
+            const fileInput = document.getElementById("fileInput");
+            const thumbnailContainer = document.getElementById("thumbnailContainer");
+            const showFileInputButton = document.getElementById("showFileInput");
 
-            for (const file of multifileInput.files) {
-                const listItem = document.createElement("div");
-                listItem.className = "file-list-item";
+            // Add click event listener to the "Upload File" button
+            showFileInputButton.addEventListener("click", function() {
+                // Trigger the file input when the button is clicked
+                fileInput.click();
+            });
 
-                const fileIcon = document.createElement("i");
-                fileIcon.className = `file-icon fas ${getFileIconClass(file)}`;
+            fileInput.addEventListener("change", function() {
+                const selectedFiles = fileInput.files;
 
-                const fileName = document.createElement("div");
-                fileName.textContent = file.name;
+                if (selectedFiles.length > 0) {
+                    thumbnailContainer.innerHTML = ""; // Clear previous thumbnails
 
-                const removeButton = document.createElement("i");
-                removeButton.className = "remove-button fas fa-times-circle";
-                removeButton.addEventListener("click", () => {
-                    // Remove the file from the input and the preview
-                    multifileInput.value = "";
-                    listItem.remove();
-                });
+                    // Loop through selected files
+                    for (let i = 0; i < selectedFiles.length; i++) {
+                        const fileType = selectedFiles[i].type;
 
-                listItem.appendChild(fileIcon);
-                listItem.appendChild(fileName);
-                listItem.appendChild(removeButton);
-                fileList.appendChild(listItem);
+                        // Create a container for each thumbnail and button
+                        const thumbnailWrapper = document.createElement("div");
+                        thumbnailWrapper.className = "thumbnail-wrapper";
+
+                        // Create a thumbnail element
+                        const thumbnail = document.createElement("div");
+                        thumbnail.className = "thumbnail";
+
+                        if (fileType.startsWith("image/")) {
+                            // Display image thumbnails
+                            const imgThumbnail = document.createElement("img");
+                            imgThumbnail.src = URL.createObjectURL(selectedFiles[i]);
+                            thumbnail.appendChild(imgThumbnail);
+                        } else if (fileType === "application/pdf") {
+                            // Display PDF thumbnails using PDF.js
+                            const pdfThumbnail = document.createElement("canvas");
+                            thumbnail.appendChild(pdfThumbnail);
+
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                const pdfData = new Uint8Array(event.target.result);
+                                renderPdfThumbnail(pdfThumbnail, pdfData);
+                            };
+                            reader.readAsArrayBuffer(selectedFiles[i]);
+                        } else {
+                            // Handle other file types (e.g., documents) here
+                            const unsupportedThumbnail = document.createElement("div");
+                            unsupportedThumbnail.textContent =
+                                "Thumbnail not available for this file type.";
+                            thumbnail.appendChild(unsupportedThumbnail);
+                        }
+
+                        // Create a remove button for each thumbnail
+                        const removeButton = document.createElement("button");
+                        removeButton.textContent = "Remove";
+                        removeButton.className = "remove-button";
+
+                        // Attach a click event listener to the remove button
+                        removeButton.addEventListener("click", function() {
+                            thumbnailContainer.removeChild(thumbnailWrapper);
+                        });
+
+                        // Append the thumbnail and button to the container
+                        thumbnailWrapper.appendChild(thumbnail);
+                        thumbnailWrapper.appendChild(removeButton);
+
+                        // Append the container to the main thumbnail container
+                        thumbnailContainer.appendChild(thumbnailWrapper);
+                    }
+                } else {
+                    // Hide the thumbnail container if no file is selected
+                    thumbnailContainer.innerHTML = "";
+                }
+            });
+
+            function renderPdfThumbnail(canvas, pdfData) {
+                pdfjsLib
+                    .getDocument({
+                        data: pdfData
+                    })
+                    .promise.then(function(pdfDocument) {
+                        pdfDocument.getPage(1).then(function(page) {
+                            const viewport = page.getViewport({
+                                scale: 0.5
+                            });
+                            const context = canvas.getContext("2d");
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport,
+                            };
+
+                            page.render(renderContext).promise.then(function() {
+                                // PDF thumbnail rendered successfully
+                            });
+                        });
+                    })
+                    .catch(function(error) {
+                        // Handle errors
+                        console.error("Error loading PDF:", error);
+                    });
             }
         });
     </script>

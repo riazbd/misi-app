@@ -378,3 +378,91 @@ div.dataTables_wrapper div.dataTables_filter {
     color: #2ECC71;
     /* Set the color for XLS files */
 }
+
+
+/*  */
+/* */
+/* css for ticket attachment */
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.thumbnail-container {
+    display: flex;
+    flex-direction: row;
+    /* Thumbnails displayed from left to right */
+    flex-wrap: nowrap;
+    /* Prevent wrapping of thumbnails */
+    overflow-x: auto;
+    /* Enable horizontal scrolling if thumbnails overflow */
+    /* Adjust these properties to control the spacing between thumbnails */
+    gap: 10px;
+    /* Spacing between thumbnails */
+    margin-left: -10px;
+    /* Offset the first thumbnail's margin */
+
+}
+
+.thumbnail-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* Add border radius */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    /* Add box shadow */
+    overflow: hidden;
+    /* Hide overflow content if thumbnails are larger */
+    position: relative;
+    /* Position for the remove button */
+}
+
+.thumbnail img,
+.thumbnail canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure the image or PDF fills the container */
+}
+
+.remove-button {
+    background-color: #4CAF50;
+    /* Green color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 5px;
+    /* Add margin between thumbnail and button */
+}
+
+.file-input {
+    display: none;
+    /* Hide the file input by default */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.additional-div {
+    /* Add styles for the additional div here */
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+}
