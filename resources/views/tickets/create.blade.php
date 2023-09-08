@@ -6,7 +6,8 @@
         <div>
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back" id="goback">Go Back</button>
-                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+                <button class="top-button top-submit-button" id="">Attach File</button>
+                <button class="top-button top-submit-button" id="top-submit-button-test">Submit</button>
 
             </div>
         </div>
@@ -21,6 +22,9 @@
             <div class="row justify-content-between">
                 <!-- First Column -->
                 <div class="col-md-6 justify-content-end">
+
+
+
                     <div class="form-group row">
                         <label for="select-department" class="col-5 text-right">Select Department:</label>
                         <div class="col-7">
@@ -249,7 +253,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 @stop
@@ -270,7 +274,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData( this ),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -289,5 +296,7 @@
                 console.log('click back button')
             });
         });
+
+
     </script>
 @stop

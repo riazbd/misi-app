@@ -18,8 +18,30 @@
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class="">
+            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class="" enctype="multipart/form-data">
                 @csrf
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="profile-row">
+                            <div class="profile-image">
+                                <img src="{{ asset('storage/users_image/profile.png') }}"  width="150" height="150">
+                                <img class="profile-img-edit" src="{{ asset('storage/users_image/compose.png') }}"   width="20" height="20">
+                                <img class="profile-img-cancel" src="{{ asset('storage/users_image/circle-xmark.png') }}"  width="20" height="20">
+                            </div>
+                            <input type = "file" class = "visually-hidden" id = "profile-input" name="profile-image" >
+                            {{-- <div class="profile-img-edit">
+
+                            </div> --}}
+                            {{-- <div class="profile-img-cancel">
+
+                            </div> --}}
+                        </div>
+
+
+                    </div>
+                    </div>
+                </div>
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
 
@@ -197,6 +219,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6 justify-content-end">
                         <div class="form-group row">
@@ -249,7 +272,7 @@
         // submit form
         $(document).ready(function() {
             document.getElementById('top-submit-button').addEventListener('click', function() {
-                $('#create-patient-form').submit()
+                $('#create-patient-form').submit();
             });
             $('#create-patient-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
@@ -267,7 +290,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData( this ),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -295,5 +321,93 @@
                 console.log('click back button')
             });
         });
+
+
+    //upload  image
+
+        $(document).ready(function(){
+
+            $(".profile-img-edit").click(function(){
+                $('#profile-input').trigger('click');
+            });
+
+            $('#profile-input').change(event => {
+                if(event.target.files){
+                    console.log('hello');
+                    let filesAmount = event.target.files.length;
+                    $('.upload-img').html("");
+
+                    for(let i = 0; i < filesAmount; i++){
+                        let reader = new FileReader();
+                        reader.onload = function(event){
+                            let html = `
+                                <div class = "uploaded-img">
+                                    <img src = "${event.target.result}">
+                                    <button type = "button" class = "remove-btn">
+                                        <i class = "fas fa-times"></i>
+                                    </button>
+                                </div>
+                            `;
+                            $(".upload-img").append(html);
+                        }
+                        reader.readAsDataURL(event.target.files[i]);
+                    }
+
+                    $('.upload-info-value').text(filesAmount);
+                    $('.upload-img').css('padding', "20px");
+                }
+            });
+
+            $(window).click(function(event){
+                if($(event.target).hasClass('remove-btn')){
+                    //$(event.target).parent().remove();
+                } else if($(event.target).parent().hasClass('remove-btn')){
+                    $(event.target).parent().parent().remove();
+                }
+            })
+        });
+
+
+//upload  image
+        $(document).ready(function(){
+            $(".upload-area").click(function(){
+                $('#upload-input').trigger('click');
+            });
+
+            $('#upload-input').change(event => {
+                if(event.target.files){
+                    let filesAmount = event.target.files.length;
+                    $('.upload-img').html("");
+
+                    for(let i = 0; i < filesAmount; i++){
+                        let reader = new FileReader();
+                        reader.onload = function(event){
+                            let html = `
+                                <div class = "uploaded-img">
+                                    <img src = "${event.target.result}">
+                                    <button type = "button" class = "remove-btn">
+                                        <i class = "fas fa-times"></i>
+                                    </button>
+                                </div>
+                            `;
+                            $(".upload-img").append(html);
+                        }
+                        reader.readAsDataURL(event.target.files[i]);
+                    }
+
+                    $('.upload-info-value').text(filesAmount);
+                    $('.upload-img').css('padding', "20px");
+                }
+            });
+
+            $(window).click(function(event){
+                if($(event.target).hasClass('remove-btn')){
+                    //$(event.target).parent().remove();
+                } else if($(event.target).parent().hasClass('remove-btn')){
+                    $(event.target).parent().parent().remove();
+                }
+            })
+        });
+
     </script>
 @stop
