@@ -9,16 +9,14 @@ class Attachment extends Model
 {
     use HasFactory;
 
- /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
 
-     public function ticket()
-     {
-         return $this->belongsTo('App\Models\Ticket');
-     }
-
-
+    public function ticket()
+    {
+        return $this->belongsTo('App\Models\Ticket');
+    }
 }

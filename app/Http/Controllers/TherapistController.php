@@ -207,7 +207,8 @@ class TherapistController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
+        $data['profile-image'] = request()->file('profile-image')->store('users_image');
+        //dd($data);
         try {
             $therapist = Therapist::where('id', $id)->first();
             $user = $therapist->user()->first();
@@ -238,6 +239,7 @@ class TherapistController extends Controller
             // $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
+            $user->profile_image = $data['profile-image'];
             // $user->age = $data['age'];
             $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];

@@ -15,10 +15,20 @@
 
         </div>
     </div>
+
+
+
+
     <div class="p-5">
         {{-- <h2>Ticket Form</h2> --}}
-        <form method="POST" action="{{ route('tickets.store') }}" id="create-ticket-form">
+        <form method="POST" action="{{ route('tickets.store') }}" id="create-ticket-form" enctype="multipart/form-data">
             @csrf
+            <div class="row justify-content-between">
+                <div class="col-md-12 justify-content-end">
+                    <input type="file" name="files[]" id="multifileInput" multiple>
+                    <div id="fileList"></div>
+                </div>
+            </div>
             <div class="row justify-content-between">
                 <!-- First Column -->
                 <div class="col-md-6 justify-content-end">
@@ -111,7 +121,8 @@
                     <div class="form-group row">
                         <label for="select-department" class="col-5 text-right">Select Patient:</label>
                         <div class="col-7">
-                            <select class="form-control form-control-sm selectpicker" id="select-patient" name="select-patient" data-live-search="true">
+                            <select class="form-control form-control-sm selectpicker" id="select-patient"
+                                name="select-patient" data-live-search="true">
                                 <option value="">Select Patient</option>
                                 @foreach ($patients as $patient)
                                     <option value="{{ $patient->id }}">{{ $patient->user()->first()->first_name }}
@@ -275,7 +286,7 @@
                     url: $(this).attr('action'),
                     type: 'POST',
                     //data: formData,
-                    data: new FormData( this ),
+                    data: new FormData(this),
                     processData: false,
                     contentType: false,
                     success: function(response) {
@@ -298,5 +309,52 @@
         });
 
 
+
+        // upload attachment
+
+        const multifileInput = document.getElementById("multifileInput");
+        const fileList = document.getElementById("fileList");
+
+        const getFileIconClass = (file) => {
+            const fileType = file.type.split('/')[1];
+
+            // Map file types to Font Awesome icon classes
+            const fileIcons = {
+                pdf: 'pdf-icon',
+                doc: 'doc-icon',
+                xls: 'xls-icon',
+                default: 'fa-file', // Default icon for other file types
+            };
+
+            return fileIcons[fileType] || fileIcons.default;
+        };
+
+        multifileInput.addEventListener("change", function() {
+            fileList.innerHTML = ""; // Clear previous previews
+
+            for (const file of multifileInput.files) {
+                const listItem = document.createElement("div");
+                listItem.className = "file-list-item";
+
+                const fileIcon = document.createElement("i");
+                fileIcon.className = `file-icon fas ${getFileIconClass(file)}`;
+
+                const fileName = document.createElement("div");
+                fileName.textContent = file.name;
+
+                const removeButton = document.createElement("i");
+                removeButton.className = "remove-button fas fa-times-circle";
+                removeButton.addEventListener("click", () => {
+                    // Remove the file from the input and the preview
+                    multifileInput.value = "";
+                    listItem.remove();
+                });
+
+                listItem.appendChild(fileIcon);
+                listItem.appendChild(fileName);
+                listItem.appendChild(removeButton);
+                fileList.appendChild(listItem);
+            }
+        });
     </script>
 @stop

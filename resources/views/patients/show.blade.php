@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
 @section('content_top_nav_left')
-<div class="ml-5 d-flex align-items-center">
-    <h6 class="m-0">Patient - {{$patient->user()->first()->user_serial_no}}</h6>
-</div>
+    <div class="ml-5 d-flex align-items-center">
+        <h6 class="m-0">Patient - {{ $patient->user()->first()->user_serial_no }}</h6>
+    </div>
 @stop
 
 @section('content')
@@ -25,22 +25,54 @@
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.update', ['patient' => $patient->id]) }}" id="update-patient-form"
-                enctype="multipart/form-data" class="">
+            <form method="POST" action="{{ route('patients.update', ['patient' => $patient->id]) }}"
+                id="update-patient-form" enctype="multipart/form-data" class="">
                 @csrf
                 @method('PUT')
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="image-container">
+                            <div id="imageContainer">
+
+                                <!-- Hidden file input -->
+                                <input type="file" id="image-upload-input" accept="image/*" name="profile-image"
+                                    value="{{ $patient->user()->first()->profile_image }}">
+
+                                <!-- Image container  -->
+
+                                <?php
+                                $image_url = $patient->user()->first()->profile_image;
+                                    if($image_url == null){
+                                        ?>
+                                <div id="image-container">
+                                    <img id="image-preview" src="{{ asset('storage/users_image/profile.png') }}"
+                                        width="100" height="100" alt="Image Preview">
+                                </div>
+
+                                <?php
+                                    }else{
+                                        ?>
+                                <div id="image-container">
+                                    <img id="image-preview"
+                                        src="{{ asset('storage/' . $patient->user()->first()->profile_image) }}"
+                                        width="100" height="100" alt="Image Preview">
+                                </div>
+
+                                <?php
+
+                                    }
+                                ?>
+
+                            </div>
+                            <button type="button" id="edit-button">Change</button>
+                        </div>
+
+
+                    </div>
+                </div>
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
-
-                        <div class="form-group row">
-                            <label for="first-name" class="col-5 text-right">Profile Image</label>
-                            <div class="col-7">
-                                <input type="file" class="form-control form-control-sm" id="profile-image" name="profile-image"
-                                value="{{ $patient->user()->first()->profile_image }}" >
-                                <img src=" {{ asset('storage/' . $patient->user()->first()->profile_image ) }}"
-                                width="50" height="60" alt="" >
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">First Name:</label>
@@ -99,15 +131,16 @@
                         </div>
                         <div class="form-group row">
                             <label for="age" class="col-5 text-right">Age:</label>
-                            <div class="col-7"><input type="number" class="form-control form-control-sm" id="age"
-                                    name="age" readonly></div>
+                            <div class="col-7"><input type="number" class="form-control form-control-sm"
+                                    id="age" name="age" readonly></div>
                         </div>
                         <div class="form-group row">
                             <label for="marital-status" class="col-5 text-right">Marital Status:</label>
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="marital-status" name="marital-status">
                                     <option value="Single"
-                                        {{ $patient->user()->first()->marital_status == 'Single' ? 'selected' : '' }}>Single
+                                        {{ $patient->user()->first()->marital_status == 'Single' ? 'selected' : '' }}>
+                                        Single
                                     </option>
                                     <option value="Married"
                                         {{ $patient->user()->first()->marital_status == 'Married' ? 'selected' : '' }}>
@@ -190,7 +223,8 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     {{-- <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 1</option>
                                     <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 2</option>
                                     <option value="country1" {{ $patient->blood_group === 'AB-' ? 'selected' : '' }}>Country 3</option> --}}
@@ -343,7 +377,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -371,5 +408,33 @@
                 console.log('click back button')
             });
         });
+
+
+        //edit  image
+
+
+        $(document).ready(function() {
+            // Trigger file input when the "Edit" button is clicked
+            $("#edit-button").click(function() {
+                $("#image-upload-input").click();
+            });
+
+            // Handle file input change to preview the selected image
+            $("#image-upload-input").change(function() {
+                readURL(this);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $("#image-preview").attr("src", e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 @stop

@@ -18,30 +18,28 @@
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class="" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class=""
+                enctype="multipart/form-data">
                 @csrf
 
                 <div class="row justify-content-between">
                     <div class="col-md-12 justify-content-end">
-                        <div class="profile-row">
-                            <div class="profile-image">
-                                <img src="{{ asset('storage/users_image/profile.png') }}"  width="150" height="150">
-                                <img class="profile-img-edit" src="{{ asset('storage/users_image/compose.png') }}"   width="20" height="20">
-                                <img class="profile-img-cancel" src="{{ asset('storage/users_image/circle-xmark.png') }}"  width="20" height="20">
+                        <div class="image-container">
+                            <div id="imageContainer">
+                                <img id="existingImage" src="{{ asset('storage/users_image/profile.png') }}"
+                                    alt="Profile Image">
+                                <!-- Updated src to "profile.png" -->
                             </div>
-                            <input type = "file" class = "visually-hidden" id = "profile-input" name="profile-image" >
-                            {{-- <div class="profile-img-edit">
+                            <label for="fileInput" id="uploadButton">Upload</label>
+                            <input type="file" id="fileInput" accept="image/*" name="profile-image">
 
-                            </div> --}}
-                            {{-- <div class="profile-img-cancel">
-
-                            </div> --}}
+                            <button type="button" id="removeImage">Remove Image</button>
                         </div>
 
 
                     </div>
-                    </div>
                 </div>
+
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
 
@@ -75,7 +73,7 @@
                         <div class="form-group row">
                             <label for="dob" class="col-5 text-right">Date of Birth:</label>
                             {{-- <input type="date" class="form-control" id="dob" name="dob"
-                                onchange="calculateAge()"> --}}
+                                            onchange="calculateAge()"> --}}
                             {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
                             @php
                                 $config = ['format' => 'DD-MM-YYYY'];
@@ -92,9 +90,9 @@
                             </div>
                         </div>
                         {{-- <div class="form-group">
-                            <label for="age">Age:</label>
-                            <input type="number" class="form-control" id="age" name="age" readonly>
-                        </div> --}}
+                                        <label for="age">Age:</label>
+                                        <input type="number" class="form-control" id="age" name="age" readonly>
+                                    </div> --}}
                         <div class="form-group row">
                             <label for="marital-status" class="col-5 text-right">Marital Status:</label>
                             <div class="col-7">
@@ -129,8 +127,8 @@
                         </div>
                         <div class="form-group row">
                             <label for="occupation" class="col-5 text-right">Occupation:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="occupation"
-                                    name="occupation"></div>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="occupation" name="occupation"></div>
                         </div>
                     </div>
                     <div class="col-md-6 justify-content-start">
@@ -149,10 +147,11 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     {{-- <option value="country1">Country 1</option>
-                                    <option value="country1">Country 2</option>
-                                    <option value="country1">Country 3</option> --}}
+                                                <option value="country1">Country 2</option>
+                                                <option value="country1">Country 3</option> --}}
                                     @foreach ($countries as $country)
                                         <option value="{{ $country['name_en'] }}">
                                             {{ $country['name_en'] }}</option>
@@ -291,7 +290,7 @@
                     url: $(this).attr('action'),
                     type: 'POST',
                     //data: formData,
-                    data: new FormData( this ),
+                    data: new FormData(this),
                     processData: false,
                     contentType: false,
                     success: function(response) {
@@ -323,91 +322,46 @@
         });
 
 
-    //upload  image
 
-        $(document).ready(function(){
 
-            $(".profile-img-edit").click(function(){
-                $('#profile-input').trigger('click');
+
+
+
+        //upload  image
+        $(document).ready(function() {
+            var defaultImageSrc =
+                "http://127.0.0.1:8000/storage/users_image/profile.png"; // Updated the default image source to "profile.png"
+            var removeImageButton = $("#removeImage");
+            var fileInput = $("#fileInput")[0];
+            var uploadButton = $("#uploadButton");
+
+            uploadButton.click(function() {
+                fileInput.click(); // Trigger the hidden file input
             });
 
-            $('#profile-input').change(event => {
-                if(event.target.files){
-                    console.log('hello');
-                    let filesAmount = event.target.files.length;
-                    $('.upload-img').html("");
+            fileInput.onchange = function() {
+                var existingImage = $("#existingImage")[0];
 
-                    for(let i = 0; i < filesAmount; i++){
-                        let reader = new FileReader();
-                        reader.onload = function(event){
-                            let html = `
-                                <div class = "uploaded-img">
-                                    <img src = "${event.target.result}">
-                                    <button type = "button" class = "remove-btn">
-                                        <i class = "fas fa-times"></i>
-                                    </button>
-                                </div>
-                            `;
-                            $(".upload-img").append(html);
-                        }
-                        reader.readAsDataURL(event.target.files[i]);
-                    }
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
 
-                    $('.upload-info-value').text(filesAmount);
-                    $('.upload-img').css('padding', "20px");
+                    reader.onload = function(e) {
+                        existingImage.src = e.target.result;
+                        removeImageButton.show(); // Show the Remove Image button
+                        uploadButton.hide(); // Hide the Upload button
+                    };
+
+                    reader.readAsDataURL(this.files[0]);
                 }
+            };
+
+            removeImageButton.on("click", function() {
+                var existingImage = $("#existingImage")[0];
+                existingImage.src = defaultImageSrc; // Restore the previous image
+                fileInput.value = ""; // Clear the file input
+                removeImageButton.hide(); // Hide the Remove Image button
+                uploadButton.show(); // Show the Upload button
             });
-
-            $(window).click(function(event){
-                if($(event.target).hasClass('remove-btn')){
-                    //$(event.target).parent().remove();
-                } else if($(event.target).parent().hasClass('remove-btn')){
-                    $(event.target).parent().parent().remove();
-                }
-            })
         });
-
-
-//upload  image
-        $(document).ready(function(){
-            $(".upload-area").click(function(){
-                $('#upload-input').trigger('click');
-            });
-
-            $('#upload-input').change(event => {
-                if(event.target.files){
-                    let filesAmount = event.target.files.length;
-                    $('.upload-img').html("");
-
-                    for(let i = 0; i < filesAmount; i++){
-                        let reader = new FileReader();
-                        reader.onload = function(event){
-                            let html = `
-                                <div class = "uploaded-img">
-                                    <img src = "${event.target.result}">
-                                    <button type = "button" class = "remove-btn">
-                                        <i class = "fas fa-times"></i>
-                                    </button>
-                                </div>
-                            `;
-                            $(".upload-img").append(html);
-                        }
-                        reader.readAsDataURL(event.target.files[i]);
-                    }
-
-                    $('.upload-info-value').text(filesAmount);
-                    $('.upload-img').css('padding', "20px");
-                }
-            });
-
-            $(window).click(function(event){
-                if($(event.target).hasClass('remove-btn')){
-                    //$(event.target).parent().remove();
-                } else if($(event.target).parent().hasClass('remove-btn')){
-                    $(event.target).parent().parent().remove();
-                }
-            })
-        });
-
     </script>
 @stop

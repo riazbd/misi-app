@@ -18,45 +18,37 @@
         {{-- <h1>Therapist Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form"
+                enctype="multipart/form-data">
                 @csrf
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="image-container">
+                            <div id="imageContainer">
+                                <img id="existingImage" src="{{ asset('storage/users_image/profile.png') }}"
+                                    alt="Profile Image">
+                                <!-- Updated src to "profile.png" -->
+                            </div>
+                            <label for="fileInput" id="uploadButton">Upload</label>
+                            <input type="file" id="fileInput" accept="image/*" name="profile-image">
+
+                            <button type="button" id="removeImage">Remove</button>
+                        </div>
+
+
+                    </div>
+                </div>
                 <div class="row justify-content-between">
                     <div class="col-md-6">
 
-                        <div class="form-group row">
-                            <label for="first-name" class="col-5 text-right">Upload Image </label>
-                            <div class="col-7">
-                                <div class = 'wrapper'>
-                                    <div class = "upload">
-                                        <div class = "upload-wrapper">
-                                            <div class = "upload-img">
-                                                <!-- image here -->
-                                            </div>
-                                            <div class = "upload-info">
-                                                <p>
-                                                    <span class = "upload-info-value">0</span> file(s) uploaded.
-                                                </p>
-                                            </div>
-                                            <div class = "upload-area">
-                                                <div class = "upload-area-img">
-                                                    {{-- <img src = "assets/upload.png" alt = ""> --}}
-                                                    <img src=" {{ asset('storage/users_image/upload.png' ) }}"
-                                                     alt="" >
-                                                </div>
-                                                <p class = "upload-area-text">Select images or <span>browse</span>.</p>
-                                            </div>
-                                            <input type = "file" class = "visually-hidden" id = "upload-input" name="profile-image" >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="form-group row">
                             <label for="therapist-type" class="col-5 text-right">Therapist Type:</label>
                             <div class="col-7">
-                                <select type="text" class="form-control  form-control-sm selectpicker" id="therapist-type"
-                                    name="therapist-type" data-live-search="true">
+                                <select type="text" class="form-control  form-control-sm selectpicker"
+                                    id="therapist-type" name="therapist-type" data-live-search="true">
                                     <option value="Therapist type 1">Therapist type 1</option>
                                     <option value="Therapist type 2">Therapist type 2</option>
                                     <option value="Therapist type 3">Therapist type 3</option>
@@ -166,7 +158,8 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     {{-- <option value="country1">Country 1</option>
                                     <option value="country1">Country 2</option>
                                     <option value="country1">Country 3</option> --}}
@@ -285,7 +278,7 @@
                     url: $(this).attr('action'),
                     type: 'POST',
                     //data: formData,
-                    data: new FormData( this ),
+                    data: new FormData(this),
                     processData: false,
                     contentType: false,
                     success: function(response) {
@@ -307,46 +300,40 @@
         });
 
         //upload  image
+        $(document).ready(function() {
+            var defaultImageSrc =
+                "http://127.0.0.1:8000/storage/users_image/profile.png"; // Updated the default image source to "profile.png"
+            var removeImageButton = $("#removeImage");
+            var fileInput = $("#fileInput")[0];
+            var uploadButton = $("#uploadButton");
 
-        $(document).ready(function(){
-            $(".upload-area").click(function(){
-                $('#upload-input').trigger('click');
+            uploadButton.click(function() {
+                fileInput.click(); // Trigger the hidden file input
             });
 
-            $('#upload-input').change(event => {
-                if(event.target.files){
-                    let filesAmount = event.target.files.length;
-                    $('.upload-img').html("");
+            fileInput.onchange = function() {
+                var existingImage = $("#existingImage")[0];
 
-                    for(let i = 0; i < filesAmount; i++){
-                        let reader = new FileReader();
-                        reader.onload = function(event){
-                            let html = `
-                                <div class = "uploaded-img">
-                                    <img src = "${event.target.result}">
-                                    <button type = "button" class = "remove-btn">
-                                        <i class = "fas fa-times"></i>
-                                    </button>
-                                </div>
-                            `;
-                            $(".upload-img").append(html);
-                        }
-                        reader.readAsDataURL(event.target.files[i]);
-                    }
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
 
-                    $('.upload-info-value').text(filesAmount);
-                    $('.upload-img').css('padding', "20px");
+                    reader.onload = function(e) {
+                        existingImage.src = e.target.result;
+                        removeImageButton.show(); // Show the Remove Image button
+                        uploadButton.hide(); // Hide the Upload button
+                    };
+
+                    reader.readAsDataURL(this.files[0]);
                 }
+            };
+
+            removeImageButton.on("click", function() {
+                var existingImage = $("#existingImage")[0];
+                existingImage.src = defaultImageSrc; // Restore the previous image
+                fileInput.value = ""; // Clear the file input
+                removeImageButton.hide(); // Hide the Remove Image button
+                uploadButton.show(); // Show the Upload button
             });
-
-            $(window).click(function(event){
-                if($(event.target).hasClass('remove-btn')){
-                    //$(event.target).parent().remove();
-                } else if($(event.target).parent().hasClass('remove-btn')){
-                    $(event.target).parent().parent().remove();
-                }
-            })
         });
-
     </script>
 @stop

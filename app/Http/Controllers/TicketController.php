@@ -167,11 +167,12 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
-
+        //dd($data);
+        // $files = $request->file('files');
+        // dd($files);
         try {
+
             $ticket = new Ticket();
-            $attachment= new Attachment();
 
             $ticket->department_id = $data['select-department'];
             $ticket->patient_id = $data['select-patient'];
@@ -209,7 +210,18 @@ class TicketController extends Controller
 
             $ticket->save();
 
-        // attachment
+            //attachment save
+
+            $files = $request->file('files');
+
+            foreach ($files as $file) {
+
+                $attachment = new Attachment();
+                $attachment->ticket_id = $ticket->id;
+                $attachment->attatchment = $file->store('attachments_folder');
+                $attachment->save();
+            }
+            //}
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

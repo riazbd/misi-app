@@ -20,6 +20,7 @@ class PatientController extends Controller
     public function index()
     {
         $patients = Patient::all();
+        //dd($patients);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -207,7 +208,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //$data = $request->all();
+        $data = $request->all();
         //dd($request->all());
         try {
             $patient = Patient::where('id', $id)->first();
