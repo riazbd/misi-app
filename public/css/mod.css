@@ -359,7 +359,7 @@ div.dataTables_wrapper div.dataTables_filter {
 
 .remove-button {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     color: red;
 }
 
@@ -410,6 +410,7 @@ div.dataTables_wrapper div.dataTables_filter {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 15px;
 }
 
 .thumbnail {
@@ -436,14 +437,12 @@ div.dataTables_wrapper div.dataTables_filter {
 
 .remove-button {
     background-color: #4CAF50;
-    /* Green color */
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 2px 6px;
     cursor: pointer;
     margin-top: 5px;
-    /* Add margin between thumbnail and button */
 }
 
 .file-input {
@@ -465,4 +464,9 @@ div.dataTables_wrapper div.dataTables_filter {
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
+}
+
+
+#showFileInput i {
+    font-size: 25px;
 }

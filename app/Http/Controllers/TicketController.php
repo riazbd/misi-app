@@ -25,6 +25,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
+        //dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -87,6 +88,7 @@ class TicketController extends Controller
     public function missingInfo()
     {
         $tickets = Ticket::where('honos', null)->orWhere('location', null)->get();
+        dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -224,8 +226,10 @@ class TicketController extends Controller
 
 
             return response()->json(['message' => 'Data saved successfully']);
+            // return response()->json(['message' => $request]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
+            // return response()->json(['message' => $request], 500);
         }
     }
 

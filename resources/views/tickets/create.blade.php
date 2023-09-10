@@ -6,8 +6,7 @@
         <div>
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back" id="goback">Go Back</button>
-                {{-- <button class="top-button top-submit-button" id="">Attach File</button> --}}
-                <button id="showFileInput">Attach Files</button>
+                <button class="top-button " id="showFileInput"> <i class="fas fa-fw fa-solid fa-paperclip"></i></button>
                 <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
 
 
