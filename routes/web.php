@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ticket-appointments', TicketAppointmentController::class);
     Route::resource('appointment-intake', IntakeController::class);
 
-    Route::post('/delete-product', [AttachmentController::class, 'deleteProduct'])->name('attach');
+    Route::post('/delet-attachment', [AttachmentController::class, 'destroy'])->name('attachment');
 
 
     Route::resource('questions', QuestionController::class);

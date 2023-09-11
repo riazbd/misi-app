@@ -208,18 +208,21 @@ class TicketController extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
-            //$ticket->save();
+            $ticket->save();
 
             //attachment save
 
             $files = $request->file('files');
 
-            dd($files[0]->getClientOriginalName());
+            //dd($files[0]->getClientOriginalName());
 
             foreach ($files as $file) {
 
                 //$image = $request->file('image');
-                $filename = time() . '.' . $file->getClientOriginalName();
+                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
 
                 $attachment = new Attachment();
                 $attachment->ticket_id = $ticket->id;
@@ -370,9 +373,21 @@ class TicketController extends Controller
             foreach ($files as $file) {
 
 
+                // $attachment = new Attachment();
+                // $attachment->ticket_id = $ticket->id;
+                // $attachment->attatchment = $file->store('attachments_folder');
+                // $attachment->save();
+
+                //..............
+                //$image = $request->file('image');
+                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
                 $attachment = new Attachment();
                 $attachment->ticket_id = $ticket->id;
-                $attachment->attatchment = $file->store('attachments_folder');
+                $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
                 $attachment->save();
             }
 

@@ -12,7 +12,8 @@
         <div>
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back">Go Back</button>
-                <button class="top-button top-submit-button" id="top-submit-button-test">Submit</button>
+                <button class="top-button " id="showFileInput"> <i class="fas fa-fw fa-solid fa-paperclip"></i></button>
+                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
 
             </div>
         </div>
@@ -27,7 +28,7 @@
 
 
 
-            <button class="top-button " id="showFileInput"> <i class="fas fa-fw fa-solid fa-paperclip"></i></button>
+
             <form method="POST" action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" id="update-ticket-form"
                 enctype="multipart/form-data">
                 @csrf
@@ -416,7 +417,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
             </form>
         </div>
 
@@ -473,7 +474,13 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'PUT',
-                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    //data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -691,18 +698,18 @@
 
         $(document).on('click', '.delete_product', function(e) {
             e.preventDefault();
-            let product_id = $(this).data('id');
+            let attachment_id = $(this).data('id');
             //alert(product_id);
 
             //if (confirm('are sure?')) {
             $.ajax({
-                url: "{{ route('attach') }}",
+                url: "{{ route('attachment') }}",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 method: 'post',
                 data: {
-                    product_id: product_id
+                    attachment_id: attachment_id
                 },
                 success: function(res) {
                     if (res.status == 'success') {
