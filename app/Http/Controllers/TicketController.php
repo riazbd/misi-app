@@ -241,12 +241,19 @@ class TicketController extends Controller
      */
     public function show($id)
     {
+        //$comments = Post::find(1)->comments;
+        // $attachment = Ticket::find($id)->attachments;
+        // dd($attachment);
+
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
         $matchingRoles = Role::whereIn('name', $roles)->get();
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
         $patients = Patient::all();
-        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient'));
+
+        $attachments = $ticket->attachments;
+
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments'));
     }
 
     /**
@@ -270,7 +277,7 @@ class TicketController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
+        //dd($data);
         try {
             $ticket = Ticket::where('id', $id)->first();
 
@@ -350,6 +357,20 @@ class TicketController extends Controller
                 $history->comment = $data['comments'];
 
                 $history->save();
+            }
+
+            //attachment update
+
+            $files = $request->file('files');
+
+
+            foreach ($files as $file) {
+
+
+                $attachment = new Attachment();
+                $attachment->ticket_id = $ticket->id;
+                $attachment->attatchment = $file->store('attachments_folder');
+                $attachment->save();
             }
 
 

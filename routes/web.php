@@ -20,6 +20,9 @@ use App\Http\Controllers\VtcbController;
 use App\Http\Controllers\WorkSchedule;
 use App\Http\Controllers\YesApprovalController;
 
+use App\Http\Controllers\AttachmentController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,6 +58,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('ticket-appointments', TicketAppointmentController::class);
     Route::resource('appointment-intake', IntakeController::class);
+
+    Route::post('/delete-product', [AttachmentController::class, 'deleteProduct'])->name('attach');
+
 
     Route::resource('questions', QuestionController::class);
     Route::resource('work-schedules', WorkSchedule::class);
