@@ -7,7 +7,7 @@
             <div class="d-flex flex-direction-row button-container">
                 <button class="top-button go-back" id="goback">Go Back</button>
                 <button class="top-button " id="showFileInput"> <i class="fas fa-fw fa-solid fa-paperclip"></i></button>
-                <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+                <button class="top-button top-submit-button" id="top-submit-button-test">Submit</button>
 
 
             </div>
@@ -279,7 +279,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 @stop
