@@ -58,8 +58,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('ticket-appointments', TicketAppointmentController::class);
     Route::resource('appointment-intake', IntakeController::class);
-
     Route::post('/delet-attachment', [AttachmentController::class, 'destroy'])->name('attachment');
+
+    // Route for ticket update
+    Route::post('/update-ticket/{id}', [TicketController::class, 'update'])->name('update-ticket');
+    Route::post('/update-screener-ticket/{id}', [ScreeningController::class, 'update'])->name('update-screener-ticket');
+    Route::post('/update-pib-ticket/{id}', [PibController::class, 'update'])->name('update-pib-ticket');
+    Route::post('/update-pit-ticket/{id}', [PitController::class, 'update'])->name('update-pit-ticket');
+    Route::post('/update-yes-approval-ticket/{id}', [YesApprovalController::class, 'update'])->name('update-yes-approval-ticket');
+    Route::post('/update-no-approval-ticket/{id}', [NoApprovalController::class, 'update'])->name('update-no-approval-ticket');
+    Route::post('/update-heranmelding-ticket/{id}', [HeranmeldingController::class, 'update'])->name('update-heranmelding-ticket');
+    Route::post('/update-vtcb-ticket/{id}', [VtcbController::class, 'update'])->name('update-vtcb-ticket');
+    Route::post('/update-appointment-group-ticket/{id}', [Appointment::class, 'update'])->name('update-appointment-group-ticket');
 
 
     Route::resource('questions', QuestionController::class);

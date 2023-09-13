@@ -10,6 +10,7 @@ use App\Models\TicketHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use App\Models\Attachment;
 
 class Appointment extends Controller
 {
@@ -125,7 +126,8 @@ class Appointment extends Controller
 
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
-        return view('appointment.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes'));
+        $attachments = $ticket->attachments;
+        return view('appointment.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments'));
     }
 
     /**
@@ -235,6 +237,26 @@ class Appointment extends Controller
             $history->save();
 
             // $ticket->save();
+
+
+            //attachment update
+
+            $files = $request->file('files');
+
+            if ($files) {
+                foreach ($files as $file) {
+
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
+            }
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

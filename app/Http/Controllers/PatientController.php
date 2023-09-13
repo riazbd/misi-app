@@ -12,6 +12,12 @@ use PragmaRX\Countries\Package\Countries;
 
 class PatientController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware(['role:admin']);
+    }
     /**
      * Display a listing of the resource.
      *

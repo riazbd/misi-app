@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use App\Models\Attachment;
 
 class ScreeningController extends Controller
 {
@@ -129,7 +130,10 @@ class ScreeningController extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
         $screening = $id;
-        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient'));
+
+        $attachments = $ticket->attachments;
+
+        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'attachments'));
     }
 
     /**
@@ -234,6 +238,25 @@ class ScreeningController extends Controller
 
             $ticket->save();
             $history->save();
+
+            //attachment update
+
+            $files = $request->file('files');
+
+            if ($files) {
+                foreach ($files as $file) {
+
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
+            }
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

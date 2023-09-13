@@ -27,12 +27,9 @@
         <div class="">
 
 
-
-
-            <form method="POST" action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" id="update-ticket-form"
+            <form method="POST" action="{{ route('update-ticket', ['id' => $ticket->id]) }}" id="update-ticket-form"
                 enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
 
                 <div class="row justify-content-between">
                     <div class="col-md-12 justify-content-end">
@@ -47,29 +44,29 @@
                                 foreach ($attachments as $attachment) {
                                 $file_type = substr($attachment['attatchment'],-4);
                                     if($file_type == ".png"){
+                                        $edit_file_name = substr($attachment['attatchment'],19)
                                         ?>
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
                                         <img src="{{ asset('storage/' . $attachment['attatchment']) }}" width="100"
                                             height="100" alt="Image Preview">
                                     </div>
-
+                                    <p class="attatchment_name">{{ $edit_file_name }}</p>
                                     <a href="" class=" btn btn-danger btn-sm delete_product"
                                         data-id="{{ $attachment->id }}">Delete</a>
                                 </div>
 
                                 <?php
                                     }else{
-                                    ?>
+                                        $edit_file_name = substr($attachment['attatchment'],19)
+                                ?>
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
-                                        {{-- <img src="{{ asset('storage/' . $attachment['attatchment']) }}" width="100"
-                                            height="100" alt="Image Preview"> --}}
-                                        <canvas id="myCanvas" width="200"
-                                            height="200">{{ asset('storage/' . $attachment['attatchment']) }}</canvas>
+                                        <img src="{{ asset('storage/attachments_folder/pdf_logo.png') }}" width="100"
+                                            height="100" alt="Image Preview">
 
                                     </div>
-
+                                    <p class="attatchment_name">{{ $edit_file_name }}</p>
                                     <a href="" class=" btn btn-danger btn-sm delete_product"
                                         data-id="{{ $attachment->id }}">Delete</a>
                                 </div>
@@ -78,20 +75,13 @@
                                     }
                                     ?>
 
-
                                 <?php
                                 } ?>
-
-
-
 
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
 
 
                 <div class="row justify-content-between">
@@ -400,6 +390,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="col-md-12">
                         <h6 class="ml-3 col-2 text-right">Activity Log</h6>
@@ -408,8 +400,7 @@
                 <div class="row mt-3">
                     <div class="col-md-12">
 
-
-                        <div class="form-group row">
+                        <div class="form-group row work_note">
                             <label for="comments" class="col-2 text-right">Work Note:</label>
                             <div class="col-10">
                                 <textarea class="form-control form-control-sm" id="comments" name="comments"></textarea>
@@ -460,35 +451,30 @@
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
             var ticketId = '{{ $ticket->id }}';
             getHistories(ticketId)
+
+
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('select[name="select-status"] option').removeAttr('disabled');
                 $('#update-ticket-form').submit()
             });
+
             $('#update-ticket-form').submit(function(event) {
 
                 event.preventDefault(); // Prevent form submission
 
-                var formData = $(this).serialize(); // Serialize form data
-                console.log(formData);
+                // var formData = new FormData(this); // Serialize form data
+                // console.log('FormData', formData);
 
                 $.ajax({
                     url: $(this).attr('action'),
-                    type: 'PUT',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    //data: formData,
+                    type: 'POST',
                     data: new FormData(this),
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // Handle success response
-                        console.log(response);
                         Swal.fire('Success!', 'Request successful', 'success');
                     },
                     error: function(xhr) {
-                        // Handle error response
-                        console.log(xhr.responseText);
                         Swal.fire('Error!', 'Request failed', 'error');
                     }
                 });
@@ -496,7 +482,11 @@
                 getHistories(ticketId)
             });
 
+
+
+
             getUsers(defaultRole)
+
 
             function getUsers(roleVal) {
                 $.ajax({
@@ -580,6 +570,8 @@
                 console.log('click back button')
             });
         });
+
+
 
         // upload attatchment
 

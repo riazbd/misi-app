@@ -12,7 +12,9 @@ use App\Mail\CancelMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
 
 class TicketController extends Controller
@@ -169,6 +171,7 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // dd($data);
 
         try {
 
@@ -283,8 +286,8 @@ class TicketController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //dd($data);
         try {
+
             $ticket = Ticket::where('id', $id)->first();
 
             if ($data['select-status'] == 'onhold' && $data['select-department'] != '') {
@@ -299,6 +302,7 @@ class TicketController extends Controller
                 $ticket->status = $data['select-status'];
             }
 
+
             if ($data['select-department'] != $ticket->department_id) {
                 $ticket->status = 'open';
             }
@@ -310,10 +314,6 @@ class TicketController extends Controller
             if ($data['assign-to'] != '' && $ticket->assigned_staff != $data['assign-to']) {
                 $ticket->status = 'onhold';
             }
-
-            // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
-            //     $ticket->status = $data['select-status'];
-            // }
 
 
             $ticket->department_id = $data['select-department'];
@@ -369,35 +369,34 @@ class TicketController extends Controller
 
             $files = $request->file('files');
 
+            if ($files) {
+                foreach ($files as $file) {
 
-            foreach ($files as $file) {
 
+                    // $attachment = new Attachment();
+                    // $attachment->ticket_id = $ticket->id;
+                    // $attachment->attatchment = $file->store('attachments_folder');
+                    // $attachment->save();
 
-                // $attachment = new Attachment();
-                // $attachment->ticket_id = $ticket->id;
-                // $attachment->attatchment = $file->store('attachments_folder');
-                // $attachment->save();
+                    //..............
+                    //$image = $request->file('image');
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
 
-                //..............
-                //$image = $request->file('image');
-                $name = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
 
-                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
-
-                $attachment = new Attachment();
-                $attachment->ticket_id = $ticket->id;
-                $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
-                $attachment->save();
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
             }
-
-
 
 
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
-            return response()->json($th->getMessage(), 500);
+            return response()->json($data, 500);
         }
     }
 
