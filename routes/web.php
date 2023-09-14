@@ -45,10 +45,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('patients', PatientController::class);
-    Route::resource('therapists', TherapistController::class);
+    Route::resource('patients', PatientController::class); // only admin cas access
+    Route::resource('therapists', TherapistController::class); // therapist & admin cas access
     Route::resource('tickets', TicketController::class);
-    Route::resource('screening', ScreeningController::class);
+    Route::resource('screening', ScreeningController::class); // screener & admin cas access
     Route::resource('pib', PibController::class);
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);

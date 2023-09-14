@@ -14,6 +14,10 @@ use App\Models\Attachment;
 
 class ScreeningController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:screener|admin']);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -11,6 +11,10 @@ use PragmaRX\Countries\Package\Countries;
 
 class TherapistController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:therapist|admin']);
+    }
     /**
      * Display a listing of the resource.
      *

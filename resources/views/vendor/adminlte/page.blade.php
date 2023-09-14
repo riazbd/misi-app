@@ -27,11 +27,11 @@
         @endif
 
         {{-- Left Main Sidebar --}}
-        @can('role-list')
-            @if (!$layoutHelper->isLayoutTopnavEnabled())
-                @include('adminlte::partials.sidebar.left-sidebar')
-            @endif
-        @endcan
+
+        @if (!$layoutHelper->isLayoutTopnavEnabled())
+            @include('adminlte::partials.sidebar.left-sidebar')
+        @endif
+
         {{-- Content Wrapper --}}
         @empty($iFrameEnabled)
             @include('adminlte::partials.cwrapper.cwrapper-default')

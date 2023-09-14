@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\TryCatch;
 use PragmaRX\Countries\Package\Countries;
+
 
 
 class PatientController extends Controller
@@ -25,6 +27,7 @@ class PatientController extends Controller
      */
     public function index()
     {
+        // dd(Auth::user()->permissions);
         $patients = Patient::all();
         //dd($patients);
         $heads = [
