@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use App\Models\Attachment;
 
 class PitController extends Controller
 {
@@ -130,7 +131,10 @@ class PitController extends Controller
 
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes'));
+
+        $attachments = $ticket->attachments;
+
+        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments'));
     }
 
     /**
@@ -239,6 +243,25 @@ class PitController extends Controller
             $history->save();
 
             // $ticket->save();
+
+            //attachment update
+
+            $files = $request->file('files');
+
+            if ($files) {
+                foreach ($files as $file) {
+
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
+            }
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

@@ -7,11 +7,14 @@ use App\Models\Patient;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\User;
+use App\Models\Attachment;
 use App\Mail\CancelMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
 
 class TicketController extends Controller
@@ -24,6 +27,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
+        //dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -86,6 +90,7 @@ class TicketController extends Controller
     public function missingInfo()
     {
         $tickets = Ticket::where('honos', null)->orWhere('location', null)->get();
+        dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -166,9 +171,12 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // dd($data);
 
         try {
+
             $ticket = new Ticket();
+
             $ticket->department_id = $data['select-department'];
             $ticket->patient_id = $data['select-patient'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
@@ -205,9 +213,32 @@ class TicketController extends Controller
 
             $ticket->save();
 
+            //attachment save
+
+            $files = $request->file('files');
+
+            //dd($files[0]->getClientOriginalName());
+
+            foreach ($files as $file) {
+
+                //$image = $request->file('image');
+                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
+                $attachment = new Attachment();
+                $attachment->ticket_id = $ticket->id;
+                $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                $attachment->save();
+            }
+
+
             return response()->json(['message' => 'Data saved successfully']);
+            // return response()->json(['message' => $request]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
+            // return response()->json(['message' => $request], 500);
         }
     }
 
@@ -219,12 +250,19 @@ class TicketController extends Controller
      */
     public function show($id)
     {
+        //$comments = Post::find(1)->comments;
+        // $attachment = Ticket::find($id)->attachments;
+        // dd($attachment);
+
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
         $matchingRoles = Role::whereIn('name', $roles)->get();
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
         $patients = Patient::all();
-        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient'));
+
+        $attachments = $ticket->attachments;
+
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments'));
     }
 
     /**
@@ -248,8 +286,8 @@ class TicketController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
         try {
+
             $ticket = Ticket::where('id', $id)->first();
 
             if ($data['select-status'] == 'onhold' && $data['select-department'] != '') {
@@ -264,6 +302,7 @@ class TicketController extends Controller
                 $ticket->status = $data['select-status'];
             }
 
+
             if ($data['select-department'] != $ticket->department_id) {
                 $ticket->status = 'open';
             }
@@ -275,10 +314,6 @@ class TicketController extends Controller
             if ($data['assign-to'] != '' && $ticket->assigned_staff != $data['assign-to']) {
                 $ticket->status = 'onhold';
             }
-
-            // if ($data['select-department'] != $ticket->department_id && $data['select-status'] == 'work_finished') {
-            //     $ticket->status = $data['select-status'];
-            // }
 
 
             $ticket->department_id = $data['select-department'];
@@ -330,13 +365,38 @@ class TicketController extends Controller
                 $history->save();
             }
 
+            //attachment update
 
+            $files = $request->file('files');
+
+            if ($files) {
+                foreach ($files as $file) {
+
+
+                    // $attachment = new Attachment();
+                    // $attachment->ticket_id = $ticket->id;
+                    // $attachment->attatchment = $file->store('attachments_folder');
+                    // $attachment->save();
+
+                    //..............
+                    //$image = $request->file('image');
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
+            }
 
 
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
-            return response()->json($th->getMessage(), 500);
+            return response()->json($data, 500);
         }
     }
 

@@ -20,6 +20,9 @@ use App\Http\Controllers\VtcbController;
 use App\Http\Controllers\WorkSchedule;
 use App\Http\Controllers\YesApprovalController;
 
+use App\Http\Controllers\AttachmentController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,10 +45,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('patients', PatientController::class);
-    Route::resource('therapists', TherapistController::class);
+    Route::resource('patients', PatientController::class); // only admin cas access
+    Route::resource('therapists', TherapistController::class); // therapist & admin cas access
     Route::resource('tickets', TicketController::class);
-    Route::resource('screening', ScreeningController::class);
+    Route::resource('screening', ScreeningController::class); // screener & admin cas access
     Route::resource('pib', PibController::class);
     Route::resource('pit', PitController::class);
     Route::resource('heranmelding', HeranmeldingController::class);
@@ -55,6 +58,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('vtcbs', VtcbController::class);
     Route::resource('ticket-appointments', TicketAppointmentController::class);
     Route::resource('appointment-intake', IntakeController::class);
+    Route::post('/delet-attachment', [AttachmentController::class, 'destroy'])->name('attachment');
+
+    // Route for ticket update
+    Route::post('/update-ticket/{id}', [TicketController::class, 'update'])->name('update-ticket');
+    Route::post('/update-screener-ticket/{id}', [ScreeningController::class, 'update'])->name('update-screener-ticket');
+    Route::post('/update-pib-ticket/{id}', [PibController::class, 'update'])->name('update-pib-ticket');
+    Route::post('/update-pit-ticket/{id}', [PitController::class, 'update'])->name('update-pit-ticket');
+    Route::post('/update-yes-approval-ticket/{id}', [YesApprovalController::class, 'update'])->name('update-yes-approval-ticket');
+    Route::post('/update-no-approval-ticket/{id}', [NoApprovalController::class, 'update'])->name('update-no-approval-ticket');
+    Route::post('/update-heranmelding-ticket/{id}', [HeranmeldingController::class, 'update'])->name('update-heranmelding-ticket');
+    Route::post('/update-vtcb-ticket/{id}', [VtcbController::class, 'update'])->name('update-vtcb-ticket');
+    Route::post('/update-appointment-group-ticket/{id}', [Appointment::class, 'update'])->name('update-appointment-group-ticket');
+
 
     Route::resource('questions', QuestionController::class);
     Route::resource('work-schedules', WorkSchedule::class);

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
 @section('content_top_nav_left')
-<div class="ml-5 d-flex align-items-center">
-    <h6 class="m-0">Therapist - {{$therapist->user()->first()->user_serial_no}}</h6>
-</div>
+    <div class="ml-5 d-flex align-items-center">
+        <h6 class="m-0">Therapist - {{ $therapist->user()->first()->user_serial_no }}</h6>
+    </div>
 @stop
 
 @section('content')
@@ -25,9 +25,52 @@
         <div class="">
 
             <form method="POST" action="{{ route('therapists.update', ['therapist' => $therapist->id]) }}"
-                id="update-therapist-form">
+                id="update-therapist-form" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="image-container">
+                            <div id="imageContainer">
+
+                                <!-- Hidden file input -->
+                                <input type="file" id="image-upload-input" accept="image/*" name="profile-image"
+                                    value="{{ $therapist->user()->first()->profile_image }}">
+
+                                <!-- Image container  -->
+
+                                <?php
+                                $image_url = $therapist->user()->first()->profile_image;
+                                    if($image_url == null){
+                                        ?>
+                                <div id="image-container">
+                                    <img id="image-preview" src="{{ asset('storage/users_image/profile.png') }}"
+                                        width="100" height="100" alt="Image Preview">
+                                </div>
+
+                                <?php
+                                    }else{
+                                        ?>
+                                <div id="image-container">
+                                    <img id="image-preview"
+                                        src="{{ asset('storage/' . $therapist->user()->first()->profile_image) }}"
+                                        width="100" height="100" alt="Image Preview">
+                                </div>
+
+                                <?php
+
+                                    }
+                                ?>
+
+                            </div>
+                            <button type="button" id="edit-button">Change</button>
+                        </div>
+
+
+                    </div>
+                </div>
+
                 <div class="row justify-content-between">
                     <div class="col-md-6">
                         <div class="form-group row">
@@ -42,6 +85,8 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">First Name:</label>
                             <div class="col-7">
@@ -99,8 +144,8 @@
                         </div>
                         <div class="form-group row">
                             <label for="age" class="col-5 text-right">Age:</label>
-                            <div class="col-7"><input type="number" class="form-control form-control-sm" id="age"
-                                    name="age" readonly></div>
+                            <div class="col-7"><input type="number" class="form-control form-control-sm"
+                                    id="age" name="age" readonly></div>
                         </div>
                         <div class="form-group row">
                             <label for="marital-status" class="col-5 text-right">Marital Status:</label>
@@ -182,7 +227,8 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     @foreach ($countries as $country)
                                         <option value="{{ $country['name_en'] }}"
                                             {{ $therapist->country == $country['name_en'] ? 'selected' : '' }}>
@@ -212,8 +258,8 @@
                         <div class="form-group row">
                             <label for="insurance-number" class="col-5 text-right">Insurance Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="insurance-number" name="insurance-number"
-                                    value="{{ $therapist->insurance_number }}">
+                                <input type="text" class="form-control form-control-sm" id="insurance-number"
+                                    name="insurance-number" value="{{ $therapist->insurance_number }}">
                             </div>
                         </div>
 
@@ -227,15 +273,15 @@
                         <div class="form-group row">
                             <label for="dob-number" class="col-5 text-right">DOB Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="dob-number" name="dob-number"
-                                    value="{{ $therapist->DOB_number }}">
+                                <input type="text" class="form-control form-control-sm" id="dob-number"
+                                    name="dob-number" value="{{ $therapist->DOB_number }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="bsn-number" name="bsn-number"
-                                    value="{{ $therapist->BSN_number }}">
+                                <input type="text" class="form-control form-control-sm" id="bsn-number"
+                                    name="bsn-number" value="{{ $therapist->BSN_number }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -312,7 +358,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -330,5 +379,33 @@
                 history.go(-1); // Go back one page
             });
         });
+
+
+        //edit  image
+
+
+        $(document).ready(function() {
+            // Trigger file input when the "Edit" button is clicked
+            $("#edit-button").click(function() {
+                $("#image-upload-input").click();
+            });
+
+            // Handle file input change to preview the selected image
+            $("#image-upload-input").change(function() {
+                readURL(this);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $("#image-preview").attr("src", e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 @stop

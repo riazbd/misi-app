@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\TryCatch;
 use PragmaRX\Countries\Package\Countries;
 
+
+
 class PatientController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware(['role:admin']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +27,9 @@ class PatientController extends Controller
      */
     public function index()
     {
+        // dd(Auth::user()->permissions);
         $patients = Patient::all();
+        //dd($patients);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -92,7 +103,11 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all();
+
+        $data['profile-image'] = request()->file('profile-image')->store('users_image');
+
 
         try {
             $user = new User();
@@ -124,6 +139,9 @@ class PatientController extends Controller
             $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
+            $user->profile_image = $data['profile-image'];
+
+
             // $user->age = $data['age'];
             $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];
@@ -200,10 +218,12 @@ class PatientController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
+        //dd($request->all());
         try {
             $patient = Patient::where('id', $id)->first();
             $user = User::where('id', $patient->user_id)->first();
+
+            $data['profile-image'] = request()->file('profile-image')->store('users_image');
 
             // $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             // $serialLength = 8; // Adjust the length as needed
@@ -232,6 +252,9 @@ class PatientController extends Controller
             // $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
+
+            $user->profile_image = $data['profile-image'];
+
             // $user->age = $data['age'];
             $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];

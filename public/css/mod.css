@@ -1,4 +1,4 @@
-:root{
+:root {
     --primary: #374259;
 }
 
@@ -16,18 +16,21 @@
     background-color: var(--primary) !important;
 }
 
-.btn-primary, .btn-group .btn {
+.btn-primary,
+.btn-group .btn {
     background-color: var(--primary) !important;
     border-color: var(--primary) !important;
 }
 
-.btn-primary:hover, .btn-group .btn:hover, .swal2-styled.swal2-confirm:hover {
+.btn-primary:hover,
+.btn-group .btn:hover,
+.swal2-styled.swal2-confirm:hover {
     background-color: #2c3446 !important;
     border-color: #2c3446 !important;
 }
 
-body{
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 label:not(.form-check-label):not(.custom-file-label) {
@@ -77,12 +80,16 @@ div.dataTables_wrapper div.dataTables_filter {
     color: #F79327;
 }
 
-[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link, [class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link, [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus {
+[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link,
+[class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link,
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus {
     background-color: transparent !important;
     color: #F79327;
 }
 
-[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active,
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus,
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
     background-color: transparent !important;
     color: #F79327;
 }
@@ -93,7 +100,8 @@ div.dataTables_wrapper div.dataTables_filter {
     background-color: transparent !important;
 }
 
-.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
     background-color: transparent !important;
     color: #F79327;
 }
@@ -143,14 +151,14 @@ div.dataTables_wrapper div.dataTables_filter {
     top: 50%;
     /* transform: translate(-50%, -50%); */
     clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%);
-  }
+}
 
 
-  .go-back {
+.go-back {
     clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 0% 50%, 0% 0%);
-  }
+}
 
-  [class*=sidebar-dark-] {
+[class*=sidebar-dark-] {
     /* background-color: #282C77; */
     background-color: #374259;
 }
@@ -186,43 +194,48 @@ div.dataTables_wrapper div.dataTables_filter {
 .fc-header-toolbar {
     background-color: #f8f8f8;
     padding: 10px;
-  }
+}
 
-  .fc-header-toolbar .fc-button {
+.fc-header-toolbar .fc-button {
     margin-right: 5px;
-  }
+}
 
-  .fc-scrollgrid {
+.fc-scrollgrid {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
+}
 
-  .fc-daygrid-day {
+.fc-daygrid-day {
     font-weight: bold;
-  }
+}
 
-  .fc-daygrid-event {
-    background-color: #1e90ff; /* Customize the background color of events */
-    color: #fff; /* Customize the text color of events */
+.fc-daygrid-event {
+    background-color: #1e90ff;
+    /* Customize the background color of events */
+    color: #fff;
+    /* Customize the text color of events */
     border-radius: 5px;
-  }
+}
 
-  .fc-daygrid-event:hover {
-    background-color: #2e90ff; /* Customize the hover background color of events */
-  }
+.fc-daygrid-event:hover {
+    background-color: #2e90ff;
+    /* Customize the hover background color of events */
+}
 
-  .fc-daygrid-event .fc-event-main {
+.fc-daygrid-event .fc-event-main {
     padding: 5px;
-  }
+}
 
-  .fc-daygrid-event .fc-event-main .fc-event-title {
+.fc-daygrid-event .fc-event-main .fc-event-title {
     font-size: 14px;
-  }
+}
 
-  .fc-today {
-    background-color: #f2f2f2; /* Customize the background color of today's date */
-  }
+.fc-today {
+    background-color: #f2f2f2;
+    /* Customize the background color of today's date */
+}
+
 .fc-event {
     background-color: #374259;
     padding: 5px;
@@ -231,3 +244,241 @@ div.dataTables_wrapper div.dataTables_filter {
 
 
 
+
+
+/* image upload profile of patient */
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#imageContainer {
+    width: 100px;
+    /* Set the width to 250px */
+    height: 100px;
+    /* Set the height to maintain a square aspect ratio */
+    border: 1px solid #000;
+    /* Add a 1px border around the container */
+    border-radius: 50%;
+    /* Add border-radius to make it circular */
+    overflow: hidden;
+    /* Hide any image overflow outside the container */
+}
+
+#existingImage {
+    width: 100%;
+    /* Make the image occupy 100% of the container's width */
+    height: 100%;
+    /* Make the image occupy 100% of the container's height */
+    object-fit: cover;
+    /* Maintain aspect ratio and cover the container */
+    border-radius: 50%;
+    /* Add border-radius to make the image circular */
+}
+
+#fileInput {
+    display: none;
+    /* Hide the file input */
+}
+
+#uploadButton {
+    padding: 2px 6px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+#removeImage {
+    display: none;
+    margin-top: 10px;
+    padding: 2px 6px;
+    background-color: #d75656;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+
+
+/* Hide the file input */
+#image-upload-input {
+    display: none;
+}
+
+/* Style for the edit button */
+#edit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+/* Wrap the image in a div with a fixed width */
+#image-container {
+    /* width: 300px; */
+    overflow: hidden;
+}
+
+/* Style for the image */
+#image-preview {
+    max-width: 100%;
+    /* Ensure the image doesn't exceed the container width */
+}
+
+.image-container button {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+
+
+
+/* section */
+/* multiple files */
+
+.file-list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.file-icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.remove-button {
+    cursor: pointer;
+    font-size: 15px;
+    color: red;
+}
+
+/* Custom CSS classes for file types */
+.pdf-icon {
+    color: #FF5733;
+    /* Set the color for PDF files */
+}
+
+.doc-icon {
+    color: #3498DB;
+    /* Set the color for DOC files */
+}
+
+.xls-icon {
+    color: #2ECC71;
+    /* Set the color for XLS files */
+}
+
+
+/*  */
+/* */
+/* css for ticket attachment */
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.thumbnail-container {
+    display: flex;
+    flex-direction: row;
+    /* Thumbnails displayed from left to right */
+    flex-wrap: nowrap;
+    /* Prevent wrapping of thumbnails */
+    overflow-x: auto;
+    /* Enable horizontal scrolling if thumbnails overflow */
+    /* Adjust these properties to control the spacing between thumbnails */
+    gap: 10px;
+    /* Spacing between thumbnails */
+    margin-left: -10px;
+    /* Offset the first thumbnail's margin */
+
+}
+
+.thumbnail-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* Add border radius */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    /* Add box shadow */
+    overflow: hidden;
+    /* Hide overflow content if thumbnails are larger */
+    position: relative;
+    /* Position for the remove button */
+}
+
+.thumbnail img,
+.thumbnail canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure the image or PDF fills the container */
+}
+
+.remove-button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 6px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.file-input {
+    display: none;
+    /* Hide the file input by default */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.additional-div {
+    /* Add styles for the additional div here */
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+#showFileInput i {
+    font-size: 25px;
+}
+
+.delete_product {
+    margin-bottom: 15px;
+}
+
+.work_note {
+    margin-left: 38px;
+}
+
+.activity_log_title {
+    margin-left: 30px;
+}

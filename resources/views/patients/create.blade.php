@@ -18,8 +18,28 @@
         {{-- <h1>User Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class="">
+            <form method="POST" action="{{ route('patients.store') }}" id="create-patient-form" class=""
+                enctype="multipart/form-data">
                 @csrf
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="image-container">
+                            <div id="imageContainer">
+                                <img id="existingImage" src="{{ asset('storage/users_image/profile.png') }}"
+                                    alt="Profile Image">
+                                <!-- Updated src to "profile.png" -->
+                            </div>
+                            <label for="fileInput" id="uploadButton">Upload</label>
+                            <input type="file" id="fileInput" accept="image/*" name="profile-image">
+
+                            <button type="button" id="removeImage">Remove Image</button>
+                        </div>
+
+
+                    </div>
+                </div>
+
                 <div class="row justify-content-between">
                     <div class="col-md-6 justify-content-end">
 
@@ -53,7 +73,7 @@
                         <div class="form-group row">
                             <label for="dob" class="col-5 text-right">Date of Birth:</label>
                             {{-- <input type="date" class="form-control" id="dob" name="dob"
-                                onchange="calculateAge()"> --}}
+                                            onchange="calculateAge()"> --}}
                             {{-- <input type="text" class="form-control" id="dob" name="dob" onchange="calculateAge()"> --}}
                             @php
                                 $config = ['format' => 'DD-MM-YYYY'];
@@ -70,9 +90,9 @@
                             </div>
                         </div>
                         {{-- <div class="form-group">
-                            <label for="age">Age:</label>
-                            <input type="number" class="form-control" id="age" name="age" readonly>
-                        </div> --}}
+                                        <label for="age">Age:</label>
+                                        <input type="number" class="form-control" id="age" name="age" readonly>
+                                    </div> --}}
                         <div class="form-group row">
                             <label for="marital-status" class="col-5 text-right">Marital Status:</label>
                             <div class="col-7">
@@ -107,8 +127,8 @@
                         </div>
                         <div class="form-group row">
                             <label for="occupation" class="col-5 text-right">Occupation:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="occupation"
-                                    name="occupation"></div>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                    id="occupation" name="occupation"></div>
                         </div>
                     </div>
                     <div class="col-md-6 justify-content-start">
@@ -127,10 +147,11 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     {{-- <option value="country1">Country 1</option>
-                                    <option value="country1">Country 2</option>
-                                    <option value="country1">Country 3</option> --}}
+                                                <option value="country1">Country 2</option>
+                                                <option value="country1">Country 3</option> --}}
                                     @foreach ($countries as $country)
                                         <option value="{{ $country['name_en'] }}">
                                             {{ $country['name_en'] }}</option>
@@ -197,6 +218,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6 justify-content-end">
                         <div class="form-group row">
@@ -249,7 +271,7 @@
         // submit form
         $(document).ready(function() {
             document.getElementById('top-submit-button').addEventListener('click', function() {
-                $('#create-patient-form').submit()
+                $('#create-patient-form').submit();
             });
             $('#create-patient-form').submit(function(event) {
                 event.preventDefault(); // Prevent form submission
@@ -267,7 +289,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -293,6 +318,49 @@
             $('.go-back').click(function() {
                 history.go(-1); // Go back one page
                 console.log('click back button')
+            });
+        });
+
+
+
+
+
+
+
+        //upload  image
+        $(document).ready(function() {
+            var defaultImageSrc =
+                "http://127.0.0.1:8000/storage/users_image/profile.png"; // Updated the default image source to "profile.png"
+            var removeImageButton = $("#removeImage");
+            var fileInput = $("#fileInput")[0];
+            var uploadButton = $("#uploadButton");
+
+            uploadButton.click(function() {
+                fileInput.click(); // Trigger the hidden file input
+            });
+
+            fileInput.onchange = function() {
+                var existingImage = $("#existingImage")[0];
+
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        existingImage.src = e.target.result;
+                        removeImageButton.show(); // Show the Remove Image button
+                        uploadButton.hide(); // Hide the Upload button
+                    };
+
+                    reader.readAsDataURL(this.files[0]);
+                }
+            };
+
+            removeImageButton.on("click", function() {
+                var existingImage = $("#existingImage")[0];
+                existingImage.src = defaultImageSrc; // Restore the previous image
+                fileInput.value = ""; // Clear the file input
+                removeImageButton.hide(); // Hide the Remove Image button
+                uploadButton.show(); // Show the Upload button
             });
         });
     </script>

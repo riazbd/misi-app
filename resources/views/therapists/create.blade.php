@@ -18,15 +18,37 @@
         {{-- <h1>Therapist Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form">
+            <form method="POST" action="{{ route('therapists.store') }}" id="create-therapist-form"
+                enctype="multipart/form-data">
                 @csrf
+
+                <div class="row justify-content-between">
+                    <div class="col-md-12 justify-content-end">
+                        <div class="image-container">
+                            <div id="imageContainer">
+                                <img id="existingImage" src="{{ asset('storage/users_image/profile.png') }}"
+                                    alt="Profile Image">
+                                <!-- Updated src to "profile.png" -->
+                            </div>
+                            <label for="fileInput" id="uploadButton">Upload</label>
+                            <input type="file" id="fileInput" accept="image/*" name="profile-image">
+
+                            <button type="button" id="removeImage">Remove</button>
+                        </div>
+
+
+                    </div>
+                </div>
                 <div class="row justify-content-between">
                     <div class="col-md-6">
+
+
+
                         <div class="form-group row">
                             <label for="therapist-type" class="col-5 text-right">Therapist Type:</label>
                             <div class="col-7">
-                                <select type="text" class="form-control  form-control-sm selectpicker" id="therapist-type"
-                                    name="therapist-type" data-live-search="true">
+                                <select type="text" class="form-control  form-control-sm selectpicker"
+                                    id="therapist-type" name="therapist-type" data-live-search="true">
                                     <option value="Therapist type 1">Therapist type 1</option>
                                     <option value="Therapist type 2">Therapist type 2</option>
                                     <option value="Therapist type 3">Therapist type 3</option>
@@ -34,6 +56,8 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="form-group row">
                             <label for="first-name" class="col-5 text-right">First Name:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="first-name"
@@ -134,7 +158,8 @@
                         <div class="form-group row">
                             <label for="country" class="col-5 text-right">Country:</label>
                             <div class="col-7">
-                                <select class="form-control form-control-sm selectpicker" id="country" name="country" data-live-search="true">
+                                <select class="form-control form-control-sm selectpicker" id="country" name="country"
+                                    data-live-search="true">
                                     {{-- <option value="country1">Country 1</option>
                                     <option value="country1">Country 2</option>
                                     <option value="country1">Country 3</option> --}}
@@ -252,7 +277,10 @@
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    //data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle success response
                         console.log(response);
@@ -268,6 +296,43 @@
 
             $('.go-back').click(function() {
                 history.go(-1); // Go back one page
+            });
+        });
+
+        //upload  image
+        $(document).ready(function() {
+            var defaultImageSrc =
+                "http://127.0.0.1:8000/storage/users_image/profile.png"; // Updated the default image source to "profile.png"
+            var removeImageButton = $("#removeImage");
+            var fileInput = $("#fileInput")[0];
+            var uploadButton = $("#uploadButton");
+
+            uploadButton.click(function() {
+                fileInput.click(); // Trigger the hidden file input
+            });
+
+            fileInput.onchange = function() {
+                var existingImage = $("#existingImage")[0];
+
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        existingImage.src = e.target.result;
+                        removeImageButton.show(); // Show the Remove Image button
+                        uploadButton.hide(); // Hide the Upload button
+                    };
+
+                    reader.readAsDataURL(this.files[0]);
+                }
+            };
+
+            removeImageButton.on("click", function() {
+                var existingImage = $("#existingImage")[0];
+                existingImage.src = defaultImageSrc; // Restore the previous image
+                fileInput.value = ""; // Clear the file input
+                removeImageButton.hide(); // Hide the Remove Image button
+                uploadButton.show(); // Show the Upload button
             });
         });
     </script>

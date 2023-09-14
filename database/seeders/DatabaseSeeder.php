@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             CreateRoleSeeder::class,
+            AssignPermissionsToRolesSeeder::class,
         ]);
         \App\Models\User::factory(1000)->create();
         \App\Models\Patient::factory(500)->create();
