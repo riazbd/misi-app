@@ -336,6 +336,8 @@ return [
                     'url' => '/patients'
                 ]
             ]
+
+
         ],
         [
             'text' => 'Therapists',
@@ -351,7 +353,9 @@ return [
                     'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                     'url' => '/therapists'
                 ]
-            ]
+            ],
+
+            'can' => 'has-permission:show-therapist-list'
         ],
         [
             'text' => 'Tickets',
@@ -394,7 +398,8 @@ return [
                             'icon' => 'fas fa-fw fa-long-arrow-alt-right',
                             'url' => '/screening'
                         ]
-                    ]
+                    ],
+                    'can' => 'has-permission:show-screener-list'
                 ],
                 [
                     'text' => 'PiB Group',

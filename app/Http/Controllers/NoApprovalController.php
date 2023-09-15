@@ -15,6 +15,11 @@ use App\Models\Attachment;
 
 class NoApprovalController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:noapproval|admin']);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -14,6 +14,11 @@ use App\Models\Attachment;
 
 class PibController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:pib|admin']);
+    }
     /**
      * Display a listing of the resource.
      *

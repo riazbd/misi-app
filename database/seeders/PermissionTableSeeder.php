@@ -41,6 +41,10 @@ class PermissionTableSeeder extends Seeder
             'show-pit-list',
             'update-pit',
             'delete-pit',
+            // VTCB
+            'show-vtcb-list',
+            'update-vtcb',
+            'delete-vtcb',
             // YES Approval
             'show-yes-approval-list',
             'update-yes-approval',
