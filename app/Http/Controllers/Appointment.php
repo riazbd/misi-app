@@ -14,6 +14,12 @@ use App\Models\Attachment;
 
 class Appointment extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:appointment|admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *

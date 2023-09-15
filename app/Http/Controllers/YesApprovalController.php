@@ -15,6 +15,11 @@ use App\Models\Attachment;
 
 class YesApprovalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:yesapproval|admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *

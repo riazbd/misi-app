@@ -15,6 +15,12 @@ use App\Models\Attachment;
 
 class VtcbController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:vtcb|admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -14,6 +14,12 @@ use App\Models\Attachment;
 
 class HeranmeldingController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:heralmelding|admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *

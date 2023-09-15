@@ -11,6 +11,8 @@ use DB;
 
 class RoleController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -121,7 +123,7 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-
+        dd($rolePermissions);
         return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
 

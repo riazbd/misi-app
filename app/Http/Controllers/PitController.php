@@ -15,6 +15,11 @@ use App\Models\Attachment;
 
 class PitController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:pit|admin']);
+    }
     /**
      * Display a listing of the resource.
      *
