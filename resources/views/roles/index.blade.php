@@ -1,7 +1,6 @@
 @extends('adminlte::page')
 @section('content')
-
-    <div class="pt-5">
+    <div class="">
         {{-- <h1>Roles Management</h1> --}}
         <div class="pull-right mt-5">
             <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
