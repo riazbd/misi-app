@@ -95,7 +95,7 @@ class TicketController extends Controller
     public function missingInfo()
     {
         $tickets = Ticket::where('honos', null)->orWhere('location', null)->get();
-        dd($tickets);
+        //dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
