@@ -18,7 +18,7 @@ class PatientController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:patient|admin']);
+        $this->middleware(['role:admin']);
     }
 
     /**

@@ -26,463 +26,493 @@
                         </p>
                     </a>
                 </li>
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-hospital-user  "></i>
+                            <p>
+                                Patients
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-hospital-user  "></i>
-                        <p>
-                            Patients
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('patients/create') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Create Patient
+                                    </p>
+                                </a>
+                            </li>
 
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('patients/create') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Create Patient
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('patients') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Patients List
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('patients') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Patients List
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-hospital-user  "></i>
+                            <p>
+                                Therafists
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-hospital-user  "></i>
-                        <p>
-                            Therafists
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('therapists/create') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Create Therapist
+                                    </p>
+                                </a>
+                            </li>
 
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('therapists/create') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Create Therapist
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('therapists') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Therapists List
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-ticket-alt  "></i>
+                            <p>
+                                Tickets
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('therapists') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Therapists List
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('tickets/create') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Create Ticket
+                                    </p>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('tickets') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Ticket List
+                                    </p>
+                                </a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('missing-info-tickets') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Missing Info Tickets
+                                    </p>
+                                </a>
+                            </li>
 
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-ticket-alt  "></i>
-                        <p>
-                            Tickets
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('cancelled-tickets') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Cancelled Ticket
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
 
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('tickets/create') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Create Ticket
-                                </p>
-                            </a>
-                        </li>
+                @canany(['show-screener-list', 'show-pib-list', 'show-pit-list', 'show-yes-approval-list',
+                    'show-no-approval-list', 'show-heralmelding-list', 'show-vtcb-list', 'show-patient-list'])
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('tickets') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Ticket List
-                                </p>
-                            </a>
-                        </li>
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-hospital-user  "></i>
+                            <p>
+                                Ticket Groups
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('missing-info-tickets') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Missing Info Tickets
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('cancelled-tickets') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Cancelled Ticket
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-hospital-user  "></i>
-                        <p>
-                            Ticket Groups
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Screener Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('screening') }}">
+                        <ul class="nav nav-treeview">
+                            @can('show-screener-list')
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
                                         <i class="fas fa-fw fa-long-arrow-alt-right "></i>
                                         <p>
-                                            Screener Ticket List
+                                            Screener Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('screening') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    Screener Ticket List
+                                                </p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+                            @endcan
+
+
+                            @canany(['show-pib-list', 'update-pib', 'delete-pib'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            PiB Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('pib') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    PiB Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+                            @endcanany
+
+                            @canany(['show-pit-list', 'update-pit', 'delete-pit'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            PiT Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('pit') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    PiT Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+
+
+                            @canany(['show-yes-approval-list', 'update-yes-approval', 'delete-yes-approval'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            Yes Approval Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('yes-approvals') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    Yes Approval Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+                            @canany(['show-no-approval-list', 'update-no-approval', 'delete-no-approval'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            No Approval Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('no-approvals') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    No Approval Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+                            @canany(['show-heralmelding-list', 'update-heralmelding', 'delete-heralmelding'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            Heranmelding Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('heranmelding') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    Heranmelding Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+                            @canany(['show-vtcb-list', 'update-vtcb', 'delete-vtcb'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            VTCB Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('vtcbs') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    VTCB Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+
+                            @canany(['show-pit-list', 'update-pit', 'delete-pit'])
+                                <li class="nav-item has-treeview">
+                                    <a class="nav-link" href="">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            Appointment Group
+                                            <i class="fas fa-angle-left right "></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url('appointment-groups') }}">
+                                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                                <p>
+                                                    Appointment Ticket List
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
+
+                        </ul>
+
+
+                    </li>
+                @endcanany
+
+                @canany(['show-patient-list', 'add-new-patient', 'update-patient-info', 'delete-patient-info'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-ticket-alt  "></i>
+                            <p>
+                                Appointmant
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
+
+                        <ul class="nav nav-treeview">
+                            @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin',
+                                'restore-admin'])
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('ticket-appointments/create') }}">
+                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                        <p>
+                                            Create Appointmant
                                         </p>
                                     </a>
                                 </li>
+                            @endcanany
 
-                            </ul>
-
-                        </li>
-
-
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    PiB Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
+                            @canany(['show-patient-list', 'add-new-patient', 'update-patient-info', 'delete-patient-info'])
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('pib') }}">
+                                    <a class="nav-link" href="{{ url('ticket-appointments') }}">
                                         <i class="fas fa-fw fa-long-arrow-alt-right "></i>
                                         <p>
-                                            PiB Ticket List
-
+                                            Appointmant
                                         </p>
                                     </a>
                                 </li>
+                            @endcanany
 
-                            </ul>
-
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    PiT Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
+                            @canany(['show-patient-list', 'add-new-patient', 'update-patient-info', 'delete-patient-info'])
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('pit') }}">
+                                    <a class="nav-link" href="{{ url('appointments-calendar') }}">
                                         <i class="fas fa-fw fa-long-arrow-alt-right "></i>
                                         <p>
-                                            PiT Ticket List
 
+                                            Calender
                                         </p>
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
+                            @endcanany
+                        </ul>
+                    </li>
+                @endcanany
 
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Yes Approval Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('yes-approvals') }}">
-                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                        <p>
-                                            Yes Approval Ticket List
-
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    No Approval Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('no-approvals') }}">
-                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                        <p>
-                                            No Approval Ticket List
-
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-header ">Settings</li>
+                @endcanany
 
 
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Heranmelding Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-share   "></i>
+                            <p>
+                                Settings
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('heranmelding') }}">
-                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                        <p>
-                                            Heranmelding Ticket List
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('users') }}">
+                                    <i class="fas fa-fw fa-user  "></i>
+                                    <p>
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
 
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('roles') }}">
+                                    <i class="fas fa-fw fa-tags  "></i>
+                                    <p>
+                                        Roles
+                                    </p>
+                                </a>
+                            </li>
 
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    VTCB Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('questions') }}">
+                                    <i class="fas fa-fw fa-question "></i>
+                                    <p>
 
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('vtcbs') }}">
-                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                        <p>
-                                            VTCB Ticket List
+                                        Questions
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-business-time "></i>
+                            <p>
+                                Schedule
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('work-schedules') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Work Schedule
+                                    </p>
+                                </a>
+                            </li>
 
-                        <li class="nav-item has-treeview">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Appointment Group
-                                    <i class="fas fa-angle-left right "></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('appointment-groups') }}">
-                                        <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                        <p>
-                                            Appointment Ticket List
-
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-
-
-                </li>
-
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-ticket-alt  "></i>
-                        <p>
-                            Appointmant
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('ticket-appointments/create') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Create Appointmant
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('ticket-appointments') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Appointmant
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('appointments-calendar') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-
-                                    Calender
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-header ">Settings</li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('leaves') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Leaves
+                                    </p>
+                                </a>
+                            </li>
 
 
+                        </ul>
+                    </li>
+                @endcanany
+                @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
+                    <li class="nav-item has-treeview ">
+                        <a class="nav-link">
+                            <i class="fas fa-fw fa-business-time   "></i>
+                            <p>
+                                Email Template
+                                <i class="fas fa-angle-left right "></i>
+                            </p>
+                        </a>
 
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-share   "></i>
-                        <p>
-                            Settings
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('email-templates/create') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Email Create
+                                    </p>
+                                </a>
+                            </li>
 
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('users') }}">
-                                <i class="fas fa-fw fa-user  "></i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('roles') }}">
-                                <i class="fas fa-fw fa-tags  "></i>
-                                <p>
-                                    Roles
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('questions') }}">
-                                <i class="fas fa-fw fa-question "></i>
-                                <p>
-
-                                    Questions
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('email-templates') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Email List
+                                    </p>
+                                </a>
+                            </li>
 
 
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-business-time "></i>
-                        <p>
-                            Schedule
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('work-schedules') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Work Schedule
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('leaves') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Leaves
-                                </p>
-                            </a>
-                        </li>
-
-
-                    </ul>
-                </li>
-
-
-                <li class="nav-item has-treeview ">
-                    <a class="nav-link">
-                        <i class="fas fa-fw fa-business-time   "></i>
-                        <p>
-                            Email Template
-                            <i class="fas fa-angle-left right "></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('email-templates/create') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Email Create
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('email-templates') }}">
-                                <i class="fas fa-fw fa-long-arrow-alt-right "></i>
-                                <p>
-                                    Email List
-                                </p>
-                            </a>
-                        </li>
-
-
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                @endcanany
 
 
 
