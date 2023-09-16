@@ -355,7 +355,7 @@ return [
                 ]
             ],
 
-            'can' => 'has-permission:show-therapist-list'
+            //'can' => 'has-permission:show-therapist-list'
         ],
         [
             'text' => 'Tickets',
@@ -399,7 +399,7 @@ return [
                             'url' => '/screening'
                         ]
                     ],
-                    'can' => 'has-permission:show-screener-list'
+                    //'can' => 'has-permission:show-screener-list'
                 ],
                 [
                     'text' => 'PiB Group',

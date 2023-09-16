@@ -16,7 +16,7 @@ class TicketAppointmentController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:admin']);
+        $this->middleware(['role:patient|admin']);
     }
 
     /**
