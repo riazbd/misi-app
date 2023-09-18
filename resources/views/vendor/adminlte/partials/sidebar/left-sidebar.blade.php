@@ -63,7 +63,7 @@
                         <a class="nav-link">
                             <i class="fas fa-fw fa-hospital-user  "></i>
                             <p>
-                                Therafists
+                                Therapists
                                 <i class="fas fa-angle-left right "></i>
                             </p>
                         </a>
