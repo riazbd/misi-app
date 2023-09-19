@@ -258,15 +258,10 @@ div.dataTables_wrapper div.dataTables_filter {
 
 #imageContainer {
     width: 100px;
-    /* Set the width to 250px */
     height: 100px;
-    /* Set the height to maintain a square aspect ratio */
-    border: 1px solid #000;
-    /* Add a 1px border around the container */
+    border: 1px solid #acacac;
     border-radius: 50%;
-    /* Add border-radius to make it circular */
     overflow: hidden;
-    /* Hide any image overflow outside the container */
 }
 
 #existingImage {
@@ -287,7 +282,7 @@ div.dataTables_wrapper div.dataTables_filter {
 
 #uploadButton {
     padding: 2px 6px;
-    background-color: #007bff;
+    background-color: #F79327;
     color: #fff;
     border: none;
     cursor: pointer;

@@ -54,8 +54,8 @@
                                 ?>
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
-                                        <img src="{{ asset('storage/attachments_folder/pdf_logo.png') }}" width="100"
-                                            height="100" alt="Image Preview">
+                                        <img src="{{ asset('images/default_pdf_logo.png') }}" width="100" height="100"
+                                            alt="Image Preview">
 
                                     </div>
                                     <p class="attatchment_name">{{ $edit_file_name }}</p>

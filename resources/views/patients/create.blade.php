@@ -26,7 +26,7 @@
                     <div class="col-md-12 justify-content-end">
                         <div class="image-container">
                             <div id="imageContainer">
-                                <img id="existingImage" src="{{ asset('storage/users_image/profile.png') }}"
+                                <img id="existingImage" src="{{ asset('images/default_user_image.png') }}"
                                     alt="Profile Image">
                                 <!-- Updated src to "profile.png" -->
                             </div>
@@ -329,14 +329,17 @@
 
         //upload  image
         $(document).ready(function() {
-            var defaultImageSrc =
-                "http://127.0.0.1:8000/storage/users_image/profile.png"; // Updated the default image source to "profile.png"
+
+            var imageSrc = $("#existingImage").attr("src");
+            var defaultImageSrc = imageSrc;
+
             var removeImageButton = $("#removeImage");
             var fileInput = $("#fileInput")[0];
             var uploadButton = $("#uploadButton");
 
             uploadButton.click(function() {
                 fileInput.click(); // Trigger the hidden file input
+                console.log("Image Source: " + defaultImageSrc);
             });
 
             fileInput.onchange = function() {

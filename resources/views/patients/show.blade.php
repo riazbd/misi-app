@@ -46,7 +46,7 @@
                                     if($image_url == null){
                                         ?>
                                 <div id="image-container">
-                                    <img id="image-preview" src="{{ asset('storage/users_image/profile.png') }}"
+                                    <img id="image-preview" src="{{ asset('images/default_user_image.png') }}"
                                         width="100" height="100" alt="Image Preview">
                                 </div>
 
