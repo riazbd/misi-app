@@ -20,6 +20,9 @@ class CreateTicketsTable extends Migration
             $table->unsignedBigInteger('assigned_staff')->nullable();
             $table->unsignedBigInteger('assigned_therapist')->nullable();
             $table->string('suggested_therapists')->nullable();
+
+            $table->string('zd_id')->nullable();
+
             $table->string('mono_multi_zd')->nullable();
             $table->string('mono_multi_screening')->nullable();
             $table->string('intake_or_therapist')->nullable();

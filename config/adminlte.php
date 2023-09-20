@@ -64,7 +64,8 @@ return [
     */
 
     'logo' => '<b>M</b>ISI',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    // 'logo' => null,
+    'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,11 +87,12 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
+            // 'alt' => 'Auth Logo',
+            'alt' => null,
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 150,
+            'height' => 150,
         ],
     ],
 
@@ -109,11 +111,11 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/misi-loader.gif',
             'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'effect' => 'null',
+            'width' => 150,
+            'height' => 150,
         ],
     ],
 

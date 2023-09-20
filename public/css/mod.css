@@ -518,3 +518,11 @@ div.dataTables_wrapper div.dataTables_filter {
     width: 80%;
     margin-left: 60px;
 }
+
+
+/* login page logo*/
+
+.login-logo img {
+    width: 150px;
+    height: 150px;
+}

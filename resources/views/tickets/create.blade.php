@@ -63,6 +63,13 @@
                         <div class="col-7"><input type="text" class="form-control form-control-sm" id="mono-multi-zd"
                                 name="mono-multi-zd"></div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="zd_id" class="col-5 text-right">ZD_ID:</label>
+                        <div class="col-7"><input type="text" class="form-control form-control-sm" id="zd_id"
+                                name="zd_id"></div>
+                    </div>
+
                     <div class="form-group row">
                         <label for="mono-multi-screening" class="col-5 text-right">Mono/Multi Screening:</label>
                         <div class="col-7">

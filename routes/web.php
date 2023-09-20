@@ -96,4 +96,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('email-templates', EmailTamplateController::class);
 
     Route::get('/generate-invoice/{id}', 'App\Http\Controllers\GenerateInvoiceController@generatePDF')->name('generate-invoice');
+
+    Route::get('/ticket-create-from-referral', 'App\Http\Controllers\TicketController@createTicketFromReferral')->name('ticket-create-from-referral');
 });

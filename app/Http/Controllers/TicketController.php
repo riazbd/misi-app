@@ -184,6 +184,7 @@ class TicketController extends Controller
 
             $ticket->department_id = $data['select-department'];
             $ticket->patient_id = $data['select-patient'];
+            $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
             $ticket->intake_or_therapist = $data['intakes-therapist'];
@@ -223,19 +224,20 @@ class TicketController extends Controller
             $files = $request->file('files');
 
             //dd($files[0]->getClientOriginalName());
+            if ($files) {
+                foreach ($files as $file) {
 
-            foreach ($files as $file) {
+                    //$image = $request->file('image');
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
 
-                //$image = $request->file('image');
-                $name = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
 
-                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
-
-                $attachment = new Attachment();
-                $attachment->ticket_id = $ticket->id;
-                $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
-                $attachment->save();
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
             }
 
 
@@ -329,6 +331,7 @@ class TicketController extends Controller
                 $ticket->assigned_staff = null;
             }
             $ticket->patient_id = $data['select-patient'];
+            $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
             $ticket->intake_or_therapist = $data['intakes-therapist'];
@@ -596,5 +599,14 @@ class TicketController extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
+    }
+
+    public function createTicketFromReferral()
+    {
+        //$screener = Role::where('name', 'screener')->first();
+        //$patients = Patient::all();
+        return view('tickets.createFromReferral');
+
+        // return view('tickets.create');
     }
 }
