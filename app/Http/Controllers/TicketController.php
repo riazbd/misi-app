@@ -10,10 +10,12 @@ use App\Models\User;
 use App\Models\Attachment;
 use App\Mail\CancelMail;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
 
@@ -601,12 +603,45 @@ class TicketController extends Controller
         }
     }
 
-    public function createTicketFromReferral()
+    public function getReferral()
     {
-        //$screener = Role::where('name', 'screener')->first();
-        //$patients = Patient::all();
         return view('tickets.createFromReferral');
+    }
 
-        // return view('tickets.create');
+    public function createTicketFromReferral(Request $request)
+    {
+        $request->validate([
+            'referral_file' => 'required|mimes:pdf|max:2048', // Adjust max file size as needed
+        ]);
+
+
+        $pdfFilePath = $request->file('referral_file')->store('uploads', 'public');
+
+        // Get the public path of the stored file
+        $publicFilePath = Storage::disk('public')->path($pdfFilePath);
+        Log::info('File path: ' . $pdfFilePath);
+
+        // Assuming the Flask server is running on http://127.0.0.1:5000
+        $flaskServerUrl = 'http://127.0.0.1:5000/extract';
+
+        // dd($flaskServerUrl);
+
+        // Make a POST request to the Flask server
+        $client = new Client();
+        $response = $client->post($flaskServerUrl, [
+            'multipart' => [
+                [
+                    'name' => 'file',
+                    'contents' => fopen($publicFilePath, 'r'),
+                    'filename' => basename($publicFilePath),
+                ],
+            ],
+        ]);
+
+        // Get the JSON response from the Flask server
+        $jsonResponse = $response->getBody()->getContents();
+
+        // Return the JSON response as the HTTP response
+        dd($jsonResponse);
     }
 }

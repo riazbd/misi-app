@@ -70,6 +70,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="user-name" class="col-5 text-right">User Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="user-name"
+                                    name="user-name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="phone-number" class="col-5 text-right">Phone Number:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="phone-number"
                                     name="phone-number"></div>

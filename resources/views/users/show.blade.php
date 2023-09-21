@@ -114,6 +114,11 @@
                             value="{{ $user->last_name }}">
                     </div>
                     <div class="form-group">
+                        <label for="user_name">User Name:</label>
+                        <input type="text" id="user_name" class="form-control" name="user_name"
+                            value="{{ $user->user_name }}">
+                    </div>
+                    <div class="form-group">
                         <label for="phone">Phone:</label>
                         <input type="text" id="phone" class="form-control" name="phone"
                             value="{{ $user->phone }}">

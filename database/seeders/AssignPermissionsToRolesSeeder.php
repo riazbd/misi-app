@@ -22,6 +22,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Patient',
             'last_name' => 'doe',
+            'user_name' => 'patient',
             'email' => 'patient@patient.com',
             'password' => bcrypt('123456')
         ]);
@@ -43,6 +44,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Therapist',
             'last_name' => 'doe',
+            'user_name' => 'therapist',
             'email' => 'therapist@therapist.com',
             'password' => bcrypt('123456')
         ]);
@@ -63,6 +65,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Screener',
             'last_name' => 'doe',
+            'user_name' => 'screener',
             'email' => 'screener@screener.com',
             'password' => bcrypt('123456')
         ]);
@@ -82,6 +85,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Heralmelding',
             'last_name' => 'doe',
+            'user_name' => 'heralmelding',
             'email' => 'heralmelding@heralmelding.com',
             'password' => bcrypt('123456')
         ]);
@@ -102,6 +106,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Pib',
             'last_name' => 'doe',
+            'user_name' => 'pib',
             'email' => 'pib@pib.com',
             'password' => bcrypt('123456')
         ]);
@@ -122,6 +127,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Pit',
             'last_name' => 'doe',
+            'user_name' => 'pit',
             'email' => 'pit@pit.com',
             'password' => bcrypt('123456')
         ]);
@@ -143,6 +149,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Yesapproval',
             'last_name' => 'doe',
+            'user_name' => 'yesapproval',
             'email' => 'yesapproval@yesapproval.com',
             'password' => bcrypt('123456')
         ]);
@@ -162,6 +169,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Noapproval',
             'last_name' => 'doe',
+            'user_name' => 'noapproval',
             'email' => 'noapproval@noapproval.com',
             'password' => bcrypt('123456')
         ]);
@@ -182,6 +190,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Appointment',
             'last_name' => 'doe',
+            'user_name' => 'appointment',
             'email' => 'appointment@appointment.com',
             'password' => bcrypt('123456')
         ]);
@@ -202,6 +211,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Vtcb',
             'last_name' => 'doe',
+            'user_name' => 'vtcb',
             'email' => 'vtcb@vtcb.com',
             'password' => bcrypt('123456')
         ]);

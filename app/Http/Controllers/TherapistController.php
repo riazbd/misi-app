@@ -98,7 +98,16 @@ class TherapistController extends Controller
     {
         //dd($request->all());
         $data = $request->all();
-        $data['profile-image'] = request()->file('profile-image')->store('users_image');
+        //$data['profile-image'] = request()->file('profile-image')->store('users_image');
+
+        $file = $data['profile-image'];
+
+        if ($file) {
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+            $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
+        }
 
         try {
             $user = new User();
@@ -125,12 +134,13 @@ class TherapistController extends Controller
             $user->user_serial_no = $userSerialNo;
             $user->first_name = $data['first-name'];
             $user->last_name = $data['last-name'];
+            $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
             $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
-            $user->profile_image = $data['profile-image'];
+            $user->profile_image = $filename_path;
             // $user->age = $data['age'];
             $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];
@@ -211,8 +221,19 @@ class TherapistController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $data['profile-image'] = request()->file('profile-image')->store('users_image');
+        //$data['profile-image'] = request()->file('profile-image')->store('users_image');
         //dd($data);
+
+        // $file = $data['profile-image'];
+        if ($data['profile-image']) {
+            $file =  $data['profile-image'];
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+            $filename_path = $file->storeAs('users_image', $filename);
+        }
+
+
         try {
             $therapist = Therapist::where('id', $id)->first();
             $user = $therapist->user()->first();
@@ -238,12 +259,13 @@ class TherapistController extends Controller
             // $user->user_serial_no = $userSerialNo;
             $user->first_name = $data['first-name'];
             $user->last_name = $data['last-name'];
+            $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
             // $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
-            $user->profile_image = $data['profile-image'];
+            $user->profile_image = $filename_path;
             // $user->age = $data['age'];
             $user->status = $data['status'];
             $user->marital_status = $data['marital-status'];

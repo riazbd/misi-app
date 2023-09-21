@@ -423,13 +423,13 @@
         <div id="ticket-history">
             <div class="row">
                 <div class="col-md-12">
-                    <h6 class="pr-3 col-2 text-right">Activites</h6>
+                    <h6 class="pr-3 col-2 text-right ticket_history_title">Activites</h6>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="px-5 py-3" id="history-card">
+                    <div class="ticket_history_card" id="history-card">
                         <div class="card">
                             <div class="card-body" id="history-body">
                                 {{-- <div id="history-content"></div> --}}

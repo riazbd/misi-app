@@ -21,13 +21,13 @@ class CreatePatientsTable extends Migration
             $table->string('country')->nullable();
             $table->string('residential_address')->nullable();
             $table->string('medical_history')->nullable();
-            $table->string('insurance_number');
+            $table->string('insurance_number')->nullable();
             $table->string('occupation')->nullable();
             // $table->string('status');
             $table->string('alternative_phone')->nullable();
             $table->string('emergency_contact')->nullable();
             $table->string('remarks')->nullable();
-            $table->string('city_or_state');
+            $table->string('city_or_state')->nullable();
             $table->string('area')->nullable();
             $table->string('DOB_number')->nullable();
             $table->string('BSN_number')->nullable();

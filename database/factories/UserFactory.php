@@ -20,6 +20,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
+            'user_name' => $this->faker->unique()->regexify('[A-Za-z]{6}'),
             'phone' => $this->faker->phoneNumber(),
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'date_of_birth' => $date_of_birth,

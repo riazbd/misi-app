@@ -55,6 +55,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="user-name" class="col-5 text-right">User Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="user-name"
+                                    name="user-name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="phone-number" class="col-5 text-right">Phone Number:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="phone-number"
                                     name="phone-number"></div>
@@ -168,12 +174,12 @@
                         <div class="form-group row">
                             <label for="email" class="col-5 text-right">Email:</label>
                             <div class="col-7"><input type="email" class="form-control form-control-sm"
-                                    id="email" name="email"></div>
+                                    id="email" name="email" required></div>
                         </div>
                         <div class="form-group row">
                             <label for="password" class="col-5 text-right">Password:</label>
                             <div class="col-7"><input type="password" class="form-control form-control-sm"
-                                    id="password" name="password"></div>
+                                    id="password" name="password" required></div>
                         </div>
                         <div class="form-group row">
                             <label for="insurance-number" class="col-5 text-right">Insurance Number:</label>
