@@ -212,8 +212,11 @@
                                             @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
                                                     {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
-                                                    {{ $pat->user()->first()->first_name }}
-                                                    {{ $pat->user()->first()->last_name }}</option>
+                                                    {{ $pat->user()->first()->first_name ? $pat->user()->first()->first_name : $pat->user()->first()->id }}
+                                                    {{ $pat->user()->first()->last_name ? $pat->user()->first()->last_name : '' }}
+
+
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"

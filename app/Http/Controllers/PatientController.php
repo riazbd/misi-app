@@ -115,7 +115,7 @@ class PatientController extends Controller
             $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
         }
 
-        //test
+
 
 
 
