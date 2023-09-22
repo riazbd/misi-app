@@ -203,6 +203,7 @@ class ScreeningController extends Controller
             }
 
             $ticket->patient_id = $data['select-patient'];
+            $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
             $ticket->intake_or_therapist = $data['intakes-therapist'];

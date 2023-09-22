@@ -59,8 +59,8 @@
                                 ?>
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
-                                        <img src="{{ asset('storage/attachments_folder/pdf_logo.png') }}" width="100"
-                                            height="100" alt="Image Preview">
+                                        <img src="{{ asset('images/default_pdf_logo.png') }}" width="100" height="100"
+                                            alt="Image Preview">
 
                                     </div>
                                     <p class="attatchment_name">{{ $edit_file_name }}</p>
@@ -130,6 +130,13 @@
                                     name="mono-multi-zd" value="{{ $ticket->mono_multi_zd }}" readonly>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="zd_id" class="col-5 text-right">ZD_ID:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="zd_id"
+                                    name="zd_id" value="{{ $ticket->zd_id }}"></div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="mono-multi-screening" class="col-5 text-right">Mono/Multi Screening:</label>
                             <div class="col-7">
@@ -431,7 +438,7 @@
         <div id="ticket-history">
             <div class="row">
                 <div class="col-md-12">
-                    <h6 class="activity_log_title col-2 text-right">Activites</h6>
+                    <h6 class="activity_log_title col-2 text-right ticket_history_title">Activites</h6>
                 </div>
             </div>
 
@@ -440,7 +447,7 @@
 
                 </div>
                 <div class="col-md-10">
-                    <div class="px-5 py-3" id="history-card">
+                    <div class="ticket_history_card" id="history-card">
                         <div class="card">
                             <div class="card-body" id="history-body">
                                 {{-- <div id="history-content"></div> --}}

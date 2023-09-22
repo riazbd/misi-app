@@ -24,10 +24,10 @@
         {{-- <h1>Therapist Management</h1> --}}
         <div class="">
 
-            <form method="POST" action="{{ route('therapists.update', ['therapist' => $therapist->id]) }}"
+            <form method="POST" action="{{ route('therapists-update', ['id' => $therapist->id]) }}"
                 id="update-therapist-form" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+
 
                 <div class="row justify-content-between">
                     <div class="col-md-12 justify-content-end">
@@ -45,7 +45,7 @@
                                     if($image_url == null){
                                         ?>
                                 <div id="image-container">
-                                    <img id="image-preview" src="{{ asset('storage/users_image/profile.png') }}"
+                                    <img id="image-preview" src="{{ asset('images/default_user_image.png') }}"
                                         width="100" height="100" alt="Image Preview">
                                 </div>
 
@@ -99,6 +99,12 @@
                             <div class="col-7">
                                 <input type="text" class="form-control form-control-sm" id="last-name" name="last-name"
                                     value="{{ $therapist->user()->first()->last_name }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="user-name" class="col-5 text-right">User Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="user-name"
+                                    name="user-name" value="{{ $therapist->user()->first()->user_name }}">
                             </div>
                         </div>
                         <div class="form-group row">

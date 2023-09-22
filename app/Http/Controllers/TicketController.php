@@ -10,12 +10,17 @@ use App\Models\User;
 use App\Models\Attachment;
 use App\Mail\CancelMail;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class TicketController extends Controller
 {
@@ -125,8 +130,6 @@ class TicketController extends Controller
             'Location',
 
 
-
-
         ];
 
 
@@ -184,6 +187,7 @@ class TicketController extends Controller
 
             $ticket->department_id = $data['select-department'];
             $ticket->patient_id = $data['select-patient'];
+            $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
             $ticket->intake_or_therapist = $data['intakes-therapist'];
@@ -223,19 +227,20 @@ class TicketController extends Controller
             $files = $request->file('files');
 
             //dd($files[0]->getClientOriginalName());
+            if ($files) {
+                foreach ($files as $file) {
 
-            foreach ($files as $file) {
+                    //$image = $request->file('image');
+                    $name = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
 
-                //$image = $request->file('image');
-                $name = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+                    $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
 
-                $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
-
-                $attachment = new Attachment();
-                $attachment->ticket_id = $ticket->id;
-                $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
-                $attachment->save();
+                    $attachment = new Attachment();
+                    $attachment->ticket_id = $ticket->id;
+                    $attachment->attatchment = $file->storeAs('attachments_folder', $filename);
+                    $attachment->save();
+                }
             }
 
 
@@ -329,6 +334,7 @@ class TicketController extends Controller
                 $ticket->assigned_staff = null;
             }
             $ticket->patient_id = $data['select-patient'];
+            $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
             $ticket->mono_multi_screening = $data['mono-multi-screening'];
             $ticket->intake_or_therapist = $data['intakes-therapist'];
@@ -596,5 +602,195 @@ class TicketController extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
+    }
+
+    public function getReferral()
+    {
+        return view('tickets.createFromReferral');
+    }
+
+    public function createTicketFromReferral(Request $request)
+    {
+        $request->validate([
+            'referral_file' => 'required|mimes:pdf|max:2048', // Adjust max file size as needed
+        ]);
+
+
+        $pdfFilePath = $request->file('referral_file')->store('uploads', 'public');
+
+        // Get the public path of the stored file
+        $publicFilePath = Storage::disk('public')->path($pdfFilePath);
+        Log::info('File path: ' . $pdfFilePath);
+
+        // Assuming the Flask server is running on http://127.0.0.1:5000
+        $flaskServerUrl = 'http://127.0.0.1:5000/extract';
+
+        // dd($flaskServerUrl);
+
+        // Make a POST request to the Flask server
+        $client = new Client();
+        $response = $client->post($flaskServerUrl, [
+            'multipart' => [
+                [
+                    'name' => 'file',
+                    'contents' => fopen($publicFilePath, 'r'),
+                    'filename' => basename($publicFilePath),
+                ],
+            ],
+        ]);
+
+        // Get the JSON response from the Flask server
+        $jsonResponse = $response->getBody()->getContents();
+
+        $jsonData = $jsonResponse;
+
+        // Decode the JSON data into an associative array
+        $data = json_decode($jsonData, true);
+
+        // Get the "Adres" value
+        $adresValue = $data['keys']['Adres'];
+        $bsn = $data['keys']['BSN'];
+        $geboortedatum = $data['keys']['Geboortedatum'];
+        $tel = $data['keys']['Tel'];
+        $zd_number = $data['keys']['ZD_number'];
+
+        //dd($adresValue, $bsn, $geboortedatum, $tel, $zd_number);
+
+
+        //search this bsn number in patient BSN_number table , if not availabel ,create user, patient, ticket,
+        // if not just create ticket againest that patient
+
+
+        //$bsn = $data['keys']['BSN'];
+
+
+
+
+
+        //$data = [];
+        try {
+            //search this bsn number in patient table , BSN_number column ,
+            $existing_patient = Patient::where('BSN_number', $bsn)->first();
+
+
+            if ($existing_patient) {
+
+                //$user_id = $patient->user_id;
+                //dd($user_id);
+                // create only ticket
+
+                // save ticket
+                //$patient->user_id = $patient->user_id;
+
+                $ticket = new Ticket();
+                $ticket->department_id = 4;
+                $ticket->patient_id = $existing_patient->id;
+                $ticket->zd_id = $zd_number;
+                $ticket->save();
+            } else {
+                // create user, patient , ticket
+                //dd($bsn);
+                $user = new User();
+                $patient = new Patient();
+                $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $serialLength = 8; // Adjust the length as needed
+                $userSerialNo = 'misi';
+
+                for ($i = 0; $i < $serialLength; $i++) {
+                    $randomChar = $characters[rand(0, strlen($characters) - 1)];
+                    $userSerialNo .= $randomChar;
+                }
+
+                while (User::where('user_serial_no', $userSerialNo)->exists()) {
+                    $userSerialNo = 'misi';
+
+                    for ($i = 0; $i < $serialLength; $i++) {
+                        $randomChar = $characters[rand(0, strlen($characters) - 1)];
+                        $userSerialNo .= $randomChar;
+                    }
+                }
+
+
+                //generate unique user name
+
+                do {
+                    $randomString = Str::random(10); // Generate a random string
+                } while (User::where('user_name', $randomString)->exists());
+
+                // save user
+                $user->user_serial_no = $userSerialNo;
+                //$user->first_name = $data['first-name'];
+                //$user->last_name = $data['last-name'];
+                $user->user_name = $randomString;
+
+                $user->phone = $tel;
+
+                //$user->email = $data['email'];
+                $user->password = Hash::make(123456);
+                //$user->sex = $data['sex'];
+
+                $user->date_of_birth = $geboortedatum;
+
+                //$user->profile_image = $filename_path;
+
+
+                // $user->age = $data['age'];
+                //$user->status = $data['status'];
+                //$user->marital_status = $data['marital-status'];
+
+                $user->save();
+
+
+
+                // save patient
+
+                $patient->user_id = $user->id;
+                //$patient->blood_group = $data['blood-group'];
+                //$patient->country = $data['country'];
+
+                $patient->residential_address = $adresValue;
+
+                //$patient->medical_history = $data['medical-history'];
+                //$patient->insurance_number = $data['insurance-number'];
+                //$patient->occupation = $data['occupation'];
+
+                // $patient->status = $data['status']; //commented
+
+                //$patient->alternative_phone = $data['alt-phone-number'];
+                // $patient->emergency_contact = $data['emergency-contact'];
+                //$patient->remarks = $data['remarks'];
+                //$patient->city_or_state = $data['city-state'];
+                //$patient->area = $data['area'];
+                //$patient->DOB_number = $data['dob-number'];
+
+                $patient->BSN_number = $bsn;
+
+                //$patient->file_type = $data['file-type'];
+                // $patient->file = $data['']; //commented
+
+                $patient->save();
+
+
+                // save ticket
+
+
+                $ticket = new Ticket();
+                $ticket->department_id = 4;
+                $ticket->patient_id = $patient->id;
+                $ticket->zd_id = $zd_number;
+                $ticket->save();
+            }
+
+            //return response()->json(['message' => 'Data saved successfully']);
+            return redirect()->route('ticket-create-from-referral');
+        } catch (\Throwable $th) {
+
+            return response()->json($th->getMessage(), 500);
+        }
+
+        //dd($adresValue, $bsn);
+
+        // Return the JSON response as the HTTP response
+        //dd($jsonResponse);
     }
 }

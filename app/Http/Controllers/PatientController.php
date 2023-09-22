@@ -107,7 +107,16 @@ class PatientController extends Controller
 
         $data = $request->all();
 
-        $data['profile-image'] = request()->file('profile-image')->store('users_image');
+        $file = $data['profile-image'];
+        if ($file) {
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+            $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
+        }
+
+
+
 
 
         try {
@@ -135,12 +144,13 @@ class PatientController extends Controller
             $user->user_serial_no = $userSerialNo;
             $user->first_name = $data['first-name'];
             $user->last_name = $data['last-name'];
+            $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
             $user->password = Hash::make($data['password']);
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
-            $user->profile_image = $data['profile-image'];
+            $user->profile_image = $filename_path;
 
 
             // $user->age = $data['age'];
@@ -248,6 +258,7 @@ class PatientController extends Controller
             // $user->user_serial_no = $userSerialNo;
             $user->first_name = $data['first-name'];
             $user->last_name = $data['last-name'];
+            $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
             // $user->password = Hash::make($data['password']);

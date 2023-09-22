@@ -117,10 +117,10 @@
                 @canany(['show-admin-list', 'create-new-admin', 'update-admin', 'delete-admin', 'restore-admin'])
                     <li
                         class="nav-item has-treeview
-                    {{ Request::is('tickets/create') || Request::is('tickets') || Request::is('missing-info-tickets') || Request::is('cancelled-tickets') ? 'menu-open' : '' }}">
+                    {{ Request::is('tickets/create') || Request::is('tickets/create-from-referral') || Request::is('tickets') || Request::is('missing-info-tickets') || Request::is('cancelled-tickets') ? 'menu-open' : '' }}">
                         <a
                             class="nav-link
-                        {{ Request::is('tickets/create') || Request::is('tickets') || Request::is('missing-info-tickets') || Request::is('cancelled-tickets') ? 'active' : '' }}
+                        {{ Request::is('tickets/create') || Request::is('tickets/create-from-referral') || Request::is('tickets') || Request::is('missing-info-tickets') || Request::is('cancelled-tickets') ? 'active' : '' }}
 
                         ">
                             <i class="fas fa-fw fa-ticket-alt  "></i>
@@ -137,6 +137,16 @@
                                     <i class="fas fa-fw fa-long-arrow-alt-right "></i>
                                     <p>
                                         Create Ticket
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('ticket-create-from-referral') ? 'active' : '' }}"
+                                    href="{{ url('ticket-create-from-referral') }}">
+                                    <i class="fas fa-fw fa-long-arrow-alt-right "></i>
+                                    <p>
+                                        Create Ticket From Referral
                                     </p>
                                 </a>
                             </li>

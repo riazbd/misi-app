@@ -116,6 +116,13 @@
                                     name="mono-multi-zd" value="{{ $ticket->mono_multi_zd }}">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="zd_id" class="col-5 text-right">ZD_ID:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="zd_id"
+                                    name="zd_id" value="{{ $ticket->zd_id }}"></div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="mono-multi-screening" class="col-5 text-right">Mono/Multi Screening:</label>
                             <div class="col-7">
@@ -205,8 +212,11 @@
                                             @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
                                                     {{ $ticket->patient()->first()->id == $pat->id ? 'selected' : '' }}>
-                                                    {{ $pat->user()->first()->first_name }}
-                                                    {{ $pat->user()->first()->last_name }}</option>
+                                                    {{ $pat->user()->first()->first_name ? $pat->user()->first()->first_name : $pat->user()->first()->id }}
+                                                    {{ $pat->user()->first()->last_name ? $pat->user()->first()->last_name : '' }}
+
+
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
@@ -416,13 +426,13 @@
         <div id="ticket-history">
             <div class="row">
                 <div class="col-md-12">
-                    <h6 class="pr-3 col-2 text-right">Activites</h6>
+                    <h6 class="pr-3 col-2 text-right ticket_history_title">Activites</h6>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="px-5 py-3" id="history-card">
+                    <div class="ticket_history_card" id="history-card">
                         <div class="card">
                             <div class="card-body" id="history-body">
                                 {{-- <div id="history-content"></div> --}}

@@ -56,6 +56,7 @@
                                     name="appointment-time" data-enable-time data-no-calendar placeholder="Select Time">
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="appointment-fee" class="col-5 text-right">Appointment Fee:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"

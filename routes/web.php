@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -61,6 +61,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/delet-attachment', [AttachmentController::class, 'destroy'])->name('attachment');
 
     // Route for ticket update
+    Route::post('/therapist-update/{id}', [TherapistController::class, 'update'])->name('therapists-update');
+    Route::post('/patient-update/{id}', [PatientController::class, 'update'])->name('patients-update');
+
     Route::post('/update-ticket/{id}', [TicketController::class, 'update'])->name('update-ticket');
     Route::post('/update-screener-ticket/{id}', [ScreeningController::class, 'update'])->name('update-screener-ticket');
     Route::post('/update-pib-ticket/{id}', [PibController::class, 'update'])->name('update-pib-ticket');
@@ -94,4 +97,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/update-worktime/{id}', 'App\Http\Controllers\WorkSchedule@updateWorkTime')->name('update-worktime');
     Route::get('/getemailsforcancel', 'App\Http\Controllers\EmailTamplateController@getEmailForCancel')->name('get-cancel-email');
     Route::resource('email-templates', EmailTamplateController::class);
+
+    Route::get('/generate-invoice/{id}', 'App\Http\Controllers\GenerateInvoiceController@generatePDF')->name('generate-invoice');
+
+    Route::get('/ticket-create-from-referral', 'App\Http\Controllers\TicketController@getReferral')->name('ticket-create-from-referral');
+    Route::post('/create-ticket-from-referral', [TicketController::class, 'createTicketFromReferral'])->name('ticket-referral');
 });

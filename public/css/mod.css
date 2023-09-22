@@ -258,15 +258,10 @@ div.dataTables_wrapper div.dataTables_filter {
 
 #imageContainer {
     width: 100px;
-    /* Set the width to 250px */
     height: 100px;
-    /* Set the height to maintain a square aspect ratio */
-    border: 1px solid #000;
-    /* Add a 1px border around the container */
+    border: 1px solid #acacac;
     border-radius: 50%;
-    /* Add border-radius to make it circular */
     overflow: hidden;
-    /* Hide any image overflow outside the container */
 }
 
 #existingImage {
@@ -287,7 +282,7 @@ div.dataTables_wrapper div.dataTables_filter {
 
 #uploadButton {
     padding: 2px 6px;
-    background-color: #007bff;
+    background-color: #F79327;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -510,4 +505,52 @@ div.dataTables_wrapper div.dataTables_filter {
 
 .content-wraper {
     margin: 10px 20px;
+}
+
+
+
+
+
+
+/* Add styles dashboard top search bar*/
+
+.navbar-search-block .input-group {
+    width: 83%;
+    margin-left: 60px;
+}
+
+
+/* login page logo*/
+
+.login-logo img {
+    width: 150px;
+    height: 150px;
+}
+
+
+/* ticket from reffarel*/
+
+.input-container {
+    /* border: 1px dashed rgb(116, 116, 116); */
+    padding: 20px;
+    border-radius: 20px;
+    background: #e6e6e6;
+    margin-top: 100px;
+    box-shadow: 0px 5px 5px #888;
+}
+
+.input-container button {
+    margin-top: 15px;
+}
+
+
+/* ticket edit page histry activiti*/
+
+.ticket_history_title {
+    margin-left: 37px;
+}
+
+.ticket_history_card {
+    margin-left: 210px;
+    /* padding: 50px; */
 }

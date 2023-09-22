@@ -96,6 +96,7 @@ class UserController extends Controller
             $user->first_name = $input['first_name'];
             $user->last_name = $input['last_name'];
             $user->email = $input['email'];
+            $user->user_name = $input['user_name'];
             $user->password = $input['password'];
             $user->marital_status = $input['marital_status'];
             $user->sex = $input['sex'];
@@ -198,6 +199,7 @@ class UserController extends Controller
             $user->first_name = $input['first_name'];
             $user->last_name = $input['last_name'];
             $user->email = $input['email'];
+            $user->user_name = $input['user_name'];
 
             $user->marital_status = $input['marital_status'];
             $user->sex = $input['sex'];
