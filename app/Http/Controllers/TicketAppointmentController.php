@@ -142,6 +142,7 @@ class TicketAppointmentController extends Controller
         $intakes = Intake::where('appointment_id', $appointment->id)->get();
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+            'INVOICE',
             'ID',
             'Date',
             'Time',
@@ -157,14 +158,29 @@ class TicketAppointmentController extends Controller
         $data = [];
 
         foreach ($intakes as $intake) {
+            $download_button  = '<span class="d-inline-block badge badge-success badge-pill badge-lg owned" style="cursor: pointer">Download</span>';
             $items = [];
 
-            array_push($items, '<nobr>
+            array_push(
+                $items,
+                '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('ticket-appointments.destroy', ['ticket_appointment' => $appointment->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><button class="btn btn-xs btn-default text-teal mx-1 shadow showModal" data-intake-id="' . $intake->id . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </button></nobr>', $intake->id, Carbon::parse($intake->date)->format('d F, Y'), $intake->start_time, ucfirst($intake->status), ucfirst($intake->payment_method), ucfirst($intake->payment_status), Carbon::parse($intake->created_at)->format('d F, Y'), Carbon::parse($intake->updated_at)->format('d F, Y'),);
+                    </button></nobr>',
+                '</a><a class="text-info mx-1" href="' . route('generate-invoice', ['id' => $intake->id])  . '">
+                ' .   $download_button . '</a>',
+
+                $intake->id,
+                Carbon::parse($intake->date)->format('d F, Y'),
+                $intake->start_time,
+                ucfirst($intake->status),
+                ucfirst($intake->payment_method),
+                ucfirst($intake->payment_status),
+                Carbon::parse($intake->created_at)->format('d F, Y'),
+                Carbon::parse($intake->updated_at)->format('d F, Y'),
+            );
             array_push($data, $items);
         }
 
