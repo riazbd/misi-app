@@ -122,8 +122,8 @@
                                             $isSelected = in_array($therapistId, $suggested_array);
                                         @endphp
                                         <option value="{{ $therapist->id }}" {{ $isSelected ? 'selected' : '' }}>
-                                            {{ $therapist->user()->first()->first_name }}
-                                            {{ $therapist->user()->first()->last_name }}</option>
+                                            {{ $therapist->user()->first()->name ? $therapist->user()->first()->name : $therapist->user()->first()->id }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -235,8 +235,7 @@
                                                     {{ $pat->user()->first()->last_name }}</option>
                                             @endforeach --}}
                                             <option value="{{ $ticket->patient()->first()->id }}">
-                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
-                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->name? $ticket->patient()->first()->user()->first()->name: $ticket->patient()->first()->user()->first()->id }}
                                             </option>
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
@@ -446,10 +445,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-2">
-
-                </div>
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="ticket_history_card" id="history-card">
                         <div class="card">
                             <div class="card-body" id="history-body">

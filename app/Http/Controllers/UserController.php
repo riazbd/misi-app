@@ -93,10 +93,12 @@ class UserController extends Controller
             // $user = User::create($input);
             // $user->assignRole($request->input('roles'));
             $user = new User();
-            $user->first_name = $input['first_name'];
-            $user->last_name = $input['last_name'];
+            $user->name = $input['name'];
+            //$user->first_name = $input['first_name'];
+            //$user->last_name = $input['last_name'];
             $user->email = $input['email'];
             $user->user_name = $input['user_name'];
+            $user->phone = $input['phone'];
             $user->password = $input['password'];
             $user->marital_status = $input['marital_status'];
             $user->sex = $input['sex'];
@@ -196,10 +198,12 @@ class UserController extends Controller
             // $user = User::create($input);
             // $user->assignRole($request->input('roles'));
 
-            $user->first_name = $input['first_name'];
-            $user->last_name = $input['last_name'];
+            $user->name = $input['name'];
+            //$user->first_name = $input['first_name'];
+            //$user->last_name = $input['last_name'];
             $user->email = $input['email'];
             $user->user_name = $input['user_name'];
+            $user->phone = $input['phone'];
 
             $user->marital_status = $input['marital_status'];
             $user->sex = $input['sex'];

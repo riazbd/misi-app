@@ -44,16 +44,11 @@
                     <div class="col-md-6 justify-content-end">
 
                         <div class="form-group row">
-                            <label for="first-name" class="col-5 text-right">First Name:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="first-name"
-                                    name="first-name"></div>
+                            <label for="name" class="col-5 text-right">Name:</label>
+                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="name"
+                                    name="name"></div>
                         </div>
-                        <div class="form-group row">
-                            <label for="last-name" class="col-5 text-right">Last Name:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm" id="last-name"
-                                    name="last-name">
-                            </div>
-                        </div>
+
                         <div class="form-group row">
                             <label for="user-name" class="col-5 text-right">User Name:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm" id="user-name"
@@ -192,11 +187,7 @@
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="area" name="area"></div>
                         </div>
-                        <div class="form-group row">
-                            <label for="dob-number" class="col-5 text-right">DOB Number:</label>
-                            <div class="col-7"><input type="text" class="form-control form-control-sm"
-                                    id="dob-number" name="dob-number"></div>
-                        </div>
+
                         <div class="form-group row">
                             <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
@@ -207,21 +198,7 @@
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="remarks" name="remarks"></div>
                         </div>
-                        <div class="form-group row">
-                            <label for="file-type" class="col-5 text-right">File Type:</label>
-                            <div class="col-7">
-                                <select class="form-control form-control-sm" id="file-type" name="file-type">
-                                    <option value="type1">File Type 1</option>
-                                    <option value="type2">File Type 2</option>
-                                    <option value="type3">File Type 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file form-control-sm"
-                                    id="file" name="file"></div>
-                        </div>
+
                     </div>
                 </div>
 

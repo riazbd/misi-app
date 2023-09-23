@@ -200,8 +200,7 @@
                                         <select class="form-control form-control-sm" id="select-patient"
                                             name="select-patient">
                                             <option value="{{ $ticket->patient()->first()->id }}">
-                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
-                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->name? $ticket->patient()->first()->user()->first()->name: $ticket->patient()->first()->user()->first()->id }}
                                             </option>
                                             {{-- @foreach ($patients as $pat)
                                                 <option value="{{ $pat->id }}"
@@ -383,11 +382,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file form-control-sm"
-                                    id="file"></div>
-                        </div>
+
                     </div>
                 </div>
                 {{-- <button type="submit" class="btn btn-primary">Save</button> --}}

@@ -20,6 +20,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 1.  Patient seed
 
         $user = User::create([
+            'name' => 'Patient',
             'first_name' => 'Patient',
             'last_name' => 'doe',
             'user_name' => 'patient',
@@ -42,6 +43,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 2. Therapist seed
 
         $user = User::create([
+            'name' => 'Therapist',
             'first_name' => 'Therapist',
             'last_name' => 'doe',
             'user_name' => 'therapist',
@@ -63,6 +65,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 3. Screener seed
 
         $user = User::create([
+            'name' => 'Screener',
             'first_name' => 'Screener',
             'last_name' => 'doe',
             'user_name' => 'screener',
@@ -83,6 +86,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 4. Heralmelding seed
 
         $user = User::create([
+            'name' => 'Heralmelding',
             'first_name' => 'Heralmelding',
             'last_name' => 'doe',
             'user_name' => 'heralmelding',
@@ -104,6 +108,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 5. Pib seed
 
         $user = User::create([
+            'name' => 'Pib',
             'first_name' => 'Pib',
             'last_name' => 'doe',
             'user_name' => 'pib',
@@ -125,6 +130,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 6. Pit seed
 
         $user = User::create([
+            'name' => 'Pit',
             'first_name' => 'Pit',
             'last_name' => 'doe',
             'user_name' => 'pit',
@@ -147,6 +153,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 7. Yes approval seed
 
         $user = User::create([
+            'name' => 'Yesapproval',
             'first_name' => 'Yesapproval',
             'last_name' => 'doe',
             'user_name' => 'yesapproval',
@@ -167,6 +174,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 8. No approval seed
 
         $user = User::create([
+            'name' => 'Noapproval',
             'first_name' => 'Noapproval',
             'last_name' => 'doe',
             'user_name' => 'noapproval',
@@ -188,6 +196,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 9. Appointment seed
 
         $user = User::create([
+            'name' => 'Appointment',
             'first_name' => 'Appointment',
             'last_name' => 'doe',
             'user_name' => 'appointment',
@@ -209,6 +218,7 @@ class AssignPermissionsToRolesSeeder extends Seeder
         // 10. VTCB
 
         $user = User::create([
+            'name' => 'Vtcb',
             'first_name' => 'Vtcb',
             'last_name' => 'doe',
             'user_name' => 'vtcb',

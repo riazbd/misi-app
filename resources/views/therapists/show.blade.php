@@ -88,17 +88,10 @@
 
 
                         <div class="form-group row">
-                            <label for="first-name" class="col-5 text-right">First Name:</label>
+                            <label for="name" class="col-5 text-right">Name:</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="first-name" name="first-name"
-                                    value="{{ $therapist->user()->first()->first_name }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="last-name" class="col-5 text-right">Last Name:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="last-name" name="last-name"
-                                    value="{{ $therapist->user()->first()->last_name }}">
+                                <input type="text" class="form-control form-control-sm" id="name" name="name"
+                                    value="{{ $therapist->user()->first()->name }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -276,13 +269,7 @@
                                     value="{{ $therapist->area }}">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="dob-number" class="col-5 text-right">DOB Number:</label>
-                            <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="dob-number"
-                                    name="dob-number" value="{{ $therapist->DOB_number }}">
-                            </div>
-                        </div>
+
                         <div class="form-group row">
                             <label for="bsn-number" class="col-5 text-right">BSN Number:</label>
                             <div class="col-7">
@@ -298,11 +285,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file" id="file"
-                                    name="file"></div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="row">
