@@ -185,7 +185,10 @@ class TicketController extends Controller
 
             $ticket = new Ticket();
 
-            $ticket->department_id = $data['select-department'];
+            if ($data['location'] != null &&  $data['honos'] != null) {
+                $ticket->department_id = $data['select-department'];
+            }
+
             $ticket->patient_id = $data['select-patient'];
             $ticket->zd_id = $data['zd_id'];
             $ticket->mono_multi_zd = $data['mono-multi-zd'];
@@ -683,7 +686,7 @@ class TicketController extends Controller
                 //$patient->user_id = $patient->user_id;
 
                 $ticket = new Ticket();
-                $ticket->department_id = 4;
+                $ticket->department_id = null;
                 $ticket->patient_id = $existing_patient->id;
                 $ticket->zd_id = $zd_number;
                 $ticket->save();
@@ -782,7 +785,7 @@ class TicketController extends Controller
             }
 
             //return response()->json(['message' => 'Data saved successfully']);
-            return redirect()->route('ticket-create-from-referral');
+            return redirect()->route('tickets.show', ['ticket' => $ticket->id]);
         } catch (\Throwable $th) {
 
             return response()->json($th->getMessage(), 500);
