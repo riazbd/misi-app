@@ -28,8 +28,8 @@
                     <form method="POST" action="{{ route('ticket-referral') }}" id="create-ticket-form"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="">
-                            <label for="formFile" class="form-label">Upload pdf </label>
+                        <div class="pdf-input-field">
+                            <label for="formFile" class="form-label">Upload Letter </label>
                             <input class="form-control" type="file" id="formFile" name="referral_file" accept=".pdf">
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm mt-10">Save</button>

@@ -147,8 +147,9 @@
                                 name="select-patient" data-live-search="true">
                                 <option value="">Select Patient</option>
                                 @foreach ($patients as $patient)
-                                    <option value="{{ $patient->id }}">{{ $patient->user()->first()->first_name }}
-                                        {{ $patient->user()->first()->last_name }}</option>
+                                    <option value="{{ $patient->id }}">
+                                        {{ $patient->user()->first()->name ? $patient->user()->first()->name : $patient->user()->first()->id }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

@@ -51,8 +51,21 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <h2>Misi Appointment Invoice</h2>
+                <div class="col-md-6">
+                    <div class="invoice-logo">
+                        <img src="">
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="invoice-header">
+                        <h4>Misi Intake Invoice</h4>
+                        <p>Address place here</p>
+                        <p>Rendom text place here</p>
+                        <p>City name</p>
+                        <p>Country name</p>
+                    </div>
+
                 </div>
             </div>
 
@@ -62,34 +75,38 @@
 
     {{-- <p>Therapist Comment</p> --}}
     <?php
-    //dd($appointment);
-    // echo $appointment->id;
-    // echo '</br>';
-    // echo $appointment->therapist_comment;
+    
+    //dd($intake);
     ?>
 
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th style="width: 5%;">ID</th>
-                <th style="width: 5%;">Ticket</th>
-                <th style="width: 10%;">Status</th>
-                <th style="width: 35%;">Remarks</th>
-                <th style="width: 5%;">Fee</th>
-                <th style="width: 20%;">Created At</th>
-                <th style="width: 20%;">Updated At</th>
+                <th style="width: 5%;">appointment_id</th>
+                <th style="width: 10%;">date</th>
+                <th style="width: 10%;">start_time</th>
+                <th style="width: 10%;">end_time</th>
+                <th style="width: 10%;">status</th>
+                <th style="width: 10%;">Payment status</th>
+                <th style="width: 10%;">Payment method</th>
+                <th style="width: 15%;">Created At</th>
+                <th style="width: 15%;">Updated At</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>{{ $appointment->id }}</td>
-                <td>{{ $appointment->ticket_id }}</td>
-                <td>{{ $appointment->status }}</td>
-                <td>{{ $appointment->remarks }}</td>
-                <td>{{ $appointment->fee }}</td>
+                <td>{{ $intake->id }}</td>
+                <td>{{ $intake->appointment_id }}</td>
+                <td>{{ $intake->date }}</td>
+                <td>{{ $intake->start_time }}</td>
+                <td>{{ $intake->end_time }}</td>
 
-                <td>{{ $appointment->created_at }}</td>
-                <td>{{ $appointment->updated_at }}</td>
+                <td>{{ $intake->status }}</td>
+                <td>{{ $intake->payment_status }}</td>
+                <td>{{ $intake->payment_method }}</td>
+                <td>{{ $intake->created_at }}</td>
+                <td>{{ $intake->updated_at }}</td>
 
             </tr>
 

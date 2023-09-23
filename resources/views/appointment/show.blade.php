@@ -2,7 +2,7 @@
 
 @section('content_top_nav_left')
     <div class="ml-5 d-flex align-items-center">
-        <h6 class="m-0">PiT Ticket - {{ $ticket->id }}</h6>
+        <h6 class="m-0">Appointment Ticket - {{ $ticket->id }}</h6>
     </div>
 @stop
 
@@ -141,8 +141,7 @@
                                     @foreach ($suggested_array as $therapist)
                                         <option value="{{ $therapist }}"
                                             {{ $selected == $therapist ? 'selected' : '' }}>
-                                            {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->first_name }}
-                                            {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->last_name }}
+                                            {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name? \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name: \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->id }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -255,8 +254,7 @@
                                                     {{ $pat->user()->first()->last_name }}</option>
                                             @endforeach --}}
                                             <option value="{{ $ticket->patient()->first()->id }}">
-                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
-                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->name? $ticket->patient()->first()->user()->first()->name: $ticket->patient()->first()->user()->first()->id }}
                                             </option>
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
@@ -430,14 +428,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file form-control-sm"
-                                    id="file"></div>
-                        </div>
+
                     </div>
                 </div>
                 {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+
+
                 <div class="row">
                     <div class="col-md-12">
                         <h6 class="activity_log_title col-2 text-right">Activity Log</h6>
@@ -445,7 +441,6 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-
 
                         <div class="form-group row work_note">
                             <label for="comments" class="col-2 text-right">Work Note:</label>
@@ -455,6 +450,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </form>
         </div>
 
@@ -476,8 +473,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
     </div>

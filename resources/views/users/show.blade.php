@@ -72,9 +72,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="first_name">First Name:</label>
-                        <input type="text" id="first_name" class="form-control" name="first_name"
-                            value="{{ $user->first_name }}">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" class="form-control" name="name"
+                            value="{{ $user->name }}">
                     </div>
                     <div class="form-group">
                         <label for="first_name">Email:</label>
@@ -108,11 +108,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="last_name">Last Name:</label>
-                        <input type="text" id="last_name" class="form-control" name="last_name"
-                            value="{{ $user->last_name }}">
-                    </div>
+
                     <div class="form-group">
                         <label for="user_name">User Name:</label>
                         <input type="text" id="user_name" class="form-control" name="user_name"

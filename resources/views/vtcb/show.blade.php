@@ -216,8 +216,7 @@
                                                     {{ $pat->user()->first()->last_name }}</option>
                                             @endforeach --}}
                                             <option value="{{ $ticket->patient()->first()->id }}">
-                                                {{ $ticket->patient()->first()->user()->first()->first_name }}
-                                                {{ $ticket->patient()->first()->user()->first()->last_name }}
+                                                {{ $ticket->patient()->first()->user()->first()->name? $ticket->patient()->first()->user()->first()->name: $ticket->patient()->first()->user()->first()->id }}
                                             </option>
                                         </select>
                                         <div class="input-group-append " id="view-patient" data-toggle="modal"
@@ -393,11 +392,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="file" class="col-5 text-right">File:</label>
-                            <div class="col-7"><input type="file" class="form-control-file form-control-sm"
-                                    id="file"></div>
-                        </div>
+
                     </div>
                 </div>
                 {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
@@ -424,15 +419,12 @@
         <div id="ticket-history">
             <div class="row">
                 <div class="col-md-12">
-                    <h6 class="activity_log_title col-2 text-right ticket_history_title">Activites</h6>
+                    <h6 class=" col-2 text-right ticket_history_title">Activites</h6>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-2">
-
-                </div>
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="ticket_history_card" id="history-card">
                         <div class="card">
                             <div class="card-body" id="history-body">

@@ -100,9 +100,10 @@ class TherapistController extends Controller
         $data = $request->all();
         //$data['profile-image'] = request()->file('profile-image')->store('users_image');
 
-        $file = $data['profile-image'];
+        $filename_path = null;
+        if (isset($data['profile-image']) && $data['profile-image']) {
+            $file = $data['profile-image'];
 
-        if ($file) {
             $name = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
@@ -132,8 +133,9 @@ class TherapistController extends Controller
 
             // save user
             $user->user_serial_no = $userSerialNo;
-            $user->first_name = $data['first-name'];
-            $user->last_name = $data['last-name'];
+            $user->name = $data['name'];
+            //$user->first_name = $data['first-name'];
+            //$user->last_name = $data['last-name'];
             $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
@@ -160,7 +162,7 @@ class TherapistController extends Controller
             $therapist->remarks = $data['remarks'];
             $therapist->city_or_state = $data['city-state'];
             $therapist->area = $data['area'];
-            $therapist->DOB_number = $data['dob-number'];
+            //$therapist->DOB_number = $data['dob-number'];
             $therapist->BSN_number = $data['bsn-number'];
             // $therapist->file = $data[''];
 
@@ -225,12 +227,14 @@ class TherapistController extends Controller
         //dd($data);
 
         // $file = $data['profile-image'];
-        if ($data['profile-image']) {
-            $file =  $data['profile-image'];
+        $filename_path = null;
+        if (isset($data['profile-image']) && $data['profile-image']) {
+            $file = $data['profile-image'];
+
             $name = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
-            $filename_path = $file->storeAs('users_image', $filename);
+            $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
         }
 
 
@@ -257,8 +261,10 @@ class TherapistController extends Controller
 
             // save user
             // $user->user_serial_no = $userSerialNo;
-            $user->first_name = $data['first-name'];
-            $user->last_name = $data['last-name'];
+
+            $user->name = $data['name'];
+            //$user->first_name = $data['first-name'];
+            //$user->last_name = $data['last-name'];
             $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
@@ -285,7 +291,7 @@ class TherapistController extends Controller
             $therapist->remarks = $data['remarks'];
             $therapist->city_or_state = $data['city-state'];
             $therapist->area = $data['area'];
-            $therapist->DOB_number = $data['dob-number'];
+            //$therapist->DOB_number = $data['dob-number'];
             $therapist->BSN_number = $data['bsn-number'];
             // $therapist->file = $data[''];
 

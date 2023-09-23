@@ -18,6 +18,7 @@ class UserFactory extends Factory
         $date_of_birth = $this->faker->dateTimeBetween('-70 years', '-18 years')->format('d-m-Y');
         $age = Carbon::parse($date_of_birth)->age;
         return [
+            'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'user_name' => $this->faker->unique()->regexify('[A-Za-z]{6}'),

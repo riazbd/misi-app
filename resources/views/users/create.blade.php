@@ -12,8 +12,8 @@
             <div class="row justify-content-between">
                 <div class="col-md-5">
                     <div class="form-group row">
-                        <label for="first_name" class="form-label col-4 text-right">First Name:</label>
-                        <div class="col-7"><input type="text" id="first_name" class="form-control" name="first_name">
+                        <label for="name" class="form-label col-4 text-right">Name:</label>
+                        <div class="col-7"><input type="text" id="name" class="form-control" name="name">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -52,11 +52,7 @@
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="form-group row">
-                        <label for="last_name " class="form-label col-4 text-right">Last Name:</label>
-                        <div class="col-7"><input type="text" id="last_name" class="form-control" name="last_name">
-                        </div>
-                    </div>
+
                     <div class="form-group row">
                         <label for="user_name " class="form-label col-4 text-right">User Name:</label>
                         <div class="col-7"><input type="text" id="user_name" class="form-control" name="user_name">

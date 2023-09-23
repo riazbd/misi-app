@@ -106,18 +106,18 @@ class PatientController extends Controller
     {
 
         $data = $request->all();
+        //dd($data);
+        // $file = $data['profile-image'];
 
-        $file = $data['profile-image'];
-        if ($file) {
+        $filename_path = null;
+        if (isset($data['profile-image']) && $data['profile-image']) {
+            $file = $data['profile-image'];
+
             $name = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
             $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
         }
-
-
-
-
 
         try {
             $user = new User();
@@ -142,8 +142,9 @@ class PatientController extends Controller
 
             // save user
             $user->user_serial_no = $userSerialNo;
-            $user->first_name = $data['first-name'];
-            $user->last_name = $data['last-name'];
+            $user->name = $data['name'];
+            //$user->first_name = $data['first-name'];
+            //$user->last_name = $data['last-name'];
             $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
@@ -173,9 +174,9 @@ class PatientController extends Controller
             $patient->remarks = $data['remarks'];
             $patient->city_or_state = $data['city-state'];
             $patient->area = $data['area'];
-            $patient->DOB_number = $data['dob-number'];
+            //$patient->DOB_number = $data['dob-number'];
             $patient->BSN_number = $data['bsn-number'];
-            $patient->file_type = $data['file-type'];
+            // $patient->file_type = $data['file-type'];
             // $patient->file = $data[''];
 
 
@@ -230,11 +231,26 @@ class PatientController extends Controller
     {
         $data = $request->all();
         //dd($request->all());
+
+
+        $filename_path = null;
+        if (isset($data['profile-image']) && $data['profile-image']) {
+            $file = $data['profile-image'];
+
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+            $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
+        }
+
+
         try {
             $patient = Patient::where('id', $id)->first();
             $user = User::where('id', $patient->user_id)->first();
 
-            $data['profile-image'] = request()->file('profile-image')->store('users_image');
+            //$data['profile-image'] = request()->file('profile-image')->store('users_image');
+
+
 
             // $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             // $serialLength = 8; // Adjust the length as needed
@@ -256,8 +272,9 @@ class PatientController extends Controller
 
             // save user
             // $user->user_serial_no = $userSerialNo;
-            $user->first_name = $data['first-name'];
-            $user->last_name = $data['last-name'];
+            $user->first_name = $data['name'];
+            //$user->first_name = $data['first-name'];
+            //$user->last_name = $data['last-name'];
             $user->user_name = $data['user-name'];
             $user->phone = $data['phone-number'];
             $user->email = $data['email'];
@@ -265,7 +282,7 @@ class PatientController extends Controller
             $user->sex = $data['sex'];
             $user->date_of_birth = $data['dob'];
 
-            $user->profile_image = $data['profile-image'];
+            $user->profile_image = $filename_path;
 
             // $user->age = $data['age'];
             $user->status = $data['status'];
@@ -287,9 +304,9 @@ class PatientController extends Controller
             $patient->remarks = $data['remarks'];
             $patient->city_or_state = $data['city-state'];
             $patient->area = $data['area'];
-            $patient->DOB_number = $data['dob-number'];
+            //$patient->DOB_number = $data['dob-number'];
             $patient->BSN_number = $data['bsn-number'];
-            $patient->file_type = $data['file-type'];
+            //$patient->file_type = $data['file-type'];
             // $patient->file = $data[''];
 
 
