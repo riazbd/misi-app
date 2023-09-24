@@ -34,8 +34,8 @@ class PatientController extends Controller
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
-            'First Name',
-            'Last Name',
+            'Name',
+
             'Status',
             // ['label' => 'Phone', 'width' => 40],
             'Email',
@@ -72,7 +72,7 @@ class PatientController extends Controller
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('patients.show', ['patient' => $patient->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a></nobr>', $patient->id, $patient->user()->first()->first_name, $patient->user()->first()->last_name, $patient->user()->first()->status, $patient->user()->first()->email, $patient->user()->first()->phone, $patient->alternative_phone, $patient->emergency_contact, $patient->user()->first()->sex, $patient->user()->first()->date_of_birth, $patient->user()->first()->marital_status, $patient->patient_source, $patient->blood_group, $patient->country, $patient->residential_address, $patient->insurance_number, $patient->occupation, $patient->city_or_state, $patient->area, $patient->DOB_number, $patient->BSN_number, $patient->remarks);
+                    </a></nobr>', $patient->id, $patient->user()->first()->name, $patient->user()->first()->status, $patient->user()->first()->email, $patient->user()->first()->phone, $patient->alternative_phone, $patient->emergency_contact, $patient->user()->first()->sex, $patient->user()->first()->date_of_birth, $patient->user()->first()->marital_status, $patient->patient_source, $patient->blood_group, $patient->country, $patient->residential_address, $patient->insurance_number, $patient->occupation, $patient->city_or_state, $patient->area, $patient->DOB_number, $patient->BSN_number, $patient->remarks);
             array_push($data, $items);
         }
 
@@ -272,7 +272,7 @@ class PatientController extends Controller
 
             // save user
             // $user->user_serial_no = $userSerialNo;
-            $user->first_name = $data['name'];
+            $user->name = $data['name'];
             //$user->first_name = $data['first-name'];
             //$user->last_name = $data['last-name'];
             $user->user_name = $data['user-name'];

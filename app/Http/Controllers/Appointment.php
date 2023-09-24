@@ -235,13 +235,15 @@ class Appointment extends Controller
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
-            $history = new TicketHistory();
-
-            $history->ticket_id = $id;
-            $history->comment = $data['comments'];
-
             $ticket->save();
-            $history->save();
+            if ($data['comments'] != null) {
+                $history = new TicketHistory();
+
+                $history->ticket_id = $id;
+                $history->comment = $data['comments'];
+
+                $history->save();
+            }
 
             // $ticket->save();
 

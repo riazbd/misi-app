@@ -329,7 +329,9 @@ class TicketController extends Controller
             }
 
 
-            $ticket->department_id = $data['select-department'];
+            if ($data['location'] != null &&  $data['honos'] != null) {
+                $ticket->department_id = $data['select-department'];
+            }
 
             if ($ticket->department_id != null && $data['assign-to'] != '') {
                 $ticket->assigned_staff = $data['assign-to'];

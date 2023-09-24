@@ -372,16 +372,16 @@
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         Open</option>
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         In progess</option>
                                     <option value="finished" {{ $ticket->status == 'finished' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         Finished</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>
