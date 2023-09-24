@@ -29,7 +29,6 @@ class TicketAppointmentController extends Controller
         $appointments = TicketAppointment::all();
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-            'INVOICE',
             'ID',
             'Ticket',
             'Status',
@@ -44,7 +43,7 @@ class TicketAppointmentController extends Controller
         $data = [];
 
         foreach ($appointments as $appointment) {
-            $download_button  = '<span class="d-inline-block badge badge-success badge-pill badge-lg owned" style="cursor: pointer">Download</span>';
+
             $items = [];
 
             array_push($items, '<nobr>
@@ -54,8 +53,7 @@ class TicketAppointmentController extends Controller
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a><button class="btn btn-xs btn-default text-primary mx-1 shadow createModal" data-toggle="tooltip" data-placement="top" title="Create Intake" data-appointment="' . $appointment->id . '" data-ticket-id="' . $appointment->ticket_id . '">
                     <i class="fa fa-lg fa-fw fa-plus"></i>
-                </button></nobr>', '</a><a class="text-info mx-1" href="' . route('generate-invoice', ['id' => $appointment->id])  . '">
-                ' .   $download_button . '</a>', '</a><a class="text-info mx-1" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
+                </button></nobr>', '</a><a class="text-info mx-1" href="' . route('ticket-appointments.show', ['ticket_appointment' => $appointment->id]) . '">
                     ' .   $appointment->id . '</a>', $appointment->ticket()->first()->id, ucfirst($appointment->status), $appointment->remarks, $appointment->fee, Carbon::parse($appointment->created_at)->format('d F, Y'), Carbon::parse($appointment->updated_at)->format('d F, Y'),);
             array_push($data, $items);
         }
