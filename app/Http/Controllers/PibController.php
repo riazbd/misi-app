@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
 
+
 class PibController extends Controller
 {
 
@@ -28,6 +29,7 @@ class PibController extends Controller
     {
         $pibId = Role::where('name', 'pib')->first()->id;
         $tickets = Ticket::where('department_id', $pibId)->get();
+
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -130,6 +132,9 @@ class PibController extends Controller
         $ticketId = $id;
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
+
+
+
 
         $attachments = $ticket->attachments;
 

@@ -135,6 +135,7 @@
     <div class="add-detail mt-10">
         <div class="w-50 float-left logo mt-10">
             <img src="https://techsolutionstuff.com/frontTheme/assets/img/logo_200_60_dark.png" alt="Logo">
+            {{-- <img src="{{ url('images/default_user_image.png') }}" alt="Logo"> --}}
         </div>
         <div class="w-50 float-left mt-10" align="right">
             <h3 class="m-0 pt-5  w-100">Invoice</h3>

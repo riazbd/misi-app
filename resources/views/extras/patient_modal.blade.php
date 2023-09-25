@@ -16,19 +16,13 @@
                         <div class="col-md-6 justify-content-end">
 
                             <div class="form-group row">
-                                <label for="first-name" class="col-5 text-right">First Name:</label>
+                                <label for="name" class="col-5 text-right">Name:</label>
                                 <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" id="first-name"
-                                        name="first-name" value="{{ $patient->user()->first()->first_name }}">
+                                    <input type="text" class="form-control form-control-sm" id="name"
+                                        name="name" value="{{ $patient->user()->first()->name }}">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="last-name" class="col-5 text-right">Last Name:</label>
-                                <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" id="last-name"
-                                        name="last-name" value="{{ $patient->user()->first()->last_name }}">
-                                </div>
-                            </div>
+
                             <div class="form-group row">
                                 <label for="phone-number" class="col-5 text-right">Phone Number:</label>
                                 <div class="col-7">

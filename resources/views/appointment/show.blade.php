@@ -139,9 +139,19 @@
                                     @endphp
                                     <option value="">Select Therapist</option>
                                     @foreach ($suggested_array as $therapist)
+                                        @php
+                                            $desiredValue = $therapist;
+                                            $foundRows = \App\Models\TicketAppointment::whereJsonContains('suggested_therapists', $desiredValue)
+                                                ->first()
+                                                ->intake()
+                                                ->first();
+                                        @endphp
+
                                         <option value="{{ $therapist }}"
                                             {{ $selected == $therapist ? 'selected' : '' }}>
                                             {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name? \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name: \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->id }}
+
+                                            ({{ $foundRows }})
                                         </option>
                                     @endforeach
                                 </select>

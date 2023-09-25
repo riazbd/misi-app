@@ -89,6 +89,11 @@ class TicketAppointmentController extends Controller
     {
         $data = $request->all();
 
+        $ticket = Ticket::where('id', $data['select-ticket'])->first();
+        //dd($ticket->suggested_therapists);
+        $sugested_therapists = $ticket->suggested_therapists;
+        $sugested_therapists ? $sugested_therapists : null;
+
         try {
 
             $data_startTime = $data['appointment-time'];
@@ -99,10 +104,11 @@ class TicketAppointmentController extends Controller
             $appointment = new TicketAppointment();
 
             $appointment->ticket_id = $data['select-ticket'];
-            $appointment->fee = $data['select-ticket'];
+            $appointment->fee = $data['appointment-fee'];
             $appointment->status = $data['select-status'];
             $appointment->type = $data['appointment-type'];
 
+            $appointment->suggested_therapists = $sugested_therapists;
             $appointment->therapist_comment = $data['therapist-comment'];
             $appointment->remarks = $data['remarks'];
 

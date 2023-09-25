@@ -42,6 +42,7 @@ class TicketController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Patient ID',
+            'Department',
             'Status',
             'Remarks',
             'Created At',
@@ -84,7 +85,7 @@ class TicketController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '', ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 
@@ -656,8 +657,16 @@ class TicketController extends Controller
         $adresValue = $data['keys']['Adres'];
         $bsn = $data['keys']['BSN'];
         $geboortedatum = $data['keys']['Geboortedatum'];
+        $naam = $data['keys']['Naam'];
+        $madical_history = $data['keys']['Problems'];
         $tel = $data['keys']['Tel'];
+        $insurence = $data['keys']['Verzekeringsnummer'];
+        $zipcity = $data['keys']['Woonplaats'];
         $zd_number = $data['keys']['ZD_number'];
+
+        //dd($naam);
+
+
 
         //dd($adresValue, $bsn, $geboortedatum, $tel, $zd_number);
 
@@ -726,6 +735,9 @@ class TicketController extends Controller
                 $user->user_serial_no = $userSerialNo;
                 //$user->first_name = $data['first-name'];
                 //$user->last_name = $data['last-name'];
+                $user->name = $naam;
+                //dd($naam);
+
                 $user->user_name = $randomString;
 
                 $user->phone = $tel;
@@ -755,8 +767,8 @@ class TicketController extends Controller
 
                 $patient->residential_address = $adresValue;
 
-                //$patient->medical_history = $data['medical-history'];
-                //$patient->insurance_number = $data['insurance-number'];
+                //$patient->medical_history = $madical_history;
+                $patient->insurance_number = $insurence;
                 //$patient->occupation = $data['occupation'];
 
                 // $patient->status = $data['status']; //commented
@@ -764,7 +776,7 @@ class TicketController extends Controller
                 //$patient->alternative_phone = $data['alt-phone-number'];
                 // $patient->emergency_contact = $data['emergency-contact'];
                 //$patient->remarks = $data['remarks'];
-                //$patient->city_or_state = $data['city-state'];
+                $patient->city_or_state = $zipcity;
                 //$patient->area = $data['area'];
                 //$patient->DOB_number = $data['dob-number'];
 

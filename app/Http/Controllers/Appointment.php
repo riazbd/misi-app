@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use App\Models\TicketAppointment;
+use App\Models\Intake;
 
 class Appointment extends Controller
 {
@@ -127,6 +129,30 @@ class Appointment extends Controller
         $patient = $ticket->patient()->first();
 
 
+
+        // $desiredValue = "1";
+
+        // $all_therapist_row_id = TicketAppointment::whereJsonContains('suggested_therapists', $desiredValue)->pluck('id');
+        // dd($all_therapist_row_id);
+
+        // $all_therapist_row_id = array(0 => '1', 1 => '3', 2 => '4', 3 => '5');
+
+        //foreach ($all_therapist_row_id as $x => $val) {
+
+
+        $id = TicketAppointment::whereJsonContains('suggested_therapists', '5')->value('id');
+
+        $appointmentId = $id;
+        $today = now();
+        $next14Days = now()->addDays(14);
+
+        $count = Intake::where('appointment_id', $appointmentId) //
+            ->whereBetween('date', [$today, $next14Days])
+            ->count();
+        //$count += $count;
+        //}
+
+        dd($count);
 
         // dd($patient->user()->first());
 
