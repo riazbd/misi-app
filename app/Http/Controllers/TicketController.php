@@ -639,7 +639,7 @@ class TicketController extends Controller
         Log::info('File path: ' . $pdfFilePath);
 
         // Assuming the Flask server is running on http://127.0.0.1:5000
-        $flaskServerUrl = 'http://127.0.0.1:5000/extract';
+        $flaskServerUrl = env('PYTHON_API_URL', 'http://44.219.8.97:5080') . '/extract';
 
         // dd($flaskServerUrl);
 
