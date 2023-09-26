@@ -330,4 +330,100 @@ class PatientController extends Controller
     {
         //
     }
+
+
+    public function update_from_ticket(Request $request, $id)
+    {
+        $data = $request->all();
+        //dd($request->all());
+
+
+        $filename_path = null;
+        if (isset($data['profile-image']) && $data['profile-image']) {
+            $file = $data['profile-image'];
+
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($name, PATHINFO_FILENAME) . time() . '.' . $extension;
+            $filename_path = request()->file('profile-image')->storeAs('users_image', $filename);
+        }
+
+
+        try {
+            $patient = Patient::where('id', $id)->first();
+            $user = User::where('id', $patient->user_id)->first();
+
+            //$data['profile-image'] = request()->file('profile-image')->store('users_image');
+
+
+
+            // $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            // $serialLength = 8; // Adjust the length as needed
+            // $userSerialNo = 'misi';
+
+            // for ($i = 0; $i < $serialLength; $i++) {
+            //     $randomChar = $characters[rand(0, strlen($characters) - 1)];
+            //     $userSerialNo .= $randomChar;
+            // }
+
+            // while (User::where('user_serial_no', $userSerialNo)->exists()) {
+            //     $userSerialNo = 'misi';
+
+            //     for ($i = 0; $i < $serialLength; $i++) {
+            //         $randomChar = $characters[rand(0, strlen($characters) - 1)];
+            //         $userSerialNo .= $randomChar;
+            //     }
+            // }
+
+            // save user
+            // $user->user_serial_no = $userSerialNo;
+            $user->name = $data['name'];
+            //$user->first_name = $data['first-name'];
+            //$user->last_name = $data['last-name'];
+            $user->user_name = $data['user-name'];
+            $user->phone = $data['phone-number'];
+            $user->email = $data['email'];
+            // $user->password = Hash::make($data['password']);
+            $user->sex = $data['sex'];
+            $user->date_of_birth = $data['dob'];
+
+            $user->profile_image = $filename_path;
+
+            // $user->age = $data['age'];
+            $user->status = $data['status'];
+            $user->marital_status = $data['marital-status'];
+
+            $user->save();
+
+            // save patient
+            $patient->user_id = $user->id;
+            $patient->blood_group = $data['blood-group'];
+            $patient->country = $data['country'];
+            $patient->residential_address = $data['residential-address'];
+            $patient->medical_history = $data['medical-history'];
+            $patient->insurance_number = $data['insurance-number'];
+            $patient->occupation = $data['occupation'];
+            // $patient->status = $data['status'];
+            $patient->alternative_phone = $data['alt-phone-number'];
+            $patient->emergency_contact = $data['emergency-contact'];
+            $patient->remarks = $data['remarks'];
+            $patient->city_or_state = $data['city-state'];
+            $patient->area = $data['area'];
+            //$patient->DOB_number = $data['dob-number'];
+            $patient->BSN_number = $data['bsn-number'];
+            //$patient->file_type = $data['file-type'];
+            // $patient->file = $data[''];
+
+
+            $patient->save();
+
+
+
+            //return response()->json(['message' => 'Data saved successfully']);
+
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+    }
 }

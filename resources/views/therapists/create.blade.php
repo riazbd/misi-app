@@ -193,7 +193,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="area" class="col-5 text-right">Area:</label>
+                            <label for="area" class="col-5 text-right">ZIP Code:</label>
                             <div class="col-7"><input type="text" class="form-control form-control-sm"
                                     id="area" name="area"></div>
                         </div>
