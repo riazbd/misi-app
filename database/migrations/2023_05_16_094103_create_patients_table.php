@@ -20,7 +20,7 @@ class CreatePatientsTable extends Migration
             $table->string('blood_group')->nullable();
             $table->string('country')->nullable();
             $table->string('residential_address')->nullable();
-            $table->string('medical_history')->nullable();
+            $table->longText('medical_history')->nullable();
             $table->string('insurance_number')->nullable();
             $table->string('occupation')->nullable();
             // $table->string('status');

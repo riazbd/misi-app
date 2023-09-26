@@ -140,18 +140,23 @@
                                     <option value="">Select Therapist</option>
                                     @foreach ($suggested_array as $therapist)
                                         @php
-                                            $desiredValue = $therapist;
-                                            $foundRows = \App\Models\TicketAppointment::whereJsonContains('suggested_therapists', $desiredValue)
-                                                ->first()
-                                                ->intake()
-                                                ->first();
+                                            
+                                            $therapistId = $therapist;
+                                            $matchingRows = \App\Models\TicketAppointment::where('assigned_therapists', $therapistId)->pluck('id');
+                                            $startDate = \Carbon\Carbon::now();
+                                            $endDate = $startDate->copy()->addDays(14);
+                                            $totalIntake = \Illuminate\Support\Facades\DB::table('intakes')
+                                                ->whereIn('appointment_id', $matchingRows)
+                                                ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+                                                ->count();
+                                            
                                         @endphp
 
                                         <option value="{{ $therapist }}"
                                             {{ $selected == $therapist ? 'selected' : '' }}>
                                             {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name? \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name: \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->id }}
 
-                                            ({{ $foundRows }})
+                                            ({{ $totalIntake }})
                                         </option>
                                     @endforeach
                                 </select>

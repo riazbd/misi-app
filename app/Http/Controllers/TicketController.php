@@ -20,6 +20,7 @@ use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use PragmaRX\Countries\Package\Countries;
 
 
 class TicketController extends Controller
@@ -274,9 +275,12 @@ class TicketController extends Controller
         $patient = $ticket->patient()->first();
         $patients = Patient::all();
 
+
+        $countries = Countries::all();
+
         $attachments = $ticket->attachments;
 
-        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments'));
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments', 'countries'));
     }
 
     /**
@@ -615,6 +619,12 @@ class TicketController extends Controller
         return view('tickets.createFromReferral');
     }
 
+
+
+
+
+
+
     public function createTicketFromReferral(Request $request)
     {
         $request->validate([
@@ -661,10 +671,24 @@ class TicketController extends Controller
         $madical_history = $data['keys']['Problems'];
         $tel = $data['keys']['Tel'];
         $insurence = $data['keys']['Verzekeringsnummer'];
+
         $zipcity = $data['keys']['Woonplaats'];
+
         $zd_number = $data['keys']['ZD_number'];
 
-        //dd($naam);
+        $combinedProblems = implode("\n", $madical_history); // Combine with line breaks
+
+        //$inputString = "3014SH Rotterdam";
+        //$zipcity = "3014SH Rotterdam";
+        $zipcity = trim($zipcity);
+        $parts = explode(' ', $zipcity);
+        if ($parts > 1) {
+            $zip = $parts[0];
+            $city = $parts[1];
+        } elseif ($parts < 2) {
+            $zip = $parts[0];
+        }
+        //dd($city);
 
 
 
@@ -767,7 +791,7 @@ class TicketController extends Controller
 
                 $patient->residential_address = $adresValue;
 
-                //$patient->medical_history = $madical_history;
+                $patient->medical_history = $combinedProblems;
                 $patient->insurance_number = $insurence;
                 //$patient->occupation = $data['occupation'];
 
@@ -776,8 +800,8 @@ class TicketController extends Controller
                 //$patient->alternative_phone = $data['alt-phone-number'];
                 // $patient->emergency_contact = $data['emergency-contact'];
                 //$patient->remarks = $data['remarks'];
-                $patient->city_or_state = $zipcity;
-                //$patient->area = $data['area'];
+                $patient->city_or_state = $city;
+                $patient->area = $zip;
                 //$patient->DOB_number = $data['dob-number'];
 
                 $patient->BSN_number = $bsn;

@@ -91,8 +91,8 @@ class TicketAppointmentController extends Controller
 
         $ticket = Ticket::where('id', $data['select-ticket'])->first();
         //dd($ticket->suggested_therapists);
-        $sugested_therapists = $ticket->suggested_therapists;
-        $sugested_therapists ? $sugested_therapists : null;
+        $assigned_therapists = $ticket->assigned_therapist;
+        $assigned_therapists ? $assigned_therapists : null;
 
         try {
 
@@ -108,7 +108,7 @@ class TicketAppointmentController extends Controller
             $appointment->status = $data['select-status'];
             $appointment->type = $data['appointment-type'];
 
-            $appointment->suggested_therapists = $sugested_therapists;
+            $appointment->assigned_therapists = $assigned_therapists;
             $appointment->therapist_comment = $data['therapist-comment'];
             $appointment->remarks = $data['remarks'];
 

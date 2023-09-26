@@ -13,6 +13,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
 use App\Models\TicketAppointment;
 use App\Models\Intake;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Appointment extends Controller
 {
@@ -128,33 +130,20 @@ class Appointment extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
 
+        // count appointment
+
+        // $therapistId = 3; // The value you want to search for
+        // $matchingRows = TicketAppointment::where('assigned_therapists', $therapistId)->pluck('id');
+        // $startDate = Carbon::now();
+        // $endDate = $startDate->copy()->addDays(14);
+        // $totalIntake = DB::table('intakes')
+        //     ->whereIn('appointment_id', $matchingRows)
+        //     ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+        //     ->count();
+
+        // dd($totalIntake);
 
 
-        // $desiredValue = "1";
-
-        // $all_therapist_row_id = TicketAppointment::whereJsonContains('suggested_therapists', $desiredValue)->pluck('id');
-        // dd($all_therapist_row_id);
-
-        // $all_therapist_row_id = array(0 => '1', 1 => '3', 2 => '4', 3 => '5');
-
-        //foreach ($all_therapist_row_id as $x => $val) {
-
-
-        $id = TicketAppointment::whereJsonContains('suggested_therapists', '5')->value('id');
-
-        $appointmentId = $id;
-        $today = now();
-        $next14Days = now()->addDays(14);
-
-        $count = Intake::where('appointment_id', $appointmentId) //
-            ->whereBetween('date', [$today, $next14Days])
-            ->count();
-        //$count += $count;
-        //}
-
-        dd($count);
-
-        // dd($patient->user()->first());
 
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
@@ -183,6 +172,8 @@ class Appointment extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+
+        //dd($data);
 
         try {
             $ticket = Ticket::where('id', $id)->first();
@@ -253,10 +244,12 @@ class Appointment extends Controller
             $ticket->call_strike = $data['call-strike'];
             $ticket->remarks = $data['remarks'];
             $ticket->comment = $data['comments'];
-            // if (array_key_exists('suggest-therapists', $data)) {
-            //     $suggestedTherapists = $data['suggest-therapists'];
-            //     $ticket->suggested_therapists = $suggestedTherapists;
-            // }
+
+            if (array_key_exists('suggest-therapists', $data)) {
+                $suggestedTherapists = $data['suggest-therapists'];
+                $ticket->suggested_therapists = $suggestedTherapists;
+            }
+
             $ticket->assigned_therapist = $data['assign-therapist'];
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];

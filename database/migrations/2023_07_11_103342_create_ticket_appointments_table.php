@@ -19,7 +19,7 @@ class CreateTicketAppointmentsTable extends Migration
             $table->string('fee');
             $table->string('status');
             $table->string('type');
-            $table->string('suggested_therapists')->nullable();
+            $table->string('assigned_therapists')->nullable();
             $table->longText('therapist_comment');
             $table->string('remarks');
             $table->timestamps();
