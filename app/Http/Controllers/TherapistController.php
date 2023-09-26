@@ -26,8 +26,7 @@ class TherapistController extends Controller
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
-            'First Name',
-            'Last Name',
+            'Name',
             'Type',
             'Status',
             // ['label' => 'Phone', 'width' => 40],
@@ -64,7 +63,7 @@ class TherapistController extends Controller
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('therapists.show', ['therapist' => $therapist->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a></nobr>', $therapist->id, $therapist->user()->first()->first_name, $therapist->user()->first()->last_name, $therapist->therapist_type, $therapist->user()->first()->status, $therapist->user()->first()->email, $therapist->user()->first()->phone, $therapist->alternative_phone, $therapist->emergency_contact, $therapist->user()->first()->sex, $therapist->user()->first()->date_of_birth, $therapist->user()->first()->marital_status, $therapist->therapist_source, $therapist->blood_group, $therapist->country, $therapist->residential_address, $therapist->insurance_number, $therapist->city_or_state, $therapist->area, $therapist->DOB_number, $therapist->BSN_number, $therapist->remarks);
+                    </a></nobr>', $therapist->id, $therapist->user()->first()->name, $therapist->therapist_type, $therapist->user()->first()->status, $therapist->user()->first()->email, $therapist->user()->first()->phone, $therapist->alternative_phone, $therapist->emergency_contact, $therapist->user()->first()->sex, $therapist->user()->first()->date_of_birth, $therapist->user()->first()->marital_status, $therapist->therapist_source, $therapist->blood_group, $therapist->country, $therapist->residential_address, $therapist->insurance_number, $therapist->city_or_state, $therapist->area, $therapist->DOB_number, $therapist->BSN_number, $therapist->remarks);
             array_push($data, $items);
         }
 

@@ -1,34 +1,40 @@
 <!-- Modal -->
+
 <div class="modal fade" id="patient-view-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">{{ $patient->user()->first()->first_name }}
-                    {{ $patient->user()->first()->last_name }}</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">{{ $patient->user()->first()->name }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('update-from-ticket', ['id' => $patient->id]) }}"
+                    id="update-patient-form">
+                    @csrf
+
                     <div class="row justify-content-between">
                         <div class="col-md-6 justify-content-end">
 
                             <div class="form-group row">
-                                <label for="first-name" class="col-5 text-right">First Name:</label>
+                                <label for="name" class="col-5 text-right">Name:</label>
                                 <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" id="first-name"
-                                        name="first-name" value="{{ $patient->user()->first()->first_name }}">
+                                    <input type="text" class="form-control form-control-sm" id="name"
+                                        name="name" value="{{ $patient->user()->first()->name }}">
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="last-name" class="col-5 text-right">Last Name:</label>
-                                <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" id="last-name"
-                                        name="last-name" value="{{ $patient->user()->first()->last_name }}">
+                                <label for="user-name" class="col-5 text-right">User Name:</label>
+                                <div class="col-7"><input type="text" class="form-control form-control-sm"
+                                        id="user-name" name="user-name"
+                                        value="{{ $patient->user()->first()->user_name }}">
                                 </div>
                             </div>
+
+
                             <div class="form-group row">
                                 <label for="phone-number" class="col-5 text-right">Phone Number:</label>
                                 <div class="col-7">
@@ -186,7 +192,15 @@
                                                 {{ $patient->country === $country['name_en'] ? 'selected' : '' }}>
                                                 {{ $country['name_en'] }}</option>
                                         @endforeach --}}
-                                        <option value="{{ $patient->country }}">{{ $patient->country }}</option>
+                                        {{-- <option value="{{ $patient->country }}">{{ $patient->country }}</option> --}}
+
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country['name_en'] }}"
+                                                {{ $patient->country === $country['name_en'] ? 'selected' : '' }}>
+                                                {{ $country['name_en'] }}</option>
+                                        @endforeach
+
+
                                     </select>
                                 </div>
                             </div>
@@ -217,7 +231,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="area" class="col-5 text-right">Area:</label>
+                                <label for="area" class="col-5 text-right">ZIP Code:</label>
                                 <div class="col-7">
                                     <input type="text" class="form-control form-control-sm" id="area"
                                         name="area" value="{{ $patient->area }}">
@@ -279,7 +293,7 @@
 
                         </div>
                     </div>
-                    {{-- <button type="submit" class="btn btn-primary">Save</button> --}}
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
 

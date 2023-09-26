@@ -280,11 +280,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="file" class="col-5 text-right">File:</label>
-                        <div class="col-7"><input type="file" class="form-control-file form-control-file-sm"
-                                id="file"></div>
-                    </div>
+
                 </div>
             </div>
             {{-- <button type="submit" class="btn btn-primary">Save</button> --}}

@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use App\Models\TicketAppointment;
+use App\Models\Intake;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Appointment extends Controller
 {
@@ -126,9 +130,20 @@ class Appointment extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
 
+        // count appointment
+
+        // $therapistId = 3; // The value you want to search for
+        // $matchingRows = TicketAppointment::where('assigned_therapists', $therapistId)->pluck('id');
+        // $startDate = Carbon::now();
+        // $endDate = $startDate->copy()->addDays(14);
+        // $totalIntake = DB::table('intakes')
+        //     ->whereIn('appointment_id', $matchingRows)
+        //     ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+        //     ->count();
+
+        // dd($totalIntake);
 
 
-        // dd($patient->user()->first());
 
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
@@ -157,6 +172,8 @@ class Appointment extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+
+        //dd($data);
 
         try {
             $ticket = Ticket::where('id', $id)->first();
@@ -227,21 +244,25 @@ class Appointment extends Controller
             $ticket->call_strike = $data['call-strike'];
             $ticket->remarks = $data['remarks'];
             $ticket->comment = $data['comments'];
-            // if (array_key_exists('suggest-therapists', $data)) {
-            //     $suggestedTherapists = $data['suggest-therapists'];
-            //     $ticket->suggested_therapists = $suggestedTherapists;
-            // }
+
+            if (array_key_exists('suggest-therapists', $data)) {
+                $suggestedTherapists = $data['suggest-therapists'];
+                $ticket->suggested_therapists = $suggestedTherapists;
+            }
+
             $ticket->assigned_therapist = $data['assign-therapist'];
             $ticket->language = $data['language-treatment'];
             // $ticket->files = $data[''];
 
-            $history = new TicketHistory();
-
-            $history->ticket_id = $id;
-            $history->comment = $data['comments'];
-
             $ticket->save();
-            $history->save();
+            if ($data['comments'] != null) {
+                $history = new TicketHistory();
+
+                $history->ticket_id = $id;
+                $history->comment = $data['comments'];
+
+                $history->save();
+            }
 
             // $ticket->save();
 

@@ -102,4 +102,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/ticket-create-from-referral', 'App\Http\Controllers\TicketController@getReferral')->name('ticket-create-from-referral');
     Route::post('/create-ticket-from-referral', [TicketController::class, 'createTicketFromReferral'])->name('ticket-referral');
+
+    Route::post('/patient-update-from-ticket/{id}', [PatientController::class, 'update_from_ticket'])->name('update-from-ticket');
 });

@@ -139,9 +139,24 @@
                                     @endphp
                                     <option value="">Select Therapist</option>
                                     @foreach ($suggested_array as $therapist)
+                                        @php
+                                            
+                                            $therapistId = $therapist;
+                                            $matchingRows = \App\Models\TicketAppointment::where('assigned_therapists', $therapistId)->pluck('id');
+                                            $startDate = \Carbon\Carbon::now();
+                                            $endDate = $startDate->copy()->addDays(14);
+                                            $totalIntake = \Illuminate\Support\Facades\DB::table('intakes')
+                                                ->whereIn('appointment_id', $matchingRows)
+                                                ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
+                                                ->count();
+                                            
+                                        @endphp
+
                                         <option value="{{ $therapist }}"
                                             {{ $selected == $therapist ? 'selected' : '' }}>
                                             {{ \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name? \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->name: \App\Models\Therapist::where('id', $therapist)->first()->user()->first()->id }}
+
+                                            ({{ $totalIntake }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -391,16 +406,16 @@
                                 <select class="form-control form-control-sm" id="select-status" name="select-status">
                                     <option value="">Select Status</option>
                                     <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }} disabled>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         Open</option>
                                     <option value="onhold" {{ $ticket->status == 'onhold' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         On hold</option>
                                     <option value="in_progress" {{ $ticket->status == 'in_progress' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         In progess</option>
                                     <option value="finished" {{ $ticket->status == 'finished' ? 'selected' : '' }}>
-                                        {{ $ticket->department_id != null ?? ucfirst(Spatie\Permission\Models\Role::where('id', $ticket->department_id)->first()->name) }}
+
                                         Finished</option>
                                     {{-- <option value="work_finished"
                                         {{ $ticket->call_strike == 'work_finished' ? 'selected' : '' }} disabled>

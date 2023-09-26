@@ -20,6 +20,7 @@ use PhpParser\Node\Expr\Print_;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use PragmaRX\Countries\Package\Countries;
 
 
 class TicketController extends Controller
@@ -42,6 +43,7 @@ class TicketController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Patient ID',
+            'Department',
             'Status',
             'Remarks',
             'Created At',
@@ -84,7 +86,7 @@ class TicketController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('tickets.show', ['ticket' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->status != 'cancelled' && $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) . " " . ucfirst($ticket->status) : ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
+                    ' . $ticket->id . '</a>', $ticket->patient()->first()->id, $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '', ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 
@@ -273,9 +275,12 @@ class TicketController extends Controller
         $patient = $ticket->patient()->first();
         $patients = Patient::all();
 
+
+        $countries = Countries::all();
+
         $attachments = $ticket->attachments;
 
-        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments'));
+        return view('tickets.show', compact('patients', 'matchingRoles', 'ticket', 'patient', 'attachments', 'countries'));
     }
 
     /**
@@ -329,7 +334,9 @@ class TicketController extends Controller
             }
 
 
-            $ticket->department_id = $data['select-department'];
+            if ($data['location'] != null &&  $data['honos'] != null) {
+                $ticket->department_id = $data['select-department'];
+            }
 
             if ($ticket->department_id != null && $data['assign-to'] != '') {
                 $ticket->assigned_staff = $data['assign-to'];
@@ -612,6 +619,12 @@ class TicketController extends Controller
         return view('tickets.createFromReferral');
     }
 
+
+
+
+
+
+
     public function createTicketFromReferral(Request $request)
     {
         $request->validate([
@@ -626,7 +639,7 @@ class TicketController extends Controller
         Log::info('File path: ' . $pdfFilePath);
 
         // Assuming the Flask server is running on http://127.0.0.1:5000
-        $flaskServerUrl = 'http://127.0.0.1:5000/extract';
+        $flaskServerUrl = env('PYTHON_API_URL', 'http://44.219.8.97:5080') . '/extract';
 
         // dd($flaskServerUrl);
 
@@ -654,8 +667,30 @@ class TicketController extends Controller
         $adresValue = $data['keys']['Adres'];
         $bsn = $data['keys']['BSN'];
         $geboortedatum = $data['keys']['Geboortedatum'];
+        $naam = $data['keys']['Naam'];
+        $madical_history = $data['keys']['Problems'];
         $tel = $data['keys']['Tel'];
+        $insurence = $data['keys']['Verzekeringsnummer'];
+
+        $zipcity = $data['keys']['Woonplaats'];
+
         $zd_number = $data['keys']['ZD_number'];
+
+        $combinedProblems = implode("\n", $madical_history); // Combine with line breaks
+
+        //$inputString = "3014SH Rotterdam";
+        //$zipcity = "3014SH Rotterdam";
+        $zipcity = trim($zipcity);
+        $parts = explode(' ', $zipcity);
+        if ($parts > 1) {
+            $zip = $parts[0];
+            $city = $parts[1];
+        } elseif ($parts < 2) {
+            $zip = $parts[0];
+        }
+        //dd($city);
+
+
 
         //dd($adresValue, $bsn, $geboortedatum, $tel, $zd_number);
 
@@ -724,6 +759,9 @@ class TicketController extends Controller
                 $user->user_serial_no = $userSerialNo;
                 //$user->first_name = $data['first-name'];
                 //$user->last_name = $data['last-name'];
+                $user->name = $naam;
+                //dd($naam);
+
                 $user->user_name = $randomString;
 
                 $user->phone = $tel;
@@ -753,8 +791,8 @@ class TicketController extends Controller
 
                 $patient->residential_address = $adresValue;
 
-                //$patient->medical_history = $data['medical-history'];
-                //$patient->insurance_number = $data['insurance-number'];
+                $patient->medical_history = $combinedProblems;
+                $patient->insurance_number = $insurence;
                 //$patient->occupation = $data['occupation'];
 
                 // $patient->status = $data['status']; //commented
@@ -762,8 +800,8 @@ class TicketController extends Controller
                 //$patient->alternative_phone = $data['alt-phone-number'];
                 // $patient->emergency_contact = $data['emergency-contact'];
                 //$patient->remarks = $data['remarks'];
-                //$patient->city_or_state = $data['city-state'];
-                //$patient->area = $data['area'];
+                $patient->city_or_state = $city;
+                $patient->area = $zip;
                 //$patient->DOB_number = $data['dob-number'];
 
                 $patient->BSN_number = $bsn;
