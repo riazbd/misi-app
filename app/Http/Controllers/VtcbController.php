@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 class VtcbController extends Controller
 {
@@ -140,7 +141,8 @@ class VtcbController extends Controller
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
         $attachments = $ticket->attachments;
-        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'mailTypes', 'attachments'));
+        $countries = Countries::all();
+        return view('vtcb.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'mailTypes', 'attachments', 'countries'));
     }
 
     /**
