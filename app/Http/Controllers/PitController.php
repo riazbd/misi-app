@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 class PitController extends Controller
 {
@@ -139,7 +140,9 @@ class PitController extends Controller
 
         $attachments = $ticket->attachments;
 
-        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments'));
+        $countries = Countries::all();
+
+        return view('pit.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments', 'countries'));
     }
 
     /**

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 class NoApprovalController extends Controller
 {
@@ -133,8 +134,9 @@ class NoApprovalController extends Controller
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
 
         $attachments = $ticket->attachments;
+        $countries = Countries::all();
 
-        return view('noapproval.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments'));
+        return view('noapproval.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments', 'countries'));
     }
 
     /**

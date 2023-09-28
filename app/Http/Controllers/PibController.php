@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 
 class PibController extends Controller
@@ -133,12 +134,14 @@ class PibController extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
 
+        $countries = Countries::all();
+
 
 
 
         $attachments = $ticket->attachments;
 
-        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments'));
+        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries'));
     }
 
     /**

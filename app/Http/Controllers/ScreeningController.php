@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 class ScreeningController extends Controller
 {
@@ -136,8 +137,9 @@ class ScreeningController extends Controller
         $screening = $id;
 
         $attachments = $ticket->attachments;
+        $countries = Countries::all();
 
-        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'attachments'));
+        return view('screener.show', compact('patients', 'matchingRoles', 'screening', 'ticket', 'patient', 'attachments', 'countries'));
     }
 
     /**

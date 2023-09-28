@@ -15,6 +15,7 @@ use App\Models\TicketAppointment;
 use App\Models\Intake;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use PragmaRX\Countries\Package\Countries;
 
 class Appointment extends Controller
 {
@@ -148,7 +149,9 @@ class Appointment extends Controller
         $emailTemplates = EmailTemplate::all();
         $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
         $attachments = $ticket->attachments;
-        return view('appointment.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments'));
+        $countries = Countries::all();
+
+        return view('appointment.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'mailTypes', 'attachments', 'countries'));
     }
 
     /**

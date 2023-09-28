@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
+use PragmaRX\Countries\Package\Countries;
 
 class HeranmeldingController extends Controller
 {
@@ -131,7 +132,9 @@ class HeranmeldingController extends Controller
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
         $attachments = $ticket->attachments;
-        return view('heranmelding.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments'));
+
+        $countries = Countries::all();
+        return view('heranmelding.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries'));
     }
 
     /**
