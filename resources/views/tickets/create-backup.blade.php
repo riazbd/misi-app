@@ -340,7 +340,9 @@
             const thumbnailContainer = document.getElementById("thumbnailContainer");
             const showFileInputButton = document.getElementById("showFileInput");
 
+            // Add click event listener to the "Upload File" button
             showFileInputButton.addEventListener("click", function() {
+                // Trigger the file input when the button is clicked
                 fileInput.click();
             });
 
@@ -348,38 +350,96 @@
                 const selectedFiles = fileInput.files;
 
                 if (selectedFiles.length > 0) {
-                    thumbnailContainer.innerHTML = "";
+                    thumbnailContainer.innerHTML = ""; // Clear previous thumbnails
 
+                    // Loop through selected files
                     for (let i = 0; i < selectedFiles.length; i++) {
-                        const fileName = selectedFiles[i].name; // Get file name
+                        const fileType = selectedFiles[i].type;
 
+                        // Create a container for each thumbnail and button
                         const thumbnailWrapper = document.createElement("div");
                         thumbnailWrapper.className = "thumbnail-wrapper";
 
+                        // Create a thumbnail element
                         const thumbnail = document.createElement("div");
                         thumbnail.className = "thumbnail";
 
-                        const fileNameElement = document.createElement("span");
-                        fileNameElement.textContent = fileName; // Display file name
+                        if (fileType.startsWith("image/")) {
+                            // Display image thumbnails
+                            const imgThumbnail = document.createElement("img");
+                            imgThumbnail.src = URL.createObjectURL(selectedFiles[i]);
+                            thumbnail.appendChild(imgThumbnail);
+                        } else if (fileType === "application/pdf") {
+                            // Display PDF thumbnails using PDF.js
+                            const pdfThumbnail = document.createElement("canvas");
+                            thumbnail.appendChild(pdfThumbnail);
 
-                        const removeIcon = document.createElement("span");
-                        removeIcon.innerHTML = "&#10006;"; // Cross symbol (✖)
-                        removeIcon.className = "remove-icon";
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                const pdfData = new Uint8Array(event.target.result);
+                                renderPdfThumbnail(pdfThumbnail, pdfData);
+                            };
+                            reader.readAsArrayBuffer(selectedFiles[i]);
+                        } else {
+                            // Handle other file types (e.g., documents) here
+                            const unsupportedThumbnail = document.createElement("div");
+                            unsupportedThumbnail.textContent =
+                                "Thumbnail not available for this file type.";
+                            thumbnail.appendChild(unsupportedThumbnail);
+                        }
 
-                        removeIcon.addEventListener("click", function() {
+                        // Create a remove button for each thumbnail
+                        const removeButton = document.createElement("button");
+                        removeButton.textContent = "Remove";
+                        removeButton.className = "remove-button";
+
+                        // Attach a click event listener to the remove button
+                        removeButton.addEventListener("click", function() {
                             thumbnailContainer.removeChild(thumbnailWrapper);
                         });
 
-                        thumbnail.appendChild(fileNameElement);
-                        thumbnail.appendChild(removeIcon);
-
+                        // Append the thumbnail and button to the container
                         thumbnailWrapper.appendChild(thumbnail);
+                        thumbnailWrapper.appendChild(removeButton);
+
+                        // Append the container to the main thumbnail container
                         thumbnailContainer.appendChild(thumbnailWrapper);
                     }
                 } else {
+                    // Hide the thumbnail container if no file is selected
                     thumbnailContainer.innerHTML = "";
                 }
             });
+
+            function renderPdfThumbnail(canvas, pdfData) {
+                pdfjsLib
+                    .getDocument({
+                        data: pdfData
+                    })
+                    .promise.then(function(pdfDocument) {
+                        pdfDocument.getPage(1).then(function(page) {
+                            const viewport = page.getViewport({
+                                scale: 0.5
+                            });
+                            const context = canvas.getContext("2d");
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport,
+                            };
+
+                            page.render(renderContext).promise.then(function() {
+                                // PDF thumbnail rendered successfully
+                            });
+                        });
+                    })
+                    .catch(function(error) {
+                        // Handle errors
+                        console.error("Error loading PDF:", error);
+                    });
+            }
         });
     </script>
 @stop

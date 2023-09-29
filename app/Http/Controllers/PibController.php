@@ -36,6 +36,7 @@ class PibController extends Controller
             'ID',
             'Assigned To',
             'Patient ID',
+            'Department',
             'Status',
             'Strike',
             'Remarks',
@@ -75,15 +76,44 @@ class PibController extends Controller
             }
             $items = [];
 
-            array_push($items, '<nobr>
+            array_push(
+                $items,
+                '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pib.destroy', ['pib' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a><button class="btn btn-xs btn-default text-grey mx-1 shadow pib-form-open" data-toggle="tooltip" data-placement="top" title="Open PiB form" data-ticket-id="' . $ticket->id . '" data-form-type="' . 1 . '">
                     <i class="fa fa-lg fa-fw fa-pager"></i>
-                </button></nobr>', '</a><a class="text-info mx-1" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, ucfirst($ticket->status), $ticket->call_strike, $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
+                </button></nobr>',
+                '</a><a class="text-info mx-1" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
+                    ' . $ticket->id . '</a>',
+                $assigned,
+                $ticket->patient()->first()->id,
+                $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '',
+                ucfirst($ticket->status),
+                $ticket->call_strike,
+                $ticket->remarks,
+                Carbon::parse($ticket->created_at)->format('d F, Y'),
+                Carbon::parse($ticket->updated_at)->format('d F, Y'),
+                $ticket->mono_multi_zd,
+                $ticket->mono_multi_screening,
+                $ticket->intake_or_therapist,
+                $ticket->tresonit_number,
+                $ticket->datum_intake,
+                $ticket->datum_intake_2,
+                $ticket->nd_account,
+                $ticket->avc_alfmvm_sbg,
+                $ticket->honos,
+                $ticket->berha_intake,
+                $ticket->rom_start,
+                $ticket->rom_end,
+                $ticket->berha_end,
+                $ticket->vtcb_date,
+                $ticket->closure,
+                $ticket->aanm_intake_1,
+                $ticket->location,
+            );
             array_push($data, $items);
         }
 
