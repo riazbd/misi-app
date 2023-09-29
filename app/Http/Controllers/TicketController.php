@@ -270,7 +270,11 @@ class TicketController extends Controller
         // dd($attachment);
 
         $roles = ['screener', 'pib', 'pit', 'heranmelding', 'appointment'];
+        // dd($roles);
         $matchingRoles = Role::whereIn('name', $roles)->get();
+
+        //dd($matchingRoles);
+
         $ticket = Ticket::where('id', $id)->first();
         $patient = $ticket->patient()->first();
         $patients = Patient::all();

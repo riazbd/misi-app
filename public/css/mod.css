@@ -389,9 +389,9 @@ div.dataTables_wrapper div.dataTables_filter {
     display: flex;
     flex-direction: row;
     /* Thumbnails displayed from left to right */
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     /* Prevent wrapping of thumbnails */
-    overflow-x: auto;
+    /* overflow-x: auto; */
     /* Enable horizontal scrolling if thumbnails overflow */
     /* Adjust these properties to control the spacing between thumbnails */
     gap: 10px;
@@ -405,7 +405,7 @@ div.dataTables_wrapper div.dataTables_filter {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
 }
 
 .thumbnail {
@@ -478,6 +478,49 @@ div.dataTables_wrapper div.dataTables_filter {
     margin-left: 30px;
 }
 
+.content-container {
+    margin-top: 10px;
+}
+
+
+.thumbnail-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* overflow-x: auto; */
+    gap: 10px;
+    margin-left: 7px;
+    margin-bottom: 10px;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 0px 5px;
+    margin-left: 15px;
+}
+
+.thumbnail span {
+    margin-left: 10px;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+.thumbnail .remove-icon {
+    cursor: pointer;
+    font-size: 18px;
+    /* color: red; */
+    margin-left: auto;
+}
+
 
 
 
@@ -545,10 +588,12 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
 .pdf-input-field label {
-    font-size: 18px !important;
-    text-transform: uppercase;
+    font-size: 22px !important;
+    text-transform: capitalize;
     font-weight: 600 !important;
     margin-bottom: 23px;
+    display: block;
+    text-align: center;
 }
 
 #formFile::file-selector-button {
@@ -587,4 +632,14 @@ div.dataTables_wrapper div.dataTables_filter {
 .ticket_history_card {
     margin-left: 210px;
     /* padding: 50px; */
+}
+
+
+
+
+
+
+
+.input-container button {
+    width: 100%;
 }

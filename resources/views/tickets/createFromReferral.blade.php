@@ -29,10 +29,11 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="pdf-input-field">
-                            <label for="formFile" class="form-label">Upload Letter </label>
+                            <label for="formFile" class="form-label">Upload Referral Letter </label>
                             <input class="form-control" type="file" id="formFile" name="referral_file" accept=".pdf">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm mt-10">Save</button>
+                        <button type="submit" class="btn btn-primary btn-sm mt-10 refferel-submit-button ">Create
+                            Ticket</button>
                     </form>
                 </div>
 

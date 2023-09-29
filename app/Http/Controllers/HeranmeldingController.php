@@ -35,6 +35,7 @@ class HeranmeldingController extends Controller
             'ID',
             'Assigned To',
             'Patient ID',
+            'Department',
             'Status',
             'Remarks',
             'Created At',
@@ -80,7 +81,7 @@ class HeranmeldingController extends Controller
                     </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
-                    ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
+                    ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '', ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);
             array_push($data, $items);
         }
 

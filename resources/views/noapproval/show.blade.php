@@ -24,7 +24,7 @@
 
         </div>
     </div>
-    <div class="p-5">
+    <div class="content-container">
         {{-- <h1 class="text-align-center">Ticket Information</h1> --}}
 
         <div class="">
@@ -40,44 +40,32 @@
                             <!-- Allow image and PDF files -->
                             <div id="thumbnailContainer" class="thumbnail-container">
                                 <?php
-
-                                //dd($attachments);
                                 foreach ($attachments as $attachment) {
-                                $file_type = substr($attachment['attatchment'],-4);
-                                    if($file_type == ".png"){
-                                        $edit_file_name = substr($attachment['attatchment'],19)
+                                        $edit_file_name = substr($attachment['attatchment'],19);
+                                        $file_name_part= explode(".",$edit_file_name);
+                                        $name= $file_name_part[0];
+                                        $extension = $file_name_part[1];
+                                        $name_without_timedigit = substr($name,0,-10);
+                                        $file_name = $name_without_timedigit ."." . $extension;
                                         ?>
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
-                                        <img src="{{ asset('storage/' . $attachment['attatchment']) }}" width="100"
-                                            height="100" alt="Image Preview">
+                                        <span>{{ $file_name }}</span>
+                                        <a class="remove-icon download-attachment"
+                                            href="{{ asset('storage/' . $attachment['attatchment']) }}"
+                                            target="_blank">&#128065;
+                                        </a>
+                                        <a class="remove-icon download-attachment"
+                                            href="{{ asset('storage/' . $attachment['attatchment']) }}" download><i
+                                                class="fas fa-fw fa-cloud-download-alt  ">
+                                            </i>
+                                        </a>
+                                        <a class="remove-icon delet-attachment" data-id="{{ $attachment->id }}">&#10006</a>
                                     </div>
-                                    <p class="attatchment_name">{{ $edit_file_name }}</p>
-                                    <a href="" class=" btn btn-danger btn-sm delete_product"
-                                        data-id="{{ $attachment->id }}">Delete</a>
                                 </div>
-
                                 <?php
-                                    }else{
-                                        $edit_file_name = substr($attachment['attatchment'],19)
+                                }
                                 ?>
-                                <div class="thumbnail-wrapper">
-                                    <div class="thumbnail">
-                                        <img src="{{ asset('images/default_pdf_logo.png') }}" width="100" height="100"
-                                            alt="Image Preview">
-
-                                    </div>
-                                    <p class="attatchment_name">{{ $edit_file_name }}</p>
-                                    <a href="" class=" btn btn-danger btn-sm delete_product"
-                                        data-id="{{ $attachment->id }}">Delete</a>
-                                </div>
-
-                                <?php
-                                    }
-                                    ?>
-
-                                <?php
-                                } ?>
 
                             </div>
                         </div>
@@ -650,138 +638,76 @@
             const thumbnailContainer = document.getElementById("thumbnailContainer");
             const showFileInputButton = document.getElementById("showFileInput");
 
-            // Add click event listener to the "Upload File" button
             showFileInputButton.addEventListener("click", function() {
-                // Trigger the file input when the button is clicked
                 fileInput.click();
-            });
 
+            });
+            //console.log("hello");
             fileInput.addEventListener("change", function() {
                 const selectedFiles = fileInput.files;
 
                 if (selectedFiles.length > 0) {
-                    //thumbnailContainer.innerHTML = ""; // Clear previous thumbnails
+                    thumbnailContainer.innerHTML = "";
 
-                    // Loop through selected files
+
                     for (let i = 0; i < selectedFiles.length; i++) {
-                        const fileType = selectedFiles[i].type;
+                        const fileName = selectedFiles[i].name; // Get file name
 
-                        // Create a container for each thumbnail and button
                         const thumbnailWrapper = document.createElement("div");
                         thumbnailWrapper.className = "thumbnail-wrapper";
 
-                        // Create a thumbnail element
                         const thumbnail = document.createElement("div");
                         thumbnail.className = "thumbnail";
 
-                        if (fileType.startsWith("image/")) {
-                            // Display image thumbnails
-                            const imgThumbnail = document.createElement("img");
-                            imgThumbnail.src = URL.createObjectURL(selectedFiles[i]);
-                            thumbnail.appendChild(imgThumbnail);
-                        } else if (fileType === "application/pdf") {
-                            // Display PDF thumbnails using PDF.js
-                            const pdfThumbnail = document.createElement("canvas");
-                            thumbnail.appendChild(pdfThumbnail);
+                        const fileNameElement = document.createElement("span");
+                        fileNameElement.textContent = fileName; // Display file name
 
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                const pdfData = new Uint8Array(event.target.result);
-                                renderPdfThumbnail(pdfThumbnail, pdfData);
-                            };
-                            reader.readAsArrayBuffer(selectedFiles[i]);
-                        } else {
-                            // Handle other file types (e.g., documents) here
-                            const unsupportedThumbnail = document.createElement("div");
-                            unsupportedThumbnail.textContent =
-                                "Thumbnail not available for this file type.";
-                            thumbnail.appendChild(unsupportedThumbnail);
-                        }
+                        const removeIcon = document.createElement("span");
+                        removeIcon.innerHTML = "&#10006;"; // Cross symbol (✖)
+                        removeIcon.className = "remove-icon";
 
-                        // Create a remove button for each thumbnail
-                        const removeButton = document.createElement("button");
-                        removeButton.textContent = "Remove";
-                        removeButton.className = "remove-button";
-
-                        // Attach a click event listener to the remove button
-                        removeButton.addEventListener("click", function() {
+                        removeIcon.addEventListener("click", function() {
                             thumbnailContainer.removeChild(thumbnailWrapper);
                         });
 
-                        // Append the thumbnail and button to the container
-                        thumbnailWrapper.appendChild(thumbnail);
-                        thumbnailWrapper.appendChild(removeButton);
+                        thumbnail.appendChild(fileNameElement);
+                        thumbnail.appendChild(removeIcon);
 
-                        // Append the container to the main thumbnail container
+                        thumbnailWrapper.appendChild(thumbnail);
                         thumbnailContainer.appendChild(thumbnailWrapper);
                     }
                 } else {
-                    // Hide the thumbnail container if no file is selected
                     thumbnailContainer.innerHTML = "";
                 }
             });
-
-            function renderPdfThumbnail(canvas, pdfData) {
-                pdfjsLib
-                    .getDocument({
-                        data: pdfData
-                    })
-                    .promise.then(function(pdfDocument) {
-                        pdfDocument.getPage(1).then(function(page) {
-                            const viewport = page.getViewport({
-                                scale: 0.5
-                            });
-                            const context = canvas.getContext("2d");
-                            canvas.width = viewport.width;
-                            canvas.height = viewport.height;
-
-                            const renderContext = {
-                                canvasContext: context,
-                                viewport: viewport,
-                            };
-
-                            page.render(renderContext).promise.then(function() {
-                                // PDF thumbnail rendered successfully
-                            });
-                        });
-                    })
-                    .catch(function(error) {
-                        // Handle errors
-                        console.error("Error loading PDF:", error);
-                    });
-            }
         });
 
 
         // delet attatchment
 
 
-        $(document).on('click', '.delete_product', function(e) {
+
+        $(document).on('click', '.delet-attachment', function(e) {
             e.preventDefault();
             let attachment_id = $(this).data('id');
-            //alert(product_id);
 
-            //if (confirm('are sure?')) {
-            $.ajax({
-                url: "{{ route('attachment') }}",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method: 'post',
-                data: {
-                    attachment_id: attachment_id
-                },
-                success: function(res) {
-                    if (res.status == 'success') {
-
-                        $("#thumbnailContainer").load(" #thumbnailContainer");
+            if (confirm('Are you sure you want to delete this attachment?')) {
+                $.ajax({
+                    url: "{{ route('attachment') }}",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'post',
+                    data: {
+                        attachment_id: attachment_id
+                    },
+                    success: function(res) {
+                        if (res.status == 'success') {
+                            $("#thumbnailContainer").load(" #thumbnailContainer");
+                        }
                     }
-
-                }
-
-
-            })
-            //}
-        })
+                });
+            }
+        });
     </script>
 @stop
