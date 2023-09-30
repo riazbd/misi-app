@@ -42,16 +42,19 @@
                                 <div class="thumbnail-wrapper">
                                     <div class="thumbnail">
                                         <span>{{ $file_name }}</span>
-                                        <a class="remove-icon download-attachment"
-                                            href="{{ asset('storage/' . $attachment['attatchment']) }}"
-                                            target="_blank">&#128065;
+                                        <a class=" download-attachment"
+                                            href="{{ asset('storage/' . $attachment['attatchment']) }}" target="_blank"><i
+                                                class="fas fa-fw fa-eye  ">
+                                            </i>
                                         </a>
-                                        <a class="remove-icon download-attachment"
+                                        <a class=" download-attachment"
                                             href="{{ asset('storage/' . $attachment['attatchment']) }}" download><i
                                                 class="fas fa-fw fa-cloud-download-alt  ">
                                             </i>
                                         </a>
-                                        <a class="remove-icon delet-attachment" data-id="{{ $attachment->id }}">&#10006</a>
+                                        <a class="remove-icon delet-attachment" data-id="{{ $attachment->id }}"><i
+                                                class="fas fa-fw fa-trash  ">
+                                            </i></a>
                                     </div>
                                 </div>
                                 <?php

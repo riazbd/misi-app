@@ -58,8 +58,8 @@
     }
 
     .logo img {
-        width: 200px;
-        height: 60px;
+        width: 150px;
+        height: 150px;
     }
 
     .gray-color {
@@ -127,15 +127,17 @@
 
 <body>
     @php
-        //dd($intake);
-        //dd($appointment);
-        //dd($user);
+        $imagePath = '/vendor/adminlte/dist/img/logo.png';
+        $fullImageUrl = url($imagePath);
+        //dd($fullImageUrl);
     @endphp
 
-    <div class="add-detail mt-10">
-        <div class="w-50 float-left logo mt-10">
-            <img src="https://techsolutionstuff.com/frontTheme/assets/img/logo_200_60_dark.png" alt="Logo">
-            {{-- <img src="{{ url('images/default_user_image.png') }}" alt="Logo"> --}}
+    <div class="add-detail mt-20">
+        <div class="w-50 float-left logo ">
+
+            <img src="{{ $fullImageUrl }}" alt="Logo">
+            {{-- <img src="http://44.219.8.97:5050/vendor/adminlte/dist/img/logo.png" alt="Logo"> --}}
+
         </div>
         <div class="w-50 float-left mt-10" align="right">
             <h3 class="m-0 pt-5  w-100">Invoice</h3>
