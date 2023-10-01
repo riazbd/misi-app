@@ -179,6 +179,12 @@
 @section('js')
     <script>
         $(document).ready(function() {
+
+            $('.go-back').click(function() {
+                history.go(-1); // Go back one page
+                console.log('click back button')
+            });
+
             // update appointment
             document.getElementById('top-submit-button').addEventListener('click', function() {
                 $('#update-appointment-form').submit()

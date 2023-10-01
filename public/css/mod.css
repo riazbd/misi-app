@@ -39,9 +39,9 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 
-.content-wrapper>.content {
+/* .content-wrapper>.content {
     padding: 0;
-}
+} */
 
 .container-fluid {
     width: 100%;
@@ -490,7 +490,8 @@ div.dataTables_wrapper div.dataTables_filter {
     /* overflow-x: auto; */
     gap: 10px;
     margin-left: 7px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 .thumbnail {
@@ -515,10 +516,16 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
 .thumbnail .remove-icon {
+    /* cursor: pointer;
+    font-size: 18px; */
+    /* margin-left: auto; */
+    color: orange;
+}
+
+.thumbnail-wrapper .thumbnail a {
+    margin-left: 10px;
     cursor: pointer;
     font-size: 18px;
-    /* color: red; */
-    margin-left: auto;
 }
 
 
@@ -642,4 +649,80 @@ div.dataTables_wrapper div.dataTables_filter {
 
 .input-container button {
     width: 100%;
+}
+
+
+
+
+
+
+
+
+
+/* login page design*/
+
+
+.card {
+    box-shadow: none;
+    margin-bottom: 1rem;
+}
+
+
+.login-box,
+.register-box {
+    width: 360px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+.login-logo,
+.register-logo {
+    margin-bottom: 0rem;
+}
+
+.card-primary.card-outline {
+    border-top: none;
+}
+
+.card h3 {
+    display: none;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.login-box,
+.register-box {
+    width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+
+.card-footer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-footer p a {
+
+    color: #555555;
+}
+
+.card-footer p a:hover {
+
+    color: #374259;
+}
+
+
+.login-card-body,
+.register-card-body {
+    padding: 20px 20px 50px 20px;
 }
