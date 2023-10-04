@@ -17,6 +17,10 @@
                 {{-- <button class="top-button top-cancel-button" id="top-cancel-button">Cancel</button> --}}
                 <button class="top-button" id="top-cancel" data-toggle="modal" data-target="#cancelModal">Cancel</button>
 
+                <button class="top-button mail-button" id="showFileInput" data-toggle="modal" data-target="#mailModal"><i
+                        class="fas fa-fw fa-solid fa-envelope"></i>
+                </button>
+
 
             </div>
         </div>
@@ -414,6 +418,7 @@
     </div>
     @include('extras.patient_modal')
     @include('extras.cancelModal')
+    @include('extras.mailModal')
 @stop
 
 @section('js')
@@ -533,6 +538,47 @@
                 });
             }
 
+            function emailSendForCancel(ticketId, mailId, reason) {
+                $.ajax({
+                    url: '/email-send-for-cancel/', // Replace with your Laravel route
+                    type: 'GET',
+                    data: {
+                        id: ticketId,
+                        mailId: mailId,
+                        reason: reason
+                    },
+                    success: function(response) {
+                        // Populate thconsole.log(response);
+                        Swal.fire('Success!', 'Ticket Cancelled', 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error!', 'Request failed', 'error');
+                        console.log(xhr.responseText)
+                    }
+                });
+            }
+
+
+            // function generatEmailPdf(ticketId, mailId, reason) {
+            //     $.ajax({
+            //         url: '/generate-email-pdf', // Replace with your Laravel route
+            //         type: 'GET',
+            //         data: {
+            //             id: ticketId,
+            //             mailId: mailId,
+            //             reason: reason
+            //         },
+            //         success: function(response) {
+            //             // Populate thconsole.log(response);
+            //             Swal.fire('Success!', 'pdf email print', 'success');
+            //         },
+            //         error: function(xhr, status, error) {
+            //             Swal.fire('Error!', 'Request failed', 'error');
+            //             console.log(xhr.responseText)
+            //         }
+            //     });
+            // }
+
             $('#clickable').click(function() {
                 if ($('#sendEmailToggle').is(':checked')) {
                     $('#sendEmailToggle').prop('checked', false)
@@ -572,17 +618,76 @@
                 });
             });
 
+
+            // mail send modal email_type dropdown for email_name
+
+            $('#emailTypeSend').change(function() {
+                var selectedType = $(this).val();
+                $.ajax({
+                    url: '/getemailsforsend',
+                    method: 'GET',
+                    data: {
+                        type: selectedType
+                    },
+                    success: function(response) {
+                        var emailNameSelect = $('#emailNameSend');
+                        console.log(response);
+                        emailNameSelect.empty();
+                        if (response && response.length > 0) {
+                            response.forEach(function(email) {
+                                var option = $('<option></option>').attr('value', email
+                                    .id).text(email.mail_name);
+                                emailNameSelect.append(option);
+                            });
+                        }
+                        // $('#emailFields').show();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
             $('#submitCancel').on('click', function() {
                 var ticketId = '{{ $ticket->id }}';
-
                 var mailId = $('#emailNameCancel').val()
-
                 var reason = $('#cancelReason').val()
-
                 cancelTicket(ticketId, mailId, reason)
+            });
 
+
+            $('#emailSendForCancel').on('click', function() {
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameSend').val()
+                var reason = $('#comment').val()
+                emailSendForCancel(ticketId, mailId, reason)
+            });
+
+            // $('#printTemplate').on('click', function() {
+            //     var ticketId = '{{ $ticket->id }}';
+            //     var mailId = $('#emailNameSend').val();
+            //     var reason = $('#comment').val();
+
+            //     generatEmailPdf(ticketId, mailId, reason)
+            // });
+
+            $('#printTemplate').on('click', function() {
+                // Get the values
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameSend').val();
+                var reason = $('#comment').val();
+
+                // Construct the URL with query parameters
+                var url = '{{ route('generate-email-pdf') }}' +
+                    '?ticketId=' + encodeURIComponent(ticketId) +
+                    '&mailId=' + encodeURIComponent(mailId) +
+                    '&reason=' + encodeURIComponent(reason);
+
+                // Open a new tab/window with the URL
+                window.open(url, '_blank');
 
             });
+
 
             $('.go-back').click(function() {
                 history.go(-1); // Go back one page
