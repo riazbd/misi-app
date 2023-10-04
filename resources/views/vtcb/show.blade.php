@@ -17,7 +17,7 @@
                 {{-- <button class="top-button top-cancel-button" id="top-cancel-button">Cancel</button> --}}
                 <button class="top-button" id="top-cancel" data-toggle="modal" data-target="#cancelModal">Cancel</button>
 
-                <button class="top-button mail-button" id="showFileInput" data-toggle="modal" data-target="#mailModal"><i
+                <button class="top-button mail-button" data-toggle="modal" data-target="#mailModal"><i
                         class="fas fa-fw fa-solid fa-envelope"></i>
                 </button>
 
@@ -663,13 +663,7 @@
                 emailSendForCancel(ticketId, mailId, reason)
             });
 
-            // $('#printTemplate').on('click', function() {
-            //     var ticketId = '{{ $ticket->id }}';
-            //     var mailId = $('#emailNameSend').val();
-            //     var reason = $('#comment').val();
 
-            //     generatEmailPdf(ticketId, mailId, reason)
-            // });
 
             $('#printTemplate').on('click', function() {
                 // Get the values

@@ -544,32 +544,17 @@ class TicketController extends Controller
     public function sendEmailForCancel(Request $request)
     {
         try {
-
-
             $ticket = Ticket::where('id', $request->input('id'))->first();
 
-            // $ticket->status = 'cancelled';
-            // $ticket->department_id = null;
-            // $ticket->assigned_staff = null;
-            // $ticket->is_cancelled = true;
-            // $ticket->cancel_reason = $request->input('reason');
-
-            // $ticket->save();
-
-
-            // history add
-
-            // $history = new TicketHistory();
-
-            // $assigneduser = User::where('id', $ticket->assigned_staff)->first();
-
-            // $history->ticket_id = $request->input('id');
-            // $history->comment = 'The ticket has been cancelled by ' . Auth::user()->first_name . " " . Auth::user()->last_name . "<br>" . 'for "' . $request->input('reason') . '"';
-            // $history->save();
-
-
-
             if ($request->input('mailId') != null) {
+
+                // history add
+                $history = new TicketHistory();
+                $history->ticket_id = $request->input('id');
+                $history->comment = $request->input('reason');
+                $history->save();
+
+
                 $emailTemplate = EmailTemplate::where('id', $request->input('mailId'))->first();
 
                 $userEmail = $ticket->patient()->first()->user()->first()->email;
