@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
 use PragmaRX\Countries\Package\Countries;
-
+use App\Models\EmailTemplate;
 
 class PibController extends Controller
 {
@@ -166,12 +166,13 @@ class PibController extends Controller
 
         $countries = Countries::all();
 
-
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
 
 
         $attachments = $ticket->attachments;
 
-        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries'));
+        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries', 'mailTypes'));
     }
 
     /**

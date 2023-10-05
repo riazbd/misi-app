@@ -405,7 +405,7 @@
 
     </div>
     @include('extras.patient_modal')
-    {{-- @include('extras.mailModal') --}}
+    @include('extras.mailModal')
 @stop
 
 @section('js')
@@ -510,6 +510,34 @@
                 });
             }
 
+            // mail send modal email_type dropdown for email_name
+
+            $('#emailTypeSend').change(function() {
+                var selectedType = $(this).val();
+                $.ajax({
+                    url: '/getemailsforsend',
+                    method: 'GET',
+                    data: {
+                        type: selectedType
+                    },
+                    success: function(response) {
+                        var emailNameSelect = $('#emailNameSend');
+                        console.log(response);
+                        emailNameSelect.empty();
+                        if (response && response.length > 0) {
+                            response.forEach(function(email) {
+                                var option = $('<option></option>').attr('value', email
+                                    .id).text(email.mail_name);
+                                emailNameSelect.append(option);
+                            });
+                        }
+                        // $('#emailFields').show();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
 
             function emailSendForCancel(ticketId, mailId, reason) {
                 $.ajax({

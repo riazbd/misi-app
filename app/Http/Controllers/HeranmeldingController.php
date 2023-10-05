@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
 use PragmaRX\Countries\Package\Countries;
+use App\Models\EmailTemplate;
 
 class HeranmeldingController extends Controller
 {
@@ -135,7 +136,10 @@ class HeranmeldingController extends Controller
         $attachments = $ticket->attachments;
 
         $countries = Countries::all();
-        return view('heranmelding.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries'));
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
+
+        return view('heranmelding.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries', 'mailTypes'));
     }
 
     /**
