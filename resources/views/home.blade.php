@@ -8,6 +8,18 @@
 
 @section('content')
     <p>Hello isn't me you looking for?</p>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- <form action="{{ route('searchById') }}" method="GET" target="_blank">
+        <input type="text" name="id" placeholder="Enter ID">
+        <button type="submit">Search</button>
+    </form> --}}
+
 @stop
 
 @section('css')

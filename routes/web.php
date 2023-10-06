@@ -113,4 +113,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/patient-update-from-ticket/{id}', [PatientController::class, 'update_from_ticket'])->name('update-from-ticket');
 
     Route::get('/generate-email-pdf', 'App\Http\Controllers\GenerateInvoiceController@generatePdfForEmail')->name('generate-email-pdf');
+
+    Route::get('/search', 'App\Http\Controllers\SearchController@searchById')->name('searchById');
 });
