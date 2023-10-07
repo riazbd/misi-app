@@ -9,16 +9,19 @@
 @section('content')
     <p>Hello isn't me you looking for?</p>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
+
+        {{-- <script>
+            // Automatically hide the success message after 20 seconds
+            setTimeout(function() {
+                document.getElementById("success-alert").style.display = "none";
+            }, 5000); // 20,000 milliseconds = 20 seconds
+        </script> --}}
     @endif
 
-    {{-- <form action="{{ route('searchById') }}" method="GET" target="_blank">
-        <input type="text" name="id" placeholder="Enter ID">
-        <button type="submit">Search</button>
-    </form> --}}
 
 @stop
 
@@ -35,4 +38,12 @@
     <script>
         console.log('Hi!');
     </script>
+
+    {{-- <script>
+        // Automatically hide the success message after 20 seconds
+        setTimeout(function() {
+            document.getElementById("success-alert").style.display = "none";
+        }, 20000); // 20,000 milliseconds = 20 seconds
+    </script> --}}
+
 @stop
