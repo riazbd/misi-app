@@ -10,6 +10,9 @@ use App\Models\TicketAppointment;
 use App\Models\WorkDayTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
+use App\Mail\CancelMail;
+use Illuminate\Support\Facades\Mail;
 
 class TicketAppointmentController extends Controller
 {
@@ -125,6 +128,26 @@ class TicketAppointmentController extends Controller
             $intake->payment_status = 'Unpaid';
 
             $intake->save();
+
+            // mail send start
+
+            $emailTemplate = EmailTemplate::where('id', 1)->first();
+
+            //dd($emailTemplate);
+
+            $userEmail = $ticket->patient()->first()->user()->first()->email;
+
+
+            $subject = $emailTemplate->mail_subject;
+            $body = $emailTemplate->mail_body;
+            $recipientName = $ticket->patient()->first()->user()->first()->name;
+
+            $mail = new CancelMail();
+            $mail->subject = $subject;
+            $mail->body = $body;
+            $mail->recipientName = $recipientName;
+
+            Mail::to($userEmail)->send($mail);
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
