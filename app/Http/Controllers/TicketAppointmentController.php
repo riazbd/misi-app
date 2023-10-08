@@ -129,17 +129,45 @@ class TicketAppointmentController extends Controller
 
             $intake->save();
 
+
+
+
             // mail send start
 
+
+            //data collect
+            $therapist_id = $ticket->assigned_therapist;
+            $therapist = Therapist::where('id', $therapist_id)->first();
+
+
+            $therapist_name = $therapist->user->name;
+            $patient_name = $ticket->patient->user->name;
+            $appointment_date = $data['appointment-date'];
+            $appointment_time = $startTime->format('H:i:s');
+
+
+            // send
+
             $emailTemplate = EmailTemplate::where('id', 1)->first();
-
-            //dd($emailTemplate);
-
             $userEmail = $ticket->patient()->first()->user()->first()->email;
-
-
             $subject = $emailTemplate->mail_subject;
             $body = $emailTemplate->mail_body;
+
+            if ($patient_name != null) {
+                $body = str_replace("#patientName", $patient_name, $body);
+            };
+            if ($appointment_date != null) {
+                $body = str_replace("#appointmentDate", $appointment_date, $body);
+            };
+            if ($appointment_time != null) {
+                $body = str_replace("#appointmentTime", $appointment_time, $body);
+            };
+            if ($therapist_name != null) {
+                $body = str_replace("#therapistName", $therapist_name, $body);
+            };
+
+            //dd($body);
+
             $recipientName = $ticket->patient()->first()->user()->first()->name;
 
             $mail = new CancelMail();
@@ -241,6 +269,8 @@ class TicketAppointmentController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        // dd($data);
+
 
         try {
 
@@ -248,7 +278,7 @@ class TicketAppointmentController extends Controller
             $appointment = TicketAppointment::where('id', $id)->first();
 
             $appointment->ticket_id = $data['select-ticket'];
-            $appointment->fee = $data['select-ticket'];
+            $appointment->fee = $data['appointment-fee'];
             $appointment->status = $data['select-status'];
             $appointment->type = $data['appointment-type'];
 
@@ -256,6 +286,30 @@ class TicketAppointmentController extends Controller
             $appointment->remarks = $data['remarks'];
 
             $appointment->save();
+
+            if ($data['select-status'] == 'cancelled') {
+                //dd($data['select-status']);
+
+                //mail send
+
+
+                $ticket_id = $data['select-ticket'];
+                $ticket = Ticket::where('id', $ticket_id)->first();
+
+                $emailTemplate = EmailTemplate::where('id', 2)->first();
+                $userEmail = $ticket->patient()->first()->user()->first()->email;
+
+                $subject = $emailTemplate->mail_subject;
+                $body = $emailTemplate->mail_body;
+                $recipientName = $ticket->patient()->first()->user()->first()->name;
+
+                $mail = new CancelMail();
+                $mail->subject = $subject;
+                $mail->body = $body;
+                $mail->recipientName = $recipientName;
+
+                Mail::to($userEmail)->send($mail);
+            }
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

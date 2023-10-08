@@ -15,13 +15,13 @@ class EmailTemplateSeeder extends Seeder
     public function run()
     {
         // Appointment Letter Template
-        EmailTemplate::create(['mail_name' => 'Appointment Letter', 'mail_type' => 'type 2', 'mail_subject' => 'Letter for Appointment', 'mail_body' => '<p>Dear $patientName,</p> <br>
+        EmailTemplate::create(['mail_name' => 'Appointment Letter', 'mail_type' => 'type 2', 'mail_subject' => 'Letter for Appointment', 'mail_body' => '<p>Dear #patientName,</p> <br>
 
         <p>I hereby invite you for an appointment:</p> <br>
 
-        <p>Date: $appointmentDate<br></p><br>
-        <p>Time: $appointmentTime</p>
-        <p>Practitioner: $therapistName</p>
+        <p>Date: #appointmentDate<br></p><br>
+        <p>Time: #appointmentTime</p>
+        <p>Practitioner: #therapistName</p>
         <p>Location: Weena-Zuid 130, 4th floor, in Rotterdam
 
         </p><br>
@@ -56,7 +56,7 @@ class EmailTemplateSeeder extends Seeder
 
         // Cancellation
 
-        EmailTemplate::create(['mail_name' => 'Cancellation Letter', 'mail_type' => 'type 3', 'mail_subject' => 'Cancellation Letter', 'mail_body' => '<p>Dear $patientName,</p> <br>
+        EmailTemplate::create(['mail_name' => 'Cancellation Letter', 'mail_type' => 'type 3', 'mail_subject' => 'Cancellation Letter', 'mail_body' => '<p>Dear #patientName,</p> <br>
 
         <p>Subject: Cancellation of application.</p> <br>
 
