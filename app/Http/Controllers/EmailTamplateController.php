@@ -160,38 +160,38 @@ class EmailTamplateController extends Controller
 
             $emailBody = $data['email-body'];
 
-            $dom = new \DomDocument();
-            $dom->loadHtml($emailBody, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $imageFile = $dom->getElementsByTagName('img');
+            // $dom = new \DomDocument();
+            // $dom->loadHtml($emailBody, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            // $imageFile = $dom->getElementsByTagName('img');
 
-            // $imageFile = iterator_to_array($imageFile); // Convert to an array
+            // // $imageFile = iterator_to_array($imageFile); // Convert to an array
 
-            if ($imageFile->length > 0) {
-                $imageFile = iterator_to_array($imageFile);
-                foreach ($imageFile as $item => $image) {
-                    $srcAttribute = $image->getAttributeNode('src');
-                    if ($srcAttribute) {
-                        $srcValue = $srcAttribute->value;
-                        $dataUrlPattern = '/^data:image\/(\w+);base64,/';
-                        if (preg_match($dataUrlPattern, $srcValue, $matches)) {
-                            $imageExtension = $matches[1];
-                            $imageData = substr($srcValue, strpos($srcValue, ',') + 1);
-                            $imageData = str_replace(' ', '+', $imageData);
-                            $imageDecoded = base64_decode($imageData);
-                            if ($imageDecoded !== false) {
-                                $image_name = "/upload/" . time() . $item . '.' . $imageExtension;
-                                $path = public_path() . $image_name;
-                                file_put_contents($path, $imageDecoded);
+            // if ($imageFile->length > 0) {
+            //     $imageFile = iterator_to_array($imageFile);
+            //     foreach ($imageFile as $item => $image) {
+            //         $srcAttribute = $image->getAttributeNode('src');
+            //         if ($srcAttribute) {
+            //             $srcValue = $srcAttribute->value;
+            //             $dataUrlPattern = '/^data:image\/(\w+);base64,/';
+            //             if (preg_match($dataUrlPattern, $srcValue, $matches)) {
+            //                 $imageExtension = $matches[1];
+            //                 $imageData = substr($srcValue, strpos($srcValue, ',') + 1);
+            //                 $imageData = str_replace(' ', '+', $imageData);
+            //                 $imageDecoded = base64_decode($imageData);
+            //                 if ($imageDecoded !== false) {
+            //                     $image_name = "/upload/" . time() . $item . '.' . $imageExtension;
+            //                     $path = public_path() . $image_name;
+            //                     file_put_contents($path, $imageDecoded);
 
-                                $image->removeAttribute('src');
-                                $image->setAttribute('src', $image_name);
-                            }
-                        }
-                    }
-                }
-            }
+            //                     $image->removeAttribute('src');
+            //                     $image->setAttribute('src', $image_name);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
 
-            $emailBody = $dom->saveHTML();
+            // $emailBody = $dom->saveHTML();
 
             $template->mail_name = $data['email-name'];
             $template->mail_type = $data['select-type'];
