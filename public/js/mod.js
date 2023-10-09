@@ -1,4 +1,3 @@
-
 let labels = document.querySelectorAll("label");
 
 labels.forEach(function (label) {
@@ -60,10 +59,10 @@ function fetchFormInfo(ticketId, formType) {
                     let td1 = $("<td>").text(el.question.question);
                     let td2 = $("<td >").html(
                         '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="number" name="' +
-                        el.answer.id +
-                        '" value="' +
-                        el.answer.answer +
-                        '">'
+                            el.answer.id +
+                            '" value="' +
+                            el.answer.answer +
+                            '">'
                     );
                     tr.append(td1);
                     tr.append(td2);
@@ -99,12 +98,12 @@ function fetchFormInfo(ticketId, formType) {
                             '<td class="" style="width: 5%">'
                         ).html(
                             '<input type="radio" name="' +
-                            el.answer.id +
-                            '" class="group-checkbox" data-group="group' +
-                            el.answer.id +
-                            '" value="' +
-                            option +
-                            '">'
+                                el.answer.id +
+                                '" class="group-checkbox" data-group="group' +
+                                el.answer.id +
+                                '" value="' +
+                                option +
+                                '">'
                         );
 
                         let innerTd2 = $("<td>").text(option);
@@ -118,12 +117,12 @@ function fetchFormInfo(ticketId, formType) {
                                 '<td class="" style="width: 5%">'
                             ).html(
                                 '<input type="radio" name="' +
-                                el.answer.id +
-                                '" class="group-checkbox" data-group="group' +
-                                el.answer.id +
-                                '" value="' +
-                                option +
-                                '" checked>'
+                                    el.answer.id +
+                                    '" class="group-checkbox" data-group="group' +
+                                    el.answer.id +
+                                    '" value="' +
+                                    option +
+                                    '" checked>'
                             );
                         }
 
@@ -155,10 +154,10 @@ function fetchFormInfo(ticketId, formType) {
                     );
                     let td2 = $("<td >").html(
                         '<input style="width: 100%; border: none; border-bottom: 1px solid black;" type="text" name="' +
-                        el.answer.id +
-                        '" value="' +
-                        el.answer.answer +
-                        '">'
+                            el.answer.id +
+                            '" value="' +
+                            el.answer.answer +
+                            '">'
                     );
                     tr.append(td1);
                     tr.append(td2);
@@ -167,14 +166,26 @@ function fetchFormInfo(ticketId, formType) {
                 });
             }
 
+            dataFetched = true;
+
+            if (dataFetched) {
+                openModal();
+            }
+
             // let form = $("#pib-pit-table-form");
 
-            $("#pib-form-modal").modal("show");
+            // $("#pib-form-modal").modal("show");
         },
         error: function (xhr) {
             console.error(xhr.responseText);
         },
     });
+}
+
+
+function openModal() {
+    // Open the modal here
+    $("#pib-form-modal").modal("show");
 }
 
 
@@ -196,6 +207,7 @@ $("#pib-pit-print").click(function () {
     printWindow.print();
     printWindow.close();
 });
+
 
 
 // function fetchWorkTimeInfo (id) {
@@ -244,9 +256,11 @@ $("#pib-form-modal").on("hidden.bs.modal", function () {
     $("#pib-pit-table-form").empty();
 });
 
-document.getElementById("pib-pit-submit").addEventListener("click", function () {
-    $("#pib-pit-table-form").submit();
-});
+document
+    .getElementById("pib-pit-submit")
+    .addEventListener("click", function () {
+        $("#pib-pit-table-form").submit();
+    });
 $("#pib-pit-table-form").submit(function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -280,15 +294,21 @@ function getHistories(ticketId) {
         success: function (response) {
             // Populate the "Assign To" select input with the retrieved users
             var history_card = $("#history-container");
-            var history_header = $('<div class="row"><div class="col-md-12"><h6 class="pr-3 col-2 text-right ticket_history_title">Activites</h6></div></div>')
+            var history_header = $(
+                '<div class="row"><div class="col-md-12"><h6 class="pr-3 col-2 text-right ticket_history_title">Activites</h6></div></div>'
+            );
 
             const histories = [];
             $.each(response.histories, function (index, history) {
                 var history_content = $('<div class="row"></div>');
                 var col = $('<div class="col-md-12"></div>');
-                var history_card = $('<div class="ticket_history_card" id="history-card"></div>');
+                var history_card = $(
+                    '<div class="ticket_history_card" id="history-card"></div>'
+                );
                 var card = $('<div class="card"></div>');
-                var card_body = $('<div class="card-body" id="history-body"></div>');
+                var card_body = $(
+                    '<div class="card-body" id="history-body"></div>'
+                );
 
                 card_body.html(history.comment);
                 card.append(card_body);
@@ -296,13 +316,11 @@ function getHistories(ticketId) {
                 col.append(history_card);
                 history_content.append(col);
 
-
-
                 histories.push(history_content);
             });
 
             if (histories.length > 0) {
-                histories.unshift(history_header)
+                histories.unshift(history_header);
             }
 
             history_card.html(histories);
@@ -348,8 +366,7 @@ function getUsersChanged(roleVal, assignToSelect) {
     });
 }
 
-$('.go-back').click(function () {
+$(".go-back").click(function () {
     history.go(-1); // Go back one page
-    console.log('click back button')
+    console.log("click back button");
 });
-
