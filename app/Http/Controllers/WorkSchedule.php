@@ -185,13 +185,14 @@ class WorkSchedule extends Controller
     public function leaveIndex()
     {
         $leaves = LeaveSchedule::all();
+        //dd($leaves->id);
         $therapists = Therapist::all();
 
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Therapist',
-            'Star Date',
+            'Start Date',
             'End Date',
         ];
 
@@ -201,11 +202,15 @@ class WorkSchedule extends Controller
 
 
         foreach ($leaves as $leave) {
+            $leaveDate = json_decode($leave->dates, true);
+            end($leaveDate);
+            $lastElement = current($leaveDate);
+
             $items = [];
             array_push($items, '<nobr>
                     <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-leave-id="' . $leave->id . '" id="leaveUpdatemodalshow">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </button></nobr>', $leave->id, $leave->therapist_id, $leave->start_date, $leave->end_date);
+                    </button></nobr>', $leave->id, $leave->therapist_id, $leaveDate[0], $lastElement);
             array_push($data, $items);
         }
 

@@ -559,9 +559,17 @@ class TicketController extends Controller
 
                 $userEmail = $ticket->patient()->first()->user()->first()->email;
 
+                $patient_name = $ticket->patient->user->name;
+
                 // Retrieve the dynamic values from the fetched email template
                 $subject = $emailTemplate->mail_subject;
                 $body = $emailTemplate->mail_body;
+
+                $body = ($patient_name !== null) ? str_replace("#patientName", $patient_name, $body) : $body;
+
+
+                //dd($body);
+
                 $recipientName = $ticket->patient()->first()->user()->first()->name;
 
                 $mail = new CancelMail();
