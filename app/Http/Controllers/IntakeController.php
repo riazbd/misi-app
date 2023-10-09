@@ -192,7 +192,7 @@ class IntakeController extends Controller
             $body = ($appointment_time !== null) ? str_replace("#appointmentTime", $appointment_time, $body) : $body;
             $body = ($therapist_name !== null) ? str_replace("#therapistName", $therapist_name, $body) : $body;
 
-            dd($body);
+            //dd($body);
             $recipientName = $ticket->patient()->first()->user()->first()->name;
 
             $mail = new CancelMail();

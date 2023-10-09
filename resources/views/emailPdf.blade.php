@@ -9,7 +9,7 @@
 <body>
     <h2 style="margin-left: 2px;margin-top: 20px;">
         @php
-            echo $subject;
+            //echo $subject;
         @endphp
     </h2>
     <p>
