@@ -120,7 +120,7 @@
                             <div class="col-7">
                                 <select class="form-control form-control-sm" id="sex" name="sex">
                                     <option value="Male">Male</option>
-                                    <option value="Femail">Femail</option>
+                                    <option value="Femail">Female</option>
                                     <option value="Other">Other</option>
                                     <!-- Add more options as needed -->
                                 </select>
@@ -141,6 +141,10 @@
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
                                     <option value="B-">B-</option>
+                                    <option value="A+">AB+</option>
+                                    <option value="A-">AB-</option>
+                                    <option value="B+">O+</option>
+                                    <option value="B-">O-</option>
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
