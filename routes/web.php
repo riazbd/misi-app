@@ -84,7 +84,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/missing-info-tickets', 'App\Http\Controllers\TicketController@missingInfo');
     Route::get('/update-assigned-to', 'App\Http\Controllers\TicketController@updateAssignedTo');
     Route::get('/get-role-users', 'App\Http\Controllers\TicketController@getUsersByRole');
+
     Route::get('/cancel-ticket', 'App\Http\Controllers\TicketController@cancelTicket')->name('cancel-ticket');
+
+    Route::get('/email-send-for-cancel', 'App\Http\Controllers\TicketController@sendEmailForCancel')->name('email-send-for-cancel');
+
     Route::get('/cancelled-tickets', 'App\Http\Controllers\TicketController@getCancelledTickets')->name('cancelled-tickets');
     Route::get('/get-histories', 'App\Http\Controllers\TicketController@getHistories')->name('ticket-history');
     Route::get('/to-formula', 'App\Http\Controllers\QuestionController@toFormula')->name('get-form-data');
@@ -96,6 +100,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/update-leaves/{id}', 'App\Http\Controllers\WorkSchedule@UpdateLeaves')->name('update-leaves');
     Route::get('/update-worktime/{id}', 'App\Http\Controllers\WorkSchedule@updateWorkTime')->name('update-worktime');
     Route::get('/getemailsforcancel', 'App\Http\Controllers\EmailTamplateController@getEmailForCancel')->name('get-cancel-email');
+
+    Route::get('/getemailsforsend', 'App\Http\Controllers\EmailTamplateController@getEmailForSend')->name('get-send-email');
+
     Route::resource('email-templates', EmailTamplateController::class);
 
     Route::get('/generate-invoice/{id}', 'App\Http\Controllers\GenerateInvoiceController@generatePDF')->name('generate-invoice');
@@ -104,4 +111,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/create-ticket-from-referral', [TicketController::class, 'createTicketFromReferral'])->name('ticket-referral');
 
     Route::post('/patient-update-from-ticket/{id}', [PatientController::class, 'update_from_ticket'])->name('update-from-ticket');
+
+    Route::get('/generate-email-pdf', 'App\Http\Controllers\GenerateInvoiceController@generatePdfForEmail')->name('generate-email-pdf');
+
+    Route::get('/search', 'App\Http\Controllers\SearchController@searchById')->name('searchById');
 });

@@ -10,6 +10,9 @@ use App\Models\TicketAppointment;
 use App\Models\WorkDayTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
+use App\Mail\CancelMail;
+use Illuminate\Support\Facades\Mail;
 
 class TicketAppointmentController extends Controller
 {
@@ -100,7 +103,6 @@ class TicketAppointmentController extends Controller
             $startTime = Carbon::parse($data_startTime);
             $endTime = $startTime->copy()->addMinutes(60);
 
-
             $appointment = new TicketAppointment();
 
             $appointment->ticket_id = $data['select-ticket'];
@@ -125,6 +127,48 @@ class TicketAppointmentController extends Controller
             $intake->payment_status = 'Unpaid';
 
             $intake->save();
+
+
+
+
+            // mail send start
+
+
+            //data collect
+            $therapist_id = $ticket->assigned_therapist;
+            $therapist = Therapist::where('id', $therapist_id)->first();
+
+
+            $therapist_name = $therapist->user->name;
+            $patient_name = $ticket->patient->user->name;
+            $appointment_date = $data['appointment-date'];
+            $appointment_time = $startTime->format('H:i:s');
+
+
+            // send
+
+            $emailTemplate = EmailTemplate::where('id', 1)->first();
+            $userEmail = $ticket->patient()->first()->user()->first()->email;
+            $subject = $emailTemplate->mail_subject;
+            $body = $emailTemplate->mail_body;
+
+
+            $body = ($patient_name !== null) ? str_replace("#patientName", $patient_name, $body) : $body;
+            $body = ($appointment_date !== null) ? str_replace("#appointmentDate", $appointment_date, $body) : $body;
+            $body = ($appointment_time !== null) ? str_replace("#appointmentTime", $appointment_time, $body) : $body;
+            $body = ($therapist_name !== null) ? str_replace("#therapistName", $therapist_name, $body) : $body;
+
+
+            //dd($body);
+
+            $recipientName = $ticket->patient()->first()->user()->first()->name;
+
+            $mail = new CancelMail();
+            $mail->subject = $subject;
+            $mail->body = $body;
+            $mail->recipientName = $recipientName;
+
+            Mail::to($userEmail)->send($mail);
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {
@@ -218,21 +262,78 @@ class TicketAppointmentController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        // dd($data);
+
 
         try {
 
 
             $appointment = TicketAppointment::where('id', $id)->first();
 
+
             $appointment->ticket_id = $data['select-ticket'];
-            $appointment->fee = $data['select-ticket'];
+            $appointment->fee = $data['appointment-fee'];
             $appointment->status = $data['select-status'];
             $appointment->type = $data['appointment-type'];
 
             $appointment->therapist_comment = $data['therapist-comment'];
             $appointment->remarks = $data['remarks'];
 
-            $appointment->save();
+            //$appointment->save();
+
+            if ($data['select-status'] == 'cancelled') {
+
+                //$appointment_time_from_intake = $appointment->intakes->all();
+
+                // if (!empty($appointment_time_from_intake)) {
+                //     $lastItem = end($appointment_time_from_intake);
+                //     $appontment_date_last_intake = $lastItem->date;
+                //     $appontment_time_last_intake = $lastItem->start_time;
+                // }
+
+
+                //mail send
+
+
+                $ticket_id = $data['select-ticket'];
+                $ticket = Ticket::where('id', $ticket_id)->first();
+
+                //data collect
+                // $therapist_id = $ticket->assigned_therapist;
+                // $therapist = Therapist::where('id', $therapist_id)->first();
+
+
+
+                $patient_name = $ticket->patient->user->name;
+
+                // $therapist_name = $therapist->user->name;
+                // $appointment_date = $appontment_date_last_intake;
+                // $appointment_time = $appontment_time_last_intake;
+
+                $emailTemplate = EmailTemplate::where('id', 2)->first();
+                $userEmail = $ticket->patient()->first()->user()->first()->email;
+
+                $subject = $emailTemplate->mail_subject;
+                $body = $emailTemplate->mail_body;
+
+                $body = ($patient_name !== null) ? str_replace("#patientName", $patient_name, $body) : $body;
+
+
+
+                // $body = ($appointment_date !== null) ? str_replace("#appointmentDate", $appointment_date, $body) : $body;
+                // $body = ($appointment_time !== null) ? str_replace("#appointmentTime", $appointment_time, $body) : $body;
+                // $body = ($therapist_name !== null) ? str_replace("#therapistName", $therapist_name, $body) : $body;
+                //dd($body);
+
+                $recipientName = $ticket->patient()->first()->user()->first()->name;
+
+                $mail = new CancelMail();
+                $mail->subject = $subject;
+                $mail->body = $body;
+                $mail->recipientName = $recipientName;
+
+                Mail::to($userEmail)->send($mail);
+            }
 
             return response()->json(['message' => 'Data saved successfully']);
         } catch (\Throwable $th) {

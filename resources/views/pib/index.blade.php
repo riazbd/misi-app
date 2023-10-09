@@ -28,7 +28,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="pib-pit-form-body">
                     <div>
                         <h6>Pre intake beoordeling (PIB)</h6>
                         <table class="table table-bordered pib-pit-table">
@@ -114,6 +114,7 @@
                 </div>
                 <div class="modal-footer">
                     {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-sm btn-primary" id="pib-pit-print">Print</button>
                     <button type="button" class="btn btn-sm btn-primary" id="pib-pit-submit">Save changes</button>
                 </div>
             </div>

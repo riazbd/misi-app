@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use App\Models\Attachment;
 use PragmaRX\Countries\Package\Countries;
-
+use App\Models\EmailTemplate;
 
 class PibController extends Controller
 {
@@ -81,9 +81,15 @@ class PibController extends Controller
                 '<nobr>
                     </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pib.destroy', ['pib' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
+                    </a>
+
+
+                    <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a><button class="btn btn-xs btn-default text-grey mx-1 shadow pib-form-open" data-toggle="tooltip" data-placement="top" title="Open PiB form" data-ticket-id="' . $ticket->id . '" data-form-type="' . 1 . '">
+                    </a>
+
+
+                    <button class="btn btn-xs btn-default text-grey mx-1 shadow pib-form-open" data-toggle="tooltip" data-placement="top" title="Open PiB form" data-ticket-id="' . $ticket->id . '" data-form-type="' . 1 . '">
                     <i class="fa fa-lg fa-fw fa-pager"></i>
                 </button></nobr>',
                 '</a><a class="text-info mx-1" href="' . route('pib.show', ['pib' => $ticket->id]) . '">
@@ -166,12 +172,13 @@ class PibController extends Controller
 
         $countries = Countries::all();
 
-
+        $emailTemplates = EmailTemplate::all();
+        $mailTypes = $emailTemplates->pluck('mail_type')->unique()->toArray();
 
 
         $attachments = $ticket->attachments;
 
-        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries'));
+        return view('pib.show', compact('patients', 'matchingRoles', 'ticketId', 'therapists', 'ticket', 'patient', 'attachments', 'countries', 'mailTypes'));
     }
 
     /**

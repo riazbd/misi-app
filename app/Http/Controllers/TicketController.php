@@ -512,7 +512,7 @@ class TicketController extends Controller
             $assigneduser = User::where('id', $ticket->assigned_staff)->first();
 
             $history->ticket_id = $request->input('id');
-            $history->comment = 'The ticket has been cancelled by ' . Auth::user()->first_name . " " . Auth::user()->last_name . "<br>" . 'for "' . $request->input('reason') . '"';
+            $history->comment = 'The ticket has been cancelled by ' . Auth::user()->name . "<br>" . 'for "' . $request->input('reason') . '"';
             $history->save();
 
             if ($request->input('mailId') != null) {
@@ -523,7 +523,7 @@ class TicketController extends Controller
                 // Retrieve the dynamic values from the fetched email template
                 $subject = $emailTemplate->mail_subject;
                 $body = $emailTemplate->mail_body;
-                $recipientName = $ticket->patient()->first()->user()->first()->first_name . ' ' . $ticket->patient()->first()->user()->first()->last_name;
+                $recipientName = $ticket->patient()->first()->user()->first()->name;
 
                 $mail = new CancelMail();
                 $mail->subject = $subject;
@@ -536,6 +536,45 @@ class TicketController extends Controller
             // histiry add end
 
             return response()->json(['message' => 'Tciket Successfully Cancelled']);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+    }
+
+    public function sendEmailForCancel(Request $request)
+    {
+        try {
+            $ticket = Ticket::where('id', $request->input('id'))->first();
+
+            if ($request->input('mailId') != null) {
+
+                // history add
+                $history = new TicketHistory();
+                $history->ticket_id = $request->input('id');
+                $history->comment = $request->input('reason');
+                $history->save();
+
+
+                $emailTemplate = EmailTemplate::where('id', $request->input('mailId'))->first();
+
+                $userEmail = $ticket->patient()->first()->user()->first()->email;
+
+                // Retrieve the dynamic values from the fetched email template
+                $subject = $emailTemplate->mail_subject;
+                $body = $emailTemplate->mail_body;
+                $recipientName = $ticket->patient()->first()->user()->first()->name;
+
+                $mail = new CancelMail();
+                $mail->subject = $subject;
+                $mail->body = $body;
+                $mail->recipientName = $recipientName;
+
+                Mail::to($userEmail)->send($mail);
+            }
+
+            // histiry add end
+
+            return response()->json(['message' => 'Mail Send']);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }
