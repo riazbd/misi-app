@@ -227,4 +227,16 @@ class EmailTamplateController extends Controller
             return response()->json($th->getMessage(), 500);
         }
     }
+
+
+    public function getEmailForSend(Request $request)
+    {
+        try {
+            $emails = EmailTemplate::where('mail_type', $request->input('type'))->get();
+
+            return response()->json($emails);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 500);
+        }
+    }
 }

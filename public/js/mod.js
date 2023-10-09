@@ -182,10 +182,33 @@ function fetchFormInfo(ticketId, formType) {
     });
 }
 
+
 function openModal() {
     // Open the modal here
     $("#pib-form-modal").modal("show");
 }
+
+
+$("#pib-pit-print").click(function () {
+    // Get the content of the div by its id
+    var content = $("#pib-pit-form-body").html();
+
+    // Create a new window for printing
+    var printWindow = window.open('', '');
+
+    // Write the content to the new window
+    $(printWindow.document.body).html(content);
+    var bootstrapCssLink = document.createElement('link');
+    bootstrapCssLink.rel = 'stylesheet';
+    bootstrapCssLink.href = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'; // Replace with the Bootstrap CDN URL
+    printWindow.document.head.appendChild(bootstrapCssLink);
+
+    // Trigger the print dialog
+    printWindow.print();
+    printWindow.close();
+});
+
+
 
 // function fetchWorkTimeInfo (id) {
 //     $.ajax({

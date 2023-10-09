@@ -750,3 +750,19 @@ div.dataTables_wrapper div.dataTables_filter {
 .thumbnail .fas {
     font-size: 14px;
 }
+
+
+.mail-button {
+    font-size: 25px;
+}
+
+
+
+.login-page,
+.register-page {
+    background-image: url("/images/login_bg.jpeg");
+    /* height: 100%; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

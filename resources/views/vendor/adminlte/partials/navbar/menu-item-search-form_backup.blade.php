@@ -7,16 +7,15 @@
 
     {{-- Search bar --}}
     <div class="navbar-search-block">
-        <form class="form-inline" action="{{ route('searchById') }}" method="GET" target="_blank">
+        <form class="form-inline" action="{{ $item['href'] }}" method="{{ $item['method'] }}">
             {{ csrf_field() }}
 
             <div class="input-group">
 
                 {{-- Search input --}}
-
-
-                <input class="form-control form-control-navbar" type="text" name="id" placeholder="Ticket ID">
-
+                <input class="form-control form-control-navbar" type="search"
+                    @isset($item['id']) id="{{ $item['id'] }}" @endisset
+                    name="{{ $item['input_name'] }}" placeholder="{{ $item['text'] }}" aria-label="{{ $item['text'] }}">
 
                 {{-- Search buttons --}}
                 <div class="input-group-append">

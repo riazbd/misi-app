@@ -14,6 +14,9 @@
                 <button class="top-button go-back">Go Back</button>
                 <button class="top-button " id="showFileInput"> <i class="fas fa-fw fa-solid fa-paperclip"></i></button>
                 <button class="top-button top-submit-button" id="top-submit-button">Submit</button>
+                <button class="top-button mail-button" data-toggle="modal" data-target="#mailModal"><i
+                        class="fas fa-fw fa-solid fa-envelope"></i>
+                </button>
 
             </div>
         </div>
@@ -428,6 +431,7 @@
 
     </div>
     @include('extras.patient_modal')
+    @include('extras.mailModal')
 @stop
 
 @section('js')
@@ -521,6 +525,81 @@
                     }
                 });
             }
+
+            // mail send modal email_type dropdown for email_name
+
+            $('#emailTypeSend').change(function() {
+                var selectedType = $(this).val();
+                $.ajax({
+                    url: '/getemailsforsend',
+                    method: 'GET',
+                    data: {
+                        type: selectedType
+                    },
+                    success: function(response) {
+                        var emailNameSelect = $('#emailNameSend');
+                        console.log(response);
+                        emailNameSelect.empty();
+                        if (response && response.length > 0) {
+                            response.forEach(function(email) {
+                                var option = $('<option></option>').attr('value', email
+                                    .id).text(email.mail_name);
+                                emailNameSelect.append(option);
+                            });
+                        }
+                        // $('#emailFields').show();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            function emailSendForCancel(ticketId, mailId, reason) {
+                $.ajax({
+                    url: '/email-send-for-cancel/', // Replace with your Laravel route
+                    type: 'GET',
+                    data: {
+                        id: ticketId,
+                        mailId: mailId,
+                        reason: reason
+                    },
+                    success: function(response) {
+                        // Populate thconsole.log(response);
+                        Swal.fire('Success!', 'Ticket Cancelled', 'success');
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error!', 'Request failed', 'error');
+                        console.log(xhr.responseText)
+                    }
+                });
+            }
+
+            $('#emailSendForCancel').on('click', function() {
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameSend').val()
+                var reason = $('#comment').val()
+                emailSendForCancel(ticketId, mailId, reason)
+            });
+
+
+
+            $('#printTemplate').on('click', function() {
+                // Get the values
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameSend').val();
+                var reason = $('#comment').val();
+
+                // Construct the URL with query parameters
+                var url = '{{ route('generate-email-pdf') }}' +
+                    '?ticketId=' + encodeURIComponent(ticketId) +
+                    '&mailId=' + encodeURIComponent(mailId) +
+                    '&reason=' + encodeURIComponent(reason);
+
+                // Open a new tab/window with the URL
+                window.open(url, '_blank');
+
+            });
 
             // Handle the change event of the "Roles" select input
             $('#select-department').on('change', function() {
