@@ -16,6 +16,6 @@ class TicketAppointment extends Model
 
     public function intakes()
     {
-        return $this->hasMany('App\Models\Intake');
+        return $this->hasMany('App\Models\Intake', 'appointment_id');
     }
 }

@@ -7,14 +7,14 @@
 
 
 <body>
-    <h2 style="margin-left: 45px;margin-top: 20px;">
+    <h2 style="margin-left: 2px;margin-top: 20px;">
         @php
-            echo $emailTemplate->mail_subject;
+            echo $subject;
         @endphp
     </h2>
     <p>
         @php
-            echo $emailTemplate->mail_body;
+            echo $body;
         @endphp
     </p>
     @php

@@ -103,7 +103,6 @@ class TicketAppointmentController extends Controller
             $startTime = Carbon::parse($data_startTime);
             $endTime = $startTime->copy()->addMinutes(60);
 
-
             $appointment = new TicketAppointment();
 
             $appointment->ticket_id = $data['select-ticket'];
@@ -153,18 +152,12 @@ class TicketAppointmentController extends Controller
             $subject = $emailTemplate->mail_subject;
             $body = $emailTemplate->mail_body;
 
-            if ($patient_name != null) {
-                $body = str_replace("#patientName", $patient_name, $body);
-            };
-            if ($appointment_date != null) {
-                $body = str_replace("#appointmentDate", $appointment_date, $body);
-            };
-            if ($appointment_time != null) {
-                $body = str_replace("#appointmentTime", $appointment_time, $body);
-            };
-            if ($therapist_name != null) {
-                $body = str_replace("#therapistName", $therapist_name, $body);
-            };
+
+            $body = ($patient_name !== null) ? str_replace("#patientName", $patient_name, $body) : $body;
+            $body = ($appointment_date !== null) ? str_replace("#appointmentDate", $appointment_date, $body) : $body;
+            $body = ($appointment_time !== null) ? str_replace("#appointmentTime", $appointment_time, $body) : $body;
+            $body = ($therapist_name !== null) ? str_replace("#therapistName", $therapist_name, $body) : $body;
+
 
             //dd($body);
 
@@ -277,6 +270,7 @@ class TicketAppointmentController extends Controller
 
             $appointment = TicketAppointment::where('id', $id)->first();
 
+
             $appointment->ticket_id = $data['select-ticket'];
             $appointment->fee = $data['appointment-fee'];
             $appointment->status = $data['select-status'];
@@ -285,10 +279,18 @@ class TicketAppointmentController extends Controller
             $appointment->therapist_comment = $data['therapist-comment'];
             $appointment->remarks = $data['remarks'];
 
-            $appointment->save();
+            //$appointment->save();
 
             if ($data['select-status'] == 'cancelled') {
-                //dd($data['select-status']);
+
+                //$appointment_time_from_intake = $appointment->intakes->all();
+
+                // if (!empty($appointment_time_from_intake)) {
+                //     $lastItem = end($appointment_time_from_intake);
+                //     $appontment_date_last_intake = $lastItem->date;
+                //     $appontment_time_last_intake = $lastItem->start_time;
+                // }
+
 
                 //mail send
 
@@ -296,11 +298,33 @@ class TicketAppointmentController extends Controller
                 $ticket_id = $data['select-ticket'];
                 $ticket = Ticket::where('id', $ticket_id)->first();
 
+                //data collect
+                // $therapist_id = $ticket->assigned_therapist;
+                // $therapist = Therapist::where('id', $therapist_id)->first();
+
+
+
+                $patient_name = $ticket->patient->user->name;
+
+                // $therapist_name = $therapist->user->name;
+                // $appointment_date = $appontment_date_last_intake;
+                // $appointment_time = $appontment_time_last_intake;
+
                 $emailTemplate = EmailTemplate::where('id', 2)->first();
                 $userEmail = $ticket->patient()->first()->user()->first()->email;
 
                 $subject = $emailTemplate->mail_subject;
                 $body = $emailTemplate->mail_body;
+
+                $body = ($patient_name !== null) ? str_replace("#patientName", $patient_name, $body) : $body;
+
+
+
+                // $body = ($appointment_date !== null) ? str_replace("#appointmentDate", $appointment_date, $body) : $body;
+                // $body = ($appointment_time !== null) ? str_replace("#appointmentTime", $appointment_time, $body) : $body;
+                // $body = ($therapist_name !== null) ? str_replace("#therapistName", $therapist_name, $body) : $body;
+                //dd($body);
+
                 $recipientName = $ticket->patient()->first()->user()->first()->name;
 
                 $mail = new CancelMail();

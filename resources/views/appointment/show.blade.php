@@ -19,6 +19,9 @@
                 <button class="top-button mail-button" data-toggle="modal" data-target="#mailModal"><i
                         class="fas fa-fw fa-solid fa-envelope"></i>
                 </button>
+                <button class="top-button">
+                    <a href="{{ route('ticket-appointments.create') }}" target="_blank"> Appointment</a>
+                </button>
 
             </div>
         </div>
