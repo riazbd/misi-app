@@ -18,13 +18,14 @@
                                 <div class="form-group row">
                                     <label for="therapist" class="col-3 text-right">Therapist:</label>
                                     <div class="col-9">
-                                        <select class="form-control form-control-sm selectpicker" id="therapist" name="therapist" data-live-search="true">
+                                        <select class="form-control form-control-sm selectpicker" id="therapist"
+                                            name="therapist" data-live-search="true">
                                             <option value="">Select Therapist</option>
 
                                             @foreach ($therapists as $therapist)
-
-                                                <option value="{{ $therapist->id }}">{{ $therapist->user()->first()->first_name }} {{ $therapist->user()->first()->last_name }}</option>
-
+                                                <option value="{{ $therapist->id }}">
+                                                    {{ $therapist->user()->first()->first_name }}
+                                                    {{ $therapist->user()->first()->last_name }}</option>
                                             @endforeach
 
                                         </select>
@@ -40,13 +41,13 @@
                                 <div class="form-group row">
                                     <label for="dates" class="col-3 text-right">Dates:</label>
                                     <div class="col-9">
-                                        <div class="input-group date dateinput" >
-                                            <input type="text" class="form-control form-control-sm" name="dates" id="dates"/>
-                                            <div class="input-group-append"
-                                                data-toggle="datetimepicker">
+                                        <div class="input-group date dateinput">
+                                            <input type="text" class="form-control form-control-sm" name="dates"
+                                                id="dates" />
+                                            <div class="input-group-append" data-toggle="datetimepicker">
                                                 <div class="input-group-text"> <i class="fas fa-calendar-alt"></i></div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -89,7 +90,8 @@
                             <div class="form-group row">
                                 <label for="start-time" class="col-5 text-right">Start Time:</label>
                                 <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" name="start-time" id="start-time" placeholder="Select start time" />
+                                    <input type="text" class="form-control form-control-sm" name="start-time"
+                                        id="start-time" placeholder="Select start time" />
                                 </div>
                             </div>
                         </div>
@@ -99,7 +101,8 @@
                             <div class="form-group row">
                                 <label for="end-time" class="col-5 text-right">End Time:</label>
                                 <div class="col-7">
-                                    <input type="text" class="form-control form-control-sm" name="end-time" id="end-time" placeholder="Select end time" />
+                                    <input type="text" class="form-control form-control-sm" name="end-time"
+                                        id="end-time" placeholder="Select end time" />
                                 </div>
                             </div>
                         </div>
