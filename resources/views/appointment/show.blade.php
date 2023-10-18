@@ -19,7 +19,7 @@
                 <button class="top-button mail-button" data-toggle="modal" data-target="#mailModal"><i
                         class="fas fa-fw fa-solid fa-envelope"></i>
                 </button>
-                <button class="top-button">
+                <button class="top-button go-to-appointment">
                     <a href="{{ route('ticket-appointments.create') }}" target="_blank"> Appointment</a>
                 </button>
 
@@ -132,12 +132,12 @@
                                     @php
                                         $suggested_array = json_decode($ticket->suggested_therapists) ?? [];
                                         $selected = \App\Models\Ticket::where('id', $ticketId)->first()->assigned_therapist;
-                                        
+
                                     @endphp
                                     <option value="">Select Therapist</option>
                                     @foreach ($suggested_array as $therapist)
                                         @php
-                                            
+
                                             $therapistId = $therapist;
                                             $matchingRows = \App\Models\TicketAppointment::where('assigned_therapists', $therapistId)->pluck('id');
                                             $startDate = \Carbon\Carbon::now();
@@ -146,7 +146,7 @@
                                                 ->whereIn('appointment_id', $matchingRows)
                                                 ->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()])
                                                 ->count();
-                                            
+
                                         @endphp
 
                                         <option value="{{ $therapist }}"
@@ -661,6 +661,23 @@
 
             });
 
+            $('#printTemplate2').on('click', function() {
+                // Get the values
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameCancel').val();
+                var reason = $('#cancelReason').val();
+
+                // Construct the URL with query parameters
+                var url = '{{ route('generate-email-pdf') }}' +
+                    '?ticketId=' + encodeURIComponent(ticketId) +
+                    '&mailId=' + encodeURIComponent(mailId) +
+                    '&reason=' + encodeURIComponent(reason);
+
+                // Open a new tab/window with the URL
+                window.open(url, '_blank');
+
+            });
+
 
 
             // $('#top-cancel-button').on('click', function() {
@@ -708,6 +725,9 @@
                     }
                 });
             }
+
+            $('#sendEmailToggle').prop('checked', true);
+            $('#emailFields').show();
 
             $('#clickable').click(function() {
                 if ($('#sendEmailToggle').is(':checked')) {

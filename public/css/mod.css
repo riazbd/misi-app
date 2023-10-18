@@ -766,3 +766,8 @@ div.dataTables_wrapper div.dataTables_filter {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
+.go-to-appointment a {
+    color: #6b6a6a;
+}
