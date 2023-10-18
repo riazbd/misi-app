@@ -40,6 +40,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="submitCancel" class="btn btn-primary">Submit</button>
+                <button type="button" id="printTemplate2" class="btn btn-primary">Print</button>
             </div>
         </div>
     </div>

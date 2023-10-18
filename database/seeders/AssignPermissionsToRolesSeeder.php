@@ -85,23 +85,23 @@ class AssignPermissionsToRolesSeeder extends Seeder
 
         // 4. Heralmelding seed
 
-        $user = User::create([
-            'name' => 'Heralmelding',
-            'first_name' => 'Heralmelding',
-            'last_name' => 'doe',
-            'user_name' => 'heralmelding',
-            'email' => 'heralmelding@heralmelding.com',
-            'password' => bcrypt('123456')
-        ]);
+        // $user = User::create([
+        //     'name' => 'Heralmelding',
+        //     'first_name' => 'Heralmelding',
+        //     'last_name' => 'doe',
+        //     'user_name' => 'heralmelding',
+        //     'email' => 'heralmelding@heralmelding.com',
+        //     'password' => bcrypt('123456')
+        // ]);
 
-        $role = Role::where('name', 'heralmelding')->first();
-        $permissions = Permission::whereIn('name', [
-            'show-heralmelding-list',
-            'update-heralmelding',
-            'delete-heralmelding',
-        ])->pluck('id');
-        $role->syncPermissions($permissions);
-        $user->assignRole([$role->id]);
+        // $role = Role::where('name', 'heralmelding')->first();
+        // $permissions = Permission::whereIn('name', [
+        //     'show-heralmelding-list',
+        //     'update-heralmelding',
+        //     'delete-heralmelding',
+        // ])->pluck('id');
+        // $role->syncPermissions($permissions);
+        // $user->assignRole([$role->id]);
 
 
 
@@ -187,6 +187,28 @@ class AssignPermissionsToRolesSeeder extends Seeder
             'show-no-approval-list',
             'update-no-approval',
             'delete-no-approval',
+        ])->pluck('id');
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
+
+
+
+        // 8. Heralmelding seed
+
+        $user = User::create([
+            'name' => 'Heralmelding',
+            'first_name' => 'Heralmelding',
+            'last_name' => 'doe',
+            'user_name' => 'heralmelding',
+            'email' => 'heralmelding@heralmelding.com',
+            'password' => bcrypt('123456')
+        ]);
+
+        $role = Role::where('name', 'heralmelding')->first();
+        $permissions = Permission::whereIn('name', [
+            'show-heralmelding-list',
+            'update-heralmelding',
+            'delete-heralmelding',
         ])->pluck('id');
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);

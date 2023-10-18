@@ -29,8 +29,10 @@ class HeranmeldingController extends Controller
      */
     public function index()
     {
-        $heranmeldingId = Role::where('name', 'heranmelding')->first()->id;
+        $heranmeldingId = Role::where('name', 'heralmelding')->first()->id;
+        //dd($heranmeldingId);
         $tickets = Ticket::where('department_id', $heranmeldingId)->get();
+        //dd($tickets);
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
@@ -77,9 +79,11 @@ class HeranmeldingController extends Controller
             $items = [];
 
             array_push($items, '<nobr>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('heranmelding.destroy', ['heranmelding' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </a><a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
+                    </a>
+
+
+
+                    <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
                     </a></nobr>', '</a><a class="text-info mx-1" href="' . route('heranmelding.show', ['heranmelding' => $ticket->id]) . '">
                     ' . $ticket->id . '</a>', $assigned, $ticket->patient()->first()->id, $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '', ucfirst($ticket->status), $ticket->remarks, Carbon::parse($ticket->created_at)->format('d F, Y'), Carbon::parse($ticket->updated_at)->format('d F, Y'), $ticket->call_strike, $ticket->mono_multi_zd, $ticket->mono_multi_screening, $ticket->intake_or_therapist, $ticket->tresonit_number, $ticket->datum_intake, $ticket->datum_intake_2, $ticket->nd_account, $ticket->avc_alfmvm_sbg, $ticket->honos, $ticket->berha_intake, $ticket->rom_start, $ticket->rom_end, $ticket->berha_end, $ticket->vtcb_date, $ticket->closure, $ticket->aanm_intake_1, $ticket->location,);

@@ -79,8 +79,6 @@ class PibController extends Controller
             array_push(
                 $items,
                 '<nobr>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('pib.destroy', ['pib' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a>
 
 

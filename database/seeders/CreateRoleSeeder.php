@@ -17,12 +17,12 @@ class CreateRoleSeeder extends Seeder
         Role::create(['name' => 'patient']);
         Role::create(['name' => 'therapist']);
         Role::create(['name' => 'screener']);
-        Role::create(['name' => 'heralmelding']);
+        // Role::create(['name' => 'heralmelding']);
         Role::create(['name' => 'pib']);
         Role::create(['name' => 'pit']);
         Role::create(['name' => 'yes approval']);
         Role::create(['name' => 'no approval']);
-        Role::create(['name' => 'heranmelding']);
+        Role::create(['name' => 'heralmelding']);
         Role::create(['name' => 'appointment']);
         Role::create(['name' => 'vtcb']);
     }
