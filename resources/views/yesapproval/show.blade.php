@@ -598,6 +598,23 @@
 
             });
 
+            $('#printTemplate2').on('click', function() {
+                // Get the values
+                var ticketId = '{{ $ticket->id }}';
+                var mailId = $('#emailNameCancel').val();
+                var reason = $('#cancelReason').val();
+
+                // Construct the URL with query parameters
+                var url = '{{ route('generate-email-pdf') }}' +
+                    '?ticketId=' + encodeURIComponent(ticketId) +
+                    '&mailId=' + encodeURIComponent(mailId) +
+                    '&reason=' + encodeURIComponent(reason);
+
+                // Open a new tab/window with the URL
+                window.open(url, '_blank');
+
+            });
+
 
 
             // Handle the change event of the "Roles" select input
@@ -630,6 +647,9 @@
                     }
                 });
             }
+
+            $('#sendEmailToggle').prop('checked', true);
+            $('#emailFields').show();
 
             $('#clickable').click(function() {
                 if ($('#sendEmailToggle').is(':checked')) {

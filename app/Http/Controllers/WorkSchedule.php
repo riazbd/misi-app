@@ -185,13 +185,14 @@ class WorkSchedule extends Controller
     public function leaveIndex()
     {
         $leaves = LeaveSchedule::all();
+        //dd($leaves->id);
         $therapists = Therapist::all();
 
         $heads = [
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
             'ID',
             'Therapist',
-            'Star Date',
+            'Start Date',
             'End Date',
         ];
 
@@ -201,11 +202,15 @@ class WorkSchedule extends Controller
 
 
         foreach ($leaves as $leave) {
+            $leaveDate = json_decode($leave->dates, true);
+            end($leaveDate);
+            $lastElement = current($leaveDate);
+
             $items = [];
             array_push($items, '<nobr>
-                    <button class="btn btn-xs btn-default text-teal mx-1 shadow" data-leave-id="' . $leave->id . '" id="leaveUpdatemodalshow">
+                    <button class="btn btn-xs btn-default text-teal mx-1 shadow leaveUpdatemodalshow" data-leave-id="' . $leave->id . '" id="leaveUpdatemodalshow">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </button></nobr>', $leave->id, $leave->therapist_id, $leave->start_date, $leave->end_date);
+                    </button></nobr>', $leave->id, $leave->therapist_id, $leaveDate[0], $lastElement);
             array_push($data, $items);
         }
 
@@ -222,22 +227,25 @@ class WorkSchedule extends Controller
     {
         try {
             $data = $request->all();
-
+            //dd($data);
             $leave = new LeaveSchedule();
             $leave->therapist_id = $data['therapist'];
 
             $dates = explode(" - ", $data['dates']);
-            $startDate = Carbon::createFromFormat('m/d/Y', $dates[0])->startOfDay();
-            $endDate = Carbon::createFromFormat('m/d/Y', $dates[1])->endOfDay();
+            // $startDate = Carbon::createFromFormat('m/d/Y', $dates[0])->startOfDay();
+            // $endDate = Carbon::createFromFormat('m/d/Y', $dates[1])->startOfDay();
+            $startDate = new Carbon($dates[0]);
+            $endDate = new Carbon($dates[1]);
 
             $dateRange = [];
             $currentDate = clone $startDate;
+
             while ($currentDate <= $endDate) {
                 $dateRange[] = $currentDate->format('Y-m-d');
                 $currentDate->addDay();
             }
-
             $leave->dates = json_encode($dateRange);
+
 
             if ($startDate->eq($endDate)) {
                 $leave->start_time = $data['start-time']; // Partial leave start time
@@ -260,31 +268,76 @@ class WorkSchedule extends Controller
 
         $leave = LeaveSchedule::where('id', $request->input('leaveId'))->first();
 
-        $therapist = Therapist::where('id', $leave->therapist_id)->first();
+        // test code start
+        $leaveDate = json_decode($leave->dates, true);
+        end($leaveDate);
+        $leave_start_date = $leaveDate[0];
+        $leave_end_date = current($leaveDate);
+        //dd($leave_end_date);
 
+        // test code end
+
+        $therapist = Therapist::where('id', $leave->therapist_id)->first();
         $therapist_id = $therapist->id;
 
-        $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->start_date)->format('m/d/Y');
-        $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->end_date)->format('m/d/Y');
+        // $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->start_date)->format('m/d/Y');
+        // $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $leave->end_date)->format('m/d/Y');
+
+        $start_date_time_formate = new Carbon($leave_start_date);
+        $end_date_time_formate = new Carbon($leave_end_date);
+
+        $start_date = $start_date_time_formate->format('Y-m-d');
+        $end_date = $end_date_time_formate->format('Y-m-d');
+
+        // $start_date = '10/21/2023';
+        // $end_date = '15/21/2023';
+        //dd($start_date);
 
         $therapist_name = $therapist->user()->first()->first_name . " " . $therapist->user()->first()->last_name;
 
-        return response()->json(['leave' => $leave, 'therapist' => $therapist, 'therapist_id' => $therapist_id, 'therapist_name' => $therapist_name, 'start_date' => $start_date, 'end_date' => $end_date]);
+        return response()->json(['leave' => $leave, 'therapist' => $therapist, 'therapist_id' => $therapist_id, 'therapist_name' => $therapist_name,  'start_date' => $start_date, 'end_date' => $end_date]);
+
+        // return response()->json(['leave' => $leave, 'therapist' => $therapist, 'therapist_id' => $therapist_id, 'therapist_name' => $therapist_name]);
     }
 
     public function UpdateLeaves(Request $request, $id)
     {
+
         try {
             $data = $request->all();
-
+            //dd($data);
             $leave = LeaveSchedule::where('id', $id)->first();
+            $leave->therapist_id = $data['therapist'];
 
-            $leave->start_date = Carbon::createFromFormat('m/d/Y', $data['start-date'])->format('Y-m-d');
-            $leave->end_date = Carbon::createFromFormat('m/d/Y', $data['end-date'])->format('Y-m-d');
+            $dates = explode(" - ", $data['dates-edit']);
+            //dd($dates);
+            $startDate = new Carbon($dates[0]);
+            $endDate = new Carbon($dates[1]);
+
+            $dateRange = [];
+            $currentDate = clone $startDate;
+
+
+            while ($currentDate <= $endDate) {
+                $dateRange[] = $currentDate->format('Y-m-d');
+                $currentDate->addDay();
+            }
+            $leave->dates = json_encode($dateRange);
+
+            //dd($dateRange);
+
+            if ($startDate->eq($endDate)) {
+                $leave->start_time = $data['start-time-edit']; // Partial leave start time
+                $leave->end_time = $data['end-time-edit']; // Partial leave end time
+            } else {
+                $leave->start_time = null; // Full-day leave
+                $leave->end_time = null; // Full-day leave
+
+            }
 
             $leave->save();
 
-            return response()->json(['message' => 'Updated Successfully']);
+            return response()->json(['message' => 'Leave Created']);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);
         }

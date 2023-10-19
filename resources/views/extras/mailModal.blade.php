@@ -25,7 +25,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="emailNameSend">Email Name:</label>
+                            <label for=" ">Email Name:</label>
                             <select id="emailNameSend" name="emailNameSend"
                                 class="form-control form-control-sm"></select>
                         </div>

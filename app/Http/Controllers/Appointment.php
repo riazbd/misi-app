@@ -80,16 +80,18 @@ class Appointment extends Controller
                 $items,
                 '<nobr><a class="btn btn-xs btn-default text-primary mx-1 shadow" href="' . route('appointment-groups.edit', ['appointment_group' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-pen"></i>
-                    </a><a class="btn btn-xs btn-default text-danger mx-1 shadow" href="' . route('appointment-groups.destroy', ['appointment_group' => $ticket->id]) . '">
-                        <i class="fa fa-lg fa-fw fa-trash"></i>
                     </a>
+
+
 
                     <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="' . route('appointment-groups.show', ['appointment_group' => $ticket->id]) . '">
                         <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a>
+                    </a> </nobr>',
 
-                    </nobr>',
-                $ticket->id,
+                '</a><a class="text-info mx-1" href="' . route('appointment-groups.show', ['appointment_group' => $ticket->id]) . '">
+                    ' . $ticket->id . '</a>',
+
+                // $ticket->id,
                 $assigned,
                 $ticket->patient()->first()->id,
                 $ticket->department_id != null ?  ucfirst(Role::where('id', $ticket->department_id)->first()->name) : '',

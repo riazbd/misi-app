@@ -16,7 +16,7 @@ class TicketFactory extends Factory
     {
         $totalPatients = Patient::count();
         return [
-            'department_id' => $this->faker->numberBetween(4, 9),
+            'department_id' => $this->faker->numberBetween(4, 10),
             'patient_id' => $this->faker->numberBetween(1, $totalPatients),
             // 'assigned_staff' => $this->faker->randomNumber(),
             // 'assigned_therapist' => $this->faker->randomNumber(),
