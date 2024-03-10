@@ -310,17 +310,10 @@ function getHistories(ticketId) {
                     '<div class="card-body" id="history-body"></div>'
                 );
 
-                // Create two spans for comment and created_at
-                var commentSpan = $('<span style="float: left;"></span>').text(history.comment);
-                var createdAtSpan = $('<span style="float: right;"></span>').text(formatCreatedAt(history.created_at));
 
 
                 //card_body.html(history.comment);
-                //card_body.html(history.comment + ' ' + history.created_at);
-
-                card_body.append(commentSpan);
-                card_body.append(createdAtSpan);
-
+                card_body.html(history.comment + ' ' + history.created_at);
                 card.append(card_body);
                 history_card.append(card);
                 col.append(history_card);
@@ -328,23 +321,6 @@ function getHistories(ticketId) {
 
                 histories.push(history_content);
             });
-
-
-            // Function to format created_at
-            function formatCreatedAt(timestamp) {
-                var date = new Date(timestamp);
-                var options = {
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true,
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                };
-                return date.toLocaleString('en-US', options);
-            }
-
-
 
             if (histories.length > 0) {
                 histories.unshift(history_header);

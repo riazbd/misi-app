@@ -78,7 +78,8 @@ class TicketAppointmentController extends Controller
     public function create()
     {
 
-        $tickets = Ticket::where('department_id', 11)->get();
+        // $tickets = Ticket::where('department_id', 11)->get();
+        $tickets = Ticket::where('department_id', 10)->get();
         return view('ticketAppointment.create', compact('tickets'));
     }
 

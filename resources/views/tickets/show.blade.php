@@ -7,7 +7,7 @@
 @stop
 
 @php
-    
+
     //dd($matchingRoles);
 @endphp
 
@@ -433,7 +433,7 @@
 
             var assignedStaff = '{{ $ticket->assigned_staff }}' !== null ? '{{ $ticket->assigned_staff }}' : '';
             var ticketId = '{{ $ticket->id }}';
-            getHistories(ticketId)
+            //getHistories(ticketId)
 
 
             document.getElementById('top-submit-button').addEventListener('click', function() {
